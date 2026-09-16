@@ -11470,7 +11470,9 @@
             const label = document.getElementById('agendaObrasLabel');
             if (label) label.textContent = `${dias[0].getDate()}/${dias[0].getMonth() + 1} a ${dias[6].getDate()}/${dias[6].getMonth() + 1} — por técnico`;
 
-            const pessoas = _pessoasTenantAg();
+            const pessoas = usuarioLogado?.role === 'funcionario'
+                ? _pessoasTenantAg().filter(p => p.id === usuarioLogado.id) // funcionário só vê a própria linha — não a equipa toda
+                : _pessoasTenantAg();
             const atribuidosDe = s => ((s.funcionariosIds && s.funcionariosIds.length) ? s.funcionariosIds : [s.funcionarioId].filter(Boolean));
             const semResponsavel = oss.filter(s => !atribuidosDe(s).length);
 
@@ -13666,7 +13668,11 @@
                     cont.parentElement.insertBefore(alertasElProteger, cont);
                 }
             }
-            const hoje = getDataHoje();
+            // TotalGest Express: "O Meu Dia" deixa de estar preso a hoje — dá para navegar dia a
+            // dia (offset guardado em window, sobrevive a re-renders desta função).
+            const _expressoMeuDia = expressAtivo(adminDoUtilizador());
+            const _offsetMeuDia = _expressoMeuDia ? (window._meuDiaOffset || 0) : 0;
+            const hoje = _offsetMeuDia ? _fmtDataAg(new Date(Date.now() + _offsetMeuDia * 86400000)) : getDataHoje();
             // Vigilante tem um "O Meu Dia" próprio e mais simples — não faz OS/obras. A execução
             // da ronda em si vive inteiramente no TOTALGEST_RONDAS.html (ficheiro à parte, como o
             // CRM/Assist) — aqui é só um atalho para lá, sem duplicar a lógica de rondas.
@@ -13742,12 +13748,13 @@
                     // "Preencher Folha de Obra". Por baixo, um botão de relatório: se a OS só
                     // tiver um tipo definido, abre logo esse relatório; se tiver vários ou
                     // nenhum, abre o "Ver OS" já no separador de Relatórios, para a pessoa
-                    // escolher qual quer preencher.
+                    // escolher qual quer preencher. Se a OS não tiver relatório nenhum definido,
+                    // o botão nem aparece — não faz sentido oferecer algo que não existe.
                     btn = `<button type="button" class="btn btn-sm tgm-btn-entrada" onclick="criarFolhaDaOS('${s.id}')"><i class="fas fa-clipboard-list"></i> Preencher Folha de Obra</button>`;
                     const _tiposDaOS = s.tiposTrabalho || [];
-                    btnRelatorio = _tiposDaOS.length === 1
+                    btnRelatorio = !_tiposDaOS.length ? '' : (_tiposDaOS.length === 1
                         ? `<button type="button" class="btn btn-sm btn-outline" style="margin-top:6px;" onclick="_abrirModalRelatorioEspecialidade('${s.id}','${_tiposDaOS[0]}')"><i class="fas fa-file-signature"></i> Preencher Relatório</button>`
-                        : `<button type="button" class="btn btn-sm btn-outline" style="margin-top:6px;" onclick="abrirVerOS('${s.id}');_verOsMostrar('${s.id}','relatorios');"><i class="fas fa-file-signature"></i> Preencher Relatório</button>`;
+                        : `<button type="button" class="btn btn-sm btn-outline" style="margin-top:6px;" onclick="abrirVerOS('${s.id}');_verOsMostrar('${s.id}','relatorios');"><i class="fas fa-file-signature"></i> Preencher Relatório</button>`);
                 } else {
                     btn = aberto
                         ? `<button type="button" class="btn btn-sm tgm-btn-saida" onclick="picarPontoOS('${s.id}','saida')"><i class="fas fa-stop-circle"></i> Saída</button>`
@@ -13755,6 +13762,7 @@
                     btnRelatorio = '';
                 }
                 const btnVer = `<button type="button" class="btn btn-sm btn-outline tgm-btn-ver" onclick="abrirVerOS('${s.id}')"><i class="fas fa-eye"></i> Ver OS</button>`;
+                const btnConcluir = _expressoAtivo ? `<button type="button" class="btn btn-sm" style="margin-top:6px;background:#f59e0b;color:#fff;" onclick="_concluirOSExpress('${s.id}')"><i class="fas fa-flag-checkered"></i> Concluir OS</button>` : '';
                 const cliente = dados.clientes?.find(c => c.id === s.clienteId);
                 const morada = cliente ? [cliente.morada, cliente.codigoPostal, cliente.localidade].filter(Boolean).join(', ') : '';
                 const urlInfo = _osMapaInfo(s.clienteId, s.morada || morada, s.localId);
@@ -13764,20 +13772,47 @@
                 const btnObs = (s.observacoes && s.observacoes.trim()) ? `<button type="button" class="tgm-btn-mapa" title="Ver observações" onclick="event.stopPropagation();_verObservacoesOS('${s.id}')"><i class="fas fa-comment-dots"></i></button>` : '';
                 const _materiaisDestaOS = s.obraId ? (dados.obraMateriais || []).filter(m => m.obraId === s.obraId) : [];
                 const btnMateriais = _materiaisDestaOS.length ? `<button type="button" class="tgm-btn-mapa" title="Ver materiais desta OS" onclick="event.stopPropagation();_verMateriaisOS('${s.id}')"><i class="fas fa-boxes-stacked"></i></button>` : '';
-                return `<div class="tgm-row tgm-row--os">
+                return `<div class="tgm-row tgm-row--os" id="tgm-os-${s.id}">
                     ${aberto ? '<span class="tgm-live-dot" title="Em curso"></span>' : ''}
                     <div class="tgm-row-icon tgm-row-icon--os"><i class="fas fa-wrench"></i></div>
                     <div class="tgm-row-txt">
                         <div class="tgm-row-title">${escapeHtmlSimples(obterNomeCliente(s.clienteId) || 'OS')}</div>
-                        <div class="tgm-row-sub">${s.hora ? `<span class="tgm-mono tgm-hora">${s.hora}</span> · ` : ''}${escapeHtmlSimples((s.descricao || '').slice(0, 50))}${_atrasada ? ' <span style="color:#dc2626;font-weight:700;">· Atrasada</span>' : ''}</div>
+                        <div class="tgm-row-sub">${s.hora ? `<span class="tgm-mono tgm-hora">${s.hora}</span> · ` : ''}${escapeHtmlSimples((s.descricao || '').slice(0, 50))}<span id="tgm-atrasada-${s.id}">${_atrasada ? ' <span style="color:#dc2626;font-weight:700;">· Atrasada</span>' : ''}</span></div>
                     </div>
                     <div class="tgm-row-acoes">
                         <div class="tgm-row-acoes-top">${btn}</div>
                         ${btnRelatorio}
+                        ${btnConcluir}
                         ${btnVer}
                     </div>
                 </div>
                 ${(btnObs || btnMateriais || btnLigar || btnWhatsapp || _botaoMapa(urlInfo, s.id)) ? `<div class="tgm-row-extra" style="display:flex;gap:8px;justify-content:flex-end;margin:-6px 0 8px;padding-right:2px;">${btnObs}${btnMateriais}${btnLigar}${btnWhatsapp}${_botaoMapa(urlInfo, s.id)}</div>` : ''}`;
+            };
+            // Marcar a OS como concluída (só no Express — no modo normal a conclusão faz-se pela
+            // OS toda, com todos os campos). Confirmação antes, depois um efeito visual rápido
+            // (transparente + "Concluída" a laranja no sítio onde estava "Atrasada") antes de
+            // desaparecer da lista de hoje — a lista só mostra OS por concluir, por isso some.
+            window._concluirOSExpress = async function(servicoId) {
+                if (!confirm('Concluir esta OS? Fica marcada como terminada.')) return;
+                const s = (dados.servicos || []).find(x => x.id === servicoId); if (!s) return;
+                s.status = 'concluído';
+                guardarDados(dados);
+                const cardEl = document.getElementById('tgm-os-' + servicoId);
+                const badgeEl = document.getElementById('tgm-atrasada-' + servicoId);
+                if (cardEl) {
+                    cardEl.style.transition = 'opacity .5s ease';
+                    cardEl.style.opacity = '0.4';
+                    if (badgeEl) badgeEl.innerHTML = ' <span style="color:#f59e0b;font-weight:700;">· Concluída</span>';
+                    setTimeout(() => renderizarOMeuDia(), 550);
+                } else {
+                    renderizarOMeuDia();
+                }
+            };
+            // Navegação de dias em "O Meu Dia" (só Express) — o offset fica em window, para
+            // sobreviver a cada re-render desta função.
+            window._meuDiaNavegarDia = function(delta) {
+                window._meuDiaOffset = (window._meuDiaOffset || 0) + delta;
+                renderizarOMeuDia();
             };
             // Ligar ao cliente: pergunta explicitamente pelo nome antes de abrir o marcador
             // (tel:), para evitar toques acidentais no botão a ligarem sem querer.
@@ -13877,15 +13912,20 @@
             };
 
             cont.style.display = 'block';
+            const _dataFormatadaMeuDia = new Date(hoje + 'T12:00:00').toLocaleDateString('pt-PT', { weekday: 'long', day: '2-digit', month: '2-digit' });
             cont.innerHTML = `
                 <div class="tgm-panel tgm-panel--dia">
                     <div class="tgm-panel-head">
                         <div>
                             <div class="tgm-eyebrow">Agenda de hoje</div>
                             <div class="tgm-title"><i class="fas fa-sun"></i> O Meu Dia</div>
-                            <div class="tgm-date">${new Date(hoje + 'T12:00:00').toLocaleDateString('pt-PT', { weekday: 'long', day: '2-digit', month: '2-digit' })}</div>
+                            ${_expressoMeuDia ? '' : `<div class="tgm-date">${_dataFormatadaMeuDia}</div>`}
                         </div>
-                        ${pontoHtml}
+                        ${_expressoMeuDia ? `<div style="display:flex;align-items:center;gap:6px;">
+                            <button type="button" class="btn btn-sm btn-outline" onclick="_meuDiaNavegarDia(-1)" title="Dia anterior"><i class="fas fa-chevron-left"></i></button>
+                            <div class="tgm-date" style="margin:0;white-space:nowrap;">${_dataFormatadaMeuDia}${_offsetMeuDia === 0 ? '' : ' <span style="font-size:.7em;color:#0e7490;">(voltar a <a href="javascript:void(0)" onclick="window._meuDiaOffset=0;renderizarOMeuDia();" style="color:#0e7490;">hoje</a>)</span>'}</div>
+                            <button type="button" class="btn btn-sm btn-outline" onclick="_meuDiaNavegarDia(1)" title="Dia seguinte"><i class="fas fa-chevron-right"></i></button>
+                        </div>` : pontoHtml}
                     </div>
                     <div id="tgmTempoWidget"></div>
                     ${minhasOS.length ? `<div class="tgm-lista">${minhasOS.map(linhaOS).join('')}</div>` : `<p class="tgm-vazio">${_vejoTudo ? 'Sem OS marcadas para hoje.' : 'Sem OS atribuídas a ti hoje.'}</p>`}
@@ -24301,14 +24341,17 @@ async function salvarAdmin(e) {
             moverParaPasso('#s_freguesia', passo7);
             secDetalhes.remove(); // já não sobra nada de útil na secção original
 
-            // Monta a lista final de passos (só os que existirem de facto)
+            // Monta a lista final de passos (só os que existirem de facto). No Express, os
+            // passos de Checklist e Faturação não fazem sentido (sem armazém/stock, e a
+            // faturação é tratada à parte) — saltam-se sempre. A Morada fica, é sempre útil.
+            const _expressoWiz = expressAtivo(adminAtual());
             _osWizPassos = [
                 { titulo: 'Cliente', el: passo1 },
                 { titulo: 'Equipa e data', el: secAtribuicao },
                 { titulo: 'Descrição', el: secDescricao },
                 passo4 ? { titulo: 'Relatórios', el: passo4 } : null,
-                passo5 ? { titulo: 'Checklist de segurança', el: passo5 } : null,
-                { titulo: 'Faturação', el: passo6 },
+                (passo5 && !_expressoWiz) ? { titulo: 'Checklist de segurança', el: passo5 } : null,
+                _expressoWiz ? null : { titulo: 'Faturação', el: passo6 },
                 { titulo: 'Morada', el: passo7 },
             ].filter(Boolean);
 
