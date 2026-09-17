@@ -168,19 +168,20 @@ function _tcwCalcularResultado() {
 // da página e com os add-ons lá em baixo (PRECO_CRM_MENSAL etc., em app-principal.js); como esta
 // página não carrega app-principal.js, os valores ficam também aqui, à mão.
 const SU_PLANOS = {
-    '5': { nome: '5 funcionários', preco: '29,99 €/mês' },
-    '10': { nome: '10 funcionários', preco: '34,99 €/mês' },
-    '25': { nome: '25 funcionários', preco: '49,99 €/mês' },
-    '50': { nome: '50 funcionários', preco: '89,99 €/mês' },
-    '100': { nome: '100 funcionários', preco: '179,90 €/mês' },
+    '5': { nome: '5 funcionários', valor: 29.99 },
+    '10': { nome: '10 funcionários', valor: 34.99 },
+    '25': { nome: '25 funcionários', valor: 49.99 },
+    '50': { nome: '50 funcionários', valor: 89.99 },
+    '100': { nome: '100 funcionários', valor: 179.90 },
 };
 const SU_ADDONS = [
-    { key: 'frota', label: 'Frota', preco: '9,99 €/mês' },
-    { key: 'contratos', label: 'Contratos de Manutenção', preco: '14,99 €/mês' },
-    { key: 'armazem', label: 'Armazém / Stock', preco: '9,99 €/mês' },
-    { key: 'crm', label: 'CRM Comercial', preco: '9,99 €/mês' },
-    { key: 'assist', label: 'Total Gest Assist', preco: '9,99 €/mês' },
+    { key: 'frota', label: 'Frota', valor: 9.99 },
+    { key: 'contratos', label: 'Contratos de Manutenção', valor: 14.99 },
+    { key: 'armazem', label: 'Armazém / Stock', valor: 9.99 },
+    { key: 'crm', label: 'CRM Comercial', valor: 9.99 },
+    { key: 'assist', label: 'Total Gest Assist', valor: 9.99 },
 ];
+function _suFormatarEuro(v) { return v.toLocaleString('pt-PT', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €'; }
 let _suPlanoSelecionado = null;
 function abrirModalSignup(planoChave) {
     _suPlanoSelecionado = planoChave && SU_PLANOS[planoChave] ? planoChave : null;
@@ -190,7 +191,6 @@ function abrirModalSignup(planoChave) {
     if (_suPlanoSelecionado) {
         const p = SU_PLANOS[_suPlanoSelecionado];
         document.getElementById('su_plano_nome').textContent = p.nome;
-        document.getElementById('su_plano_preco').textContent = p.preco;
         resumo.style.display = 'flex';
         // O plano já diz quantos colaboradores é — o campo de texto livre fica escondido, e
         // continua preenchido por trás com o mesmo valor, para não faltar nada ao validar/enviar.
@@ -204,15 +204,36 @@ function abrirModalSignup(planoChave) {
         inputColab.value = '';
     }
     const lista = document.getElementById('su_addons_lista');
+    document.getElementById('su_addons_label').innerHTML = _suPlanoSelecionado
+        ? 'Quer já juntar algum add-on? <span style="font-weight:400;color:#5a6781;">(soma ao valor mensal acima — dá sempre para adicionar mais tarde)</span>'
+        : 'Quer testar também algum destes add-ons? <span style="font-weight:400;color:#5a6781;">(incluídos sem custo durante os 14 dias — decide só no fim se quer manter)</span>';
+    // Com um plano escolhido (veio de um cartão de preço) é uma compra a sério — mostra o preço
+    // real de cada add-on, e cada vez que se marca/desmarca soma logo ao total ali em cima. Sem
+    // plano (veio do CTA genérico "14 dias grátis"), é só para experimentar — mostra "Grátis no
+    // teste" em vez de preço, porque durante o trial fica tudo incluído sem custo nenhum.
     lista.innerHTML = SU_ADDONS.map(a => `
         <label style="display:flex;align-items:center;gap:8px;font-size:.82rem;font-weight:400;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:8px 10px;cursor:pointer;">
-            <input type="checkbox" value="${a.key}" style="width:auto;margin:0;" />
+            <input type="checkbox" value="${a.key}" style="width:auto;margin:0;" onchange="_suAtualizarTotal()" />
             <span style="flex:1;">${a.label}</span>
-            <span style="color:#16a34a;font-size:.72rem;font-weight:600;white-space:nowrap;">Grátis no teste</span>
+            <span style="${_suPlanoSelecionado ? 'color:#5a6781;' : 'color:#16a34a;font-weight:600;'}font-size:.72rem;white-space:nowrap;">${_suPlanoSelecionado ? '+ ' + _suFormatarEuro(a.valor) + '/mês' : 'Grátis no teste'}</span>
         </label>
     `).join('');
+    _suAtualizarTotal();
     document.getElementById('tg-signup-overlay').classList.add('open');
     document.body.style.overflow = 'hidden';
+}
+// Recalcula e mostra o preço total (plano + add-ons marcados) — só quando há um plano escolhido
+// a sério (veio de um cartão de preço). No CTA genérico do trial não há total nenhum a mostrar,
+// está tudo grátis durante o teste.
+function _suAtualizarTotal() {
+    const preco = document.getElementById('su_plano_preco');
+    const detalhe = document.getElementById('su_plano_detalhe');
+    if (!_suPlanoSelecionado) { preco.textContent = ''; detalhe.textContent = ''; return; }
+    const base = SU_PLANOS[_suPlanoSelecionado].valor;
+    const marcados = [...document.querySelectorAll('#su_addons_lista input:checked')].map(v => SU_ADDONS.find(a => a.key === v.value));
+    const totalAddons = marcados.reduce((s, a) => s + a.valor, 0);
+    preco.textContent = _suFormatarEuro(base + totalAddons) + '/mês';
+    detalhe.textContent = marcados.length ? `${_suFormatarEuro(base)} plano + ${marcados.length} add-on${marcados.length > 1 ? 's' : ''}` : '';
 }
 // "mudar" no resumo do plano — volta ao campo de texto livre, para quem afinal quer escrever um
 // número diferente do cartão em que clicou (ex.: "6-8", não bate certo com nenhum dos 5 planos).
