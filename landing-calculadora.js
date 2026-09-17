@@ -208,7 +208,7 @@ function abrirModalSignup(planoChave) {
         <label style="display:flex;align-items:center;gap:8px;font-size:.82rem;font-weight:400;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:8px 10px;cursor:pointer;">
             <input type="checkbox" value="${a.key}" style="width:auto;margin:0;" />
             <span style="flex:1;">${a.label}</span>
-            <span style="color:#5a6781;font-size:.74rem;white-space:nowrap;">${a.preco}</span>
+            <span style="color:#16a34a;font-size:.72rem;font-weight:600;white-space:nowrap;">Grátis no teste</span>
         </label>
     `).join('');
     document.getElementById('tg-signup-overlay').classList.add('open');
