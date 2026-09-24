@@ -5148,8 +5148,7 @@
                     <tr>
                         <td>${escapeHtmlSimples(c.numeroCliente || '-')}</td>
                         <td>
-                            <button class="btn btn-sm" style="background:#f1f5f9;color:#334155;margin-right:6px;" onclick="event.stopPropagation();_toggleAcordeaoCliente('${c.id}')" title="${numLocais > 0 ? (numLocais + ' instalação(ões) + Sede') : 'Ver Sede / intervenções'}"><i class="fas fa-chevron-down" id="acordeao-icone-${c.id}"></i></button>
-                            <strong style="cursor:pointer;color:#152a52;" onclick="abrirWorkspaceCliente('${c.id}')" title="Abrir ficha completa do cliente">${escapeHtmlSimples(c.nome)}</strong>
+                            <strong style="cursor:pointer;color:#2456d8;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px;" onclick="abrirWorkspaceCliente('${c.id}')" title="Abrir ficha completa do cliente">${escapeHtmlSimples(c.nome)}</strong>
                             <span style="font-size:.7rem;color:#64748b;margin-left:6px;">(${numLocais > 0 ? (numLocais + 1) + ' instalações' : 'Sede'})</span>
                         </td>
                         <td>${escapeHtmlSimples(c.telefone || '-')}</td>
@@ -5157,16 +5156,9 @@
                         <td>${escapeHtmlSimples(c.email || '-')}</td>
                         <td>
                             <div class="acoes">
-                                <button class="btn btn-sm" style="background:#0ea5e9;color:#fff;" onclick="abrirHistoricoCliente('${c.id}')" title="Histórico de intervenções"><i class="fas fa-clock-rotate-left"></i></button>
-                                <button class="btn btn-sm" style="background:#0f766e;color:#fff;" onclick="abrirModalNovoLocalCliente('${c.id}')" title="Adicionar outra morada/instalação"><i class="fas fa-map-pin"></i></button>
-                                <button class="btn btn-sm btn-warning" onclick="abrirModal('cliente','${c.id}')"><i class="fas fa-edit"></i></button>
-                                <button class="btn btn-sm btn-danger" onclick="excluirEntidade('cliente','${c.id}')"><i class="fas fa-trash"></i></button>
+                                <button class="btn btn-sm" style="background:#2456d8;color:#fff;" onclick="abrirWorkspaceCliente('${c.id}')" title="Ver ficha completa do cliente"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm btn-danger" onclick="excluirEntidade('cliente','${c.id}')" title="Apagar cliente"><i class="fas fa-trash"></i></button>
                             </div>
-                        </td>
-                    </tr>
-                    <tr id="acordeao-cliente-${c.id}" style="display:none;background:#f8fafc;">
-                        <td colspan="5" style="padding:14px 20px;">
-                            <div id="acordeao-conteudo-${c.id}"><p style="color:#94a3b8;">A carregar…</p></div>
                         </td>
                     </tr>
                 `;
@@ -5202,7 +5194,7 @@
             const locaisCliente = (dados.locais || []).filter(l => l.clienteId === clienteId);
             const iniciais = (cliente.nome || '?').trim().split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase();
             overlay.innerHTML = `
-                <div class="modal" style="max-width:1100px;width:96vw;height:90vh;max-height:90vh;display:flex;flex-direction:column;padding:0;">
+                <div class="modal" style="max-width:1400px;width:98vw;height:95vh;max-height:95vh;display:flex;flex-direction:column;padding:0;">
                     <div style="display:flex;align-items:center;gap:14px;padding:18px 22px;border-bottom:1px solid #e2e8f0;flex-shrink:0;">
                         <div style="width:48px;height:48px;border-radius:12px;background:#eef2f7;display:flex;align-items:center;justify-content:center;font-weight:700;color:#152a52;font-size:1.05rem;flex-shrink:0;">${iniciais}</div>
                         <div style="flex:1;min-width:0;">

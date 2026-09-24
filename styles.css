@@ -346,7 +346,7 @@
         .badge-demo { background:#fef3c7; color:#92400e; }
         .badge-encarregado { background:#ede9fe; color:#5b21b6; }
         .badge-analise { background:#dbeafe; color:#1e40af; }
-        .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.5); backdrop-filter:blur(4px); display:none; align-items:center; justify-content:center; z-index:999; padding:20px; gap:20px; }
+        .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.5); backdrop-filter:blur(4px); display:none; align-items:center; justify-content:center; z-index:1500; padding:20px; gap:20px; }
         @media (max-height:500px) and (orientation:landscape) {
             .modal-overlay { padding:6px; }
             .modal { max-width:var(--tg-zoom-compensa,100vw) !important; width:var(--tg-zoom-compensa,100%) !important; max-height:98vh !important; height:98vh !important; border-radius:12px; }
