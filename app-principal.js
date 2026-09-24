@@ -5205,11 +5205,11 @@
                     </div>
                     <div style="padding:14px 22px 0;display:flex;gap:8px;flex-wrap:wrap;flex-shrink:0;">
                         <button class="btn btn-sm btn-primary" onclick="_wsMarcarOS('${clienteId}')"><i class="fas fa-clipboard-plus"></i> Marcar OS</button>
-                        <button class="btn btn-sm btn-outline" onclick="abrirModalNovoLocalCliente('${clienteId}')"><i class="fas fa-map-pin"></i> Novo local</button>
-                        <button class="btn btn-sm btn-outline" onclick="abrirModal('cliente','${clienteId}')"><i class="fas fa-edit"></i> Editar dados</button>
+                        <button class="btn btn-sm btn-outline" onclick="_wsClienteFechar();abrirModalNovoLocalCliente('${clienteId}')"><i class="fas fa-map-pin"></i> Novo local</button>
+                        <button class="btn btn-sm btn-outline" onclick="_wsClienteFechar();abrirModal('cliente','${clienteId}')"><i class="fas fa-edit"></i> Editar dados</button>
                         <button class="btn btn-sm btn-outline" onclick="abrirHistoricoCliente('${clienteId}')"><i class="fas fa-clock-rotate-left"></i> Histórico completo</button>
                     </div>
-                    <div style="padding:12px 22px 0;display:flex;gap:4px;border-bottom:1px solid #e2e8f0;overflow-x:auto;flex-shrink:0;">
+                    <div style="padding:12px 22px 14px;display:flex;gap:8px;border-bottom:1px solid #e2e8f0;overflow-x:auto;flex-shrink:0;">
                         ${WS_CLIENTE_ABAS.map(a => `<button class="ws-cliente-aba-btn ${a === aba ? 'active' : ''}" onclick="_wsClienteAba('${clienteId}','${a}')">${WS_CLIENTE_ABAS_LABEL[a]}</button>`).join('')}
                     </div>
                     <div style="flex:1;overflow-y:auto;padding:18px 22px;" id="wsClienteConteudo"><p class="help-text">A carregar…</p></div>
@@ -5228,6 +5228,15 @@
         // Financeiro por cliente — usa o valor e o estado de pagamento já registados em cada OS
         // (o mesmo "€ Pago / Não pago" que já usas na ficha da OS). Não inventa nenhum dado novo,
         // só soma o que já lá está.
+        // Reaproveita o mecanismo de confirmação de pagamento já existente na OS (o mesmo que
+        // gera o recibo Moloni se aplicável); só depois refresca esta aba, sem fechar o workspace.
+        async function _wsTogglarPago(clienteId, osId) {
+            await _pagoTogglarOS(osId);
+            const conteudo = document.getElementById('wsClienteConteudo');
+            if (conteudo && document.getElementById('wsClienteOverlay')?.classList.contains('open')) {
+                conteudo.innerHTML = await _wsFinanceiroHtml(clienteId);
+            }
+        }
         async function _wsFinanceiroHtml(clienteId) {
             const desde = _dataCorteMeses(12);
             await garantirServicosCarregados(desde);
@@ -5246,8 +5255,8 @@
                     </div>
                     <div style="text-align:right;">
                         <div style="font-size:.9rem;font-weight:700;">${fmt(s.valor)}</div>
-                        <span style="font-size:.68rem;font-weight:600;color:${pago ? '#166534' : '#991b1b'};">${pago ? 'Pago' : 'Por cobrar'}</span>
                     </div>
+                    <button type="button" class="btn btn-sm" style="background:${pago ? '#dcfce7' : '#fee2e2'};color:${pago ? '#166534' : '#991b1b'};min-width:96px;" onclick="_wsTogglarPago('${clienteId}','${s.id}')" title="Clica para alterar">${pago ? '✓ Pago' : 'Em dívida'}</button>
                 </div>`;
             }).join('');
             return `
@@ -5262,13 +5271,19 @@
         // junta a Sede (localId null) com todos os locais deste cliente para encontrar os que lhe
         // pertencem. Também não têm ecrã de edição próprio — vivem dentro do contrato a que
         // pertencem, por isso o link "Ver no contrato" abre esse contrato.
+        // A ligação fiável de um equipamento a um cliente é pelo CONTRATO (contrato.clienteId +
+        // contrato.equipamentosIds) — não pelo localId do equipamento, porque um equipamento pode
+        // existir "sem local associado" (fica com localId vazio), e nesse caso não há forma de
+        // saber de que cliente é só a olhar para o equipamento. Antes isto misturava equipamento
+        // de todos os clientes sem local definido; agora só mostra o que está mesmo nos contratos
+        // deste cliente.
         function _wsEquipamentosHtml(clienteId) {
-            const locaisCliente = (dados.locais || []).filter(l => l.clienteId === clienteId);
-            const idsLocaisCliente = new Set([null, ...locaisCliente.map(l => l.id)]);
-            const nomeLocal = localId => localId ? (locaisCliente.find(l => l.id === localId)?.nome || 'Local') : 'Sede';
-            const equipCliente = (dados.equipamentos || []).filter(e => idsLocaisCliente.has(e.localId || null));
-            if (!equipCliente.length) return `<p class="help-text">Este cliente ainda não tem equipamentos registados. Os equipamentos adicionam-se a partir de um contrato — vai ao separador "Contratos" para os associares.</p>`;
             const contratosCliente = (dados.contratos || []).filter(c => c.clienteId === clienteId);
+            const idsEquipContrato = new Set(contratosCliente.flatMap(c => c.equipamentosIds || []));
+            const locaisCliente = (dados.locais || []).filter(l => l.clienteId === clienteId);
+            const nomeLocal = localId => localId ? (locaisCliente.find(l => l.id === localId)?.nome || 'Local') : 'Sede';
+            const equipCliente = (dados.equipamentos || []).filter(e => idsEquipContrato.has(e.id));
+            if (!equipCliente.length) return `<p class="help-text">Este cliente ainda não tem equipamentos registados. Os equipamentos adicionam-se a partir de um contrato — vai ao separador "Contratos" para os associares.</p>`;
             const hoje = getDataHoje();
             const linhas = equipCliente.map(e => {
                 const contratoDono = contratosCliente.find(c => (c.equipamentosIds || []).includes(e.id));
@@ -5277,18 +5292,18 @@
                     garantiaTxt = ` · garantia até ${e.garantiaAte.split('-').reverse().join('/')}`;
                     corGarantia = e.garantiaAte < hoje ? ['#991b1b', '#fee2e2'] : null;
                 }
-                return `<div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #f1f5f9;${contratoDono ? 'cursor:pointer;' : ''}" ${contratoDono ? `onclick="_wsClienteFechar();abrirModalEquipamentosContrato('${contratoDono.id}')"` : ''}>
+                return `<div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #f1f5f9;cursor:pointer;" onclick="_wsClienteFechar();abrirModalEquipamentosContrato('${contratoDono.id}')">
                     <i class="fas fa-microchip" style="color:#94a3b8;width:18px;"></i>
                     <div style="flex:1;min-width:0;">
                         <div style="font-size:.86rem;font-weight:600;">${escapeHtmlSimples(EQUIP_TIPOS[e.tipo] || e.tipo || 'Equipamento')}${e.marca ? ' — ' + escapeHtmlSimples(e.marca) : ''}</div>
-                        <div style="font-size:.76rem;color:#64748b;">${escapeHtmlSimples(nomeLocal(e.localId))}${e.numeroSerie ? ' · nº série ' + escapeHtmlSimples(e.numeroSerie) : ''}${garantiaTxt}</div>
+                        <div style="font-size:.76rem;color:#64748b;">${escapeHtmlSimples(e.localId ? nomeLocal(e.localId) : 'Sem local associado')}${e.numeroSerie ? ' · nº série ' + escapeHtmlSimples(e.numeroSerie) : ''}${garantiaTxt}</div>
                     </div>
                     ${corGarantia ? `<span style="font-size:.7rem;font-weight:600;padding:3px 9px;border-radius:6px;background:${corGarantia[1]};color:${corGarantia[0]};white-space:nowrap;">Garantia expirada</span>` : ''}
-                    ${contratoDono ? `<i class="fas fa-chevron-right" style="color:#cbd5e1;"></i>` : ''}
+                    <i class="fas fa-chevron-right" style="color:#cbd5e1;"></i>
                 </div>`;
             }).join('');
             return `
-                <div class="help-text" style="margin:0 0 12px;">${equipCliente.length} equipamento${equipCliente.length === 1 ? '' : 's'} registado${equipCliente.length === 1 ? '' : 's'} (Sede + locais).</div>
+                <div class="help-text" style="margin:0 0 12px;">${equipCliente.length} equipamento${equipCliente.length === 1 ? '' : 's'} registado${equipCliente.length === 1 ? '' : 's'} nos contratos deste cliente.</div>
                 <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:6px 18px;">${linhas}</div>
             `;
         }
@@ -5390,7 +5405,7 @@
         }
         function _wsContratosHtml(clienteId) {
             const contratosCliente = (dados.contratos || []).filter(c => c.clienteId === clienteId).sort((a, b) => (a.validadeContrato || '9999').localeCompare(b.validadeContrato || '9999'));
-            if (!contratosCliente.length) return `<p class="help-text">Este cliente ainda não tem nenhum contrato de manutenção registado.</p>`;
+            if (!contratosCliente.length) return `<p class="help-text">Este cliente ainda não tem nenhum contrato de manutenção registado.</p><button class="btn btn-sm btn-primary" onclick="_wsNovoContrato('${clienteId}')"><i class="fas fa-plus"></i> Novo contrato</button>`;
             const hoje = getDataHoje();
             const em30 = new Date(Date.now() + 30 * 86400000).toISOString().slice(0, 10);
             const locaisCliente = (dados.locais || []).filter(l => l.clienteId === clienteId);
@@ -5536,24 +5551,61 @@
                 </div>
             `;
         }
+        // Cada local é clicável — mostra por baixo as intervenções (OS) e os relatórios de
+        // especialidade feitos ali, carregados só quando se abre (não à partida).
         function _wsLocaisHtml(clienteId) {
             const cliente = dados.clientes.find(c => c.id === clienteId);
             const locaisCliente = (dados.locais || []).filter(l => l.clienteId === clienteId);
-            const linhaSede = `<div style="display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid #f1f5f9;">
-                <i class="fas fa-building" style="color:#94a3b8;width:18px;"></i>
-                <div style="flex:1;"><div style="font-weight:600;font-size:.88rem;">Sede</div><div style="font-size:.78rem;color:#64748b;">${escapeHtmlSimples(cliente.endereco || 'Sem morada registada')}</div></div>
-            </div>`;
-            const linhasExtra = locaisCliente.map(l => `<div style="display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid #f1f5f9;">
-                <i class="fas fa-map-pin" style="color:#94a3b8;width:18px;"></i>
-                <div style="flex:1;"><div style="font-weight:600;font-size:.88rem;">${escapeHtmlSimples(l.nome)}</div><div style="font-size:.78rem;color:#64748b;">${escapeHtmlSimples(l.morada || 'Sem morada registada')}</div></div>
-                <button class="btn btn-sm btn-outline" onclick="abrirModalLocalCliente('${clienteId}','${l.id}')"><i class="fas fa-edit"></i></button>
-            </div>`).join('');
+            const linhaLocal = (chave, icone, nome, morada, botaoEditar) => `
+                <div>
+                    <div style="display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid #f1f5f9;cursor:pointer;" onclick="_wsLocalToggle('${clienteId}','${chave}')">
+                        <i class="fas ${icone}" style="color:#94a3b8;width:18px;"></i>
+                        <div style="flex:1;"><div style="font-weight:600;font-size:.88rem;">${escapeHtmlSimples(nome)}</div><div style="font-size:.78rem;color:#64748b;">${escapeHtmlSimples(morada || 'Sem morada registada')}</div></div>
+                        ${botaoEditar || ''}
+                        <i class="fas fa-chevron-down" id="wsLocalSeta-${chave}" style="color:#cbd5e1;"></i>
+                    </div>
+                    <div id="wsLocalDet-${chave}" style="display:none;padding:4px 0 14px 28px;"></div>
+                </div>`;
+            const linhaSede = linhaLocal('sede', 'fa-building', 'Sede', cliente.endereco);
+            const linhasExtra = locaisCliente.map(l => linhaLocal(l.id, 'fa-map-pin', l.nome, l.morada,
+                `<button class="btn btn-sm btn-outline" onclick="event.stopPropagation();_wsClienteFechar();abrirModalLocalCliente('${clienteId}','${l.id}')"><i class="fas fa-edit"></i></button>`
+            )).join('');
             return `
-                <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 18px;">
+                <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:0 18px;">
                     ${linhaSede}${linhasExtra}
                 </div>
-                <button class="btn btn-sm btn-outline" style="margin-top:14px;" onclick="abrirModalNovoLocalCliente('${clienteId}')"><i class="fas fa-plus"></i> Adicionar local</button>
+                <button class="btn btn-sm btn-outline" style="margin-top:14px;" onclick="_wsClienteFechar();abrirModalNovoLocalCliente('${clienteId}')"><i class="fas fa-plus"></i> Adicionar local</button>
             `;
+        }
+        async function _wsLocalToggle(clienteId, chave) {
+            const painel = document.getElementById('wsLocalDet-' + chave);
+            const seta = document.getElementById('wsLocalSeta-' + chave);
+            if (!painel) return;
+            const aberto = painel.dataset.aberto === '1';
+            painel.style.display = aberto ? 'none' : 'block';
+            painel.dataset.aberto = aberto ? '' : '1';
+            if (seta) seta.style.transform = aberto ? '' : 'rotate(180deg)';
+            if (aberto || painel.dataset.carregado === '1') return;
+            painel.innerHTML = '<p class="help-text">A carregar…</p>';
+            const desde = _dataCorteMeses(12);
+            await garantirServicosCarregados(desde);
+            const localId = chave === 'sede' ? null : chave;
+            const osLocal = (dados.servicos || []).filter(s => s.clienteId === clienteId && (s.localId || null) === localId && (s.data || '') >= desde).sort((a, b) => (b.data || '').localeCompare(a.data || ''));
+            const relLocal = (dados.relatoriosEspecialidade || []).filter(r => r.clienteId === clienteId && (r.localId || null) === localId && !r.rascunho).sort((a, b) => (b.data || '').localeCompare(a.data || ''));
+            const nomesRelatorio = { REX: 'Extintores', RBI: 'Bocas de Incêndio', RSI: 'Central de Incêndio', RCM: 'Central de Monóxido', RIE: 'Iluminação de Emergência', RCP: 'Portas Corta-Fogo', RCCTV: 'Videovigilância', RIN: 'Deteção de Intrusão', RDI: 'Declaração de Instalação' };
+            if (!osLocal.length && !relLocal.length) { painel.innerHTML = '<p class="help-text" style="margin:6px 0 0;">Sem intervenções nem relatórios registados aqui (últimos 12 meses).</p>'; painel.dataset.carregado = '1'; return; }
+            const osHtml = osLocal.length ? `
+                <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.4px;color:#94a3b8;font-weight:700;margin:8px 0 4px;">Intervenções (OS)</div>
+                ${osLocal.map(s => `<div style="display:flex;align-items:center;gap:8px;font-size:.8rem;padding:4px 0;cursor:pointer;color:#334155;" onclick="_wsClienteFechar();abrirVerOS('${s.id}')">
+                    <i class="fas fa-clipboard-list" style="width:14px;color:#94a3b8;"></i>${(s.data || '').split('-').reverse().join('/')} — ${escapeHtmlSimples(s.descricao || (s.tiposTrabalho || [])[0] || 'OS')}
+                </div>`).join('')}` : '';
+            const relHtml = relLocal.length ? `
+                <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.4px;color:#94a3b8;font-weight:700;margin:10px 0 4px;">Relatórios de especialidade</div>
+                ${relLocal.map(r => `<div style="display:flex;align-items:center;gap:8px;font-size:.8rem;padding:4px 0;cursor:pointer;color:#334155;" onclick="_verRelatorioEspecialidadeSnapshot('${r.id}', false)">
+                    <i class="fas fa-file-lines" style="width:14px;color:#94a3b8;"></i>${(r.data || '').split('-').reverse().join('/')} — ${escapeHtmlSimples(nomesRelatorio[r.tipo] || r.tipo)} (${escapeHtmlSimples(r.numeroDocumento || '')})
+                </div>`).join('')}` : '';
+            painel.innerHTML = osHtml + relHtml;
+            painel.dataset.carregado = '1';
         }
         // Abre a criação de OS já com este cliente escolhido — poupa o passo de o
         // procurar outra vez no formulário.
