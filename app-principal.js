@@ -5186,8 +5186,33 @@
         }
         function _wsClienteFechar() {
             document.getElementById('wsClienteOverlay')?.classList.remove('open');
+            window._wsVoltarCliente = null; // fechou de propósito (X) — não reabrir
+        }
+        // Sai do workspace para abrir outro modal (editar local, contrato, ver OS...) e fica a
+        // lembrar-se de onde veio: quando esse modal fechar, o workspace reabre sozinho, na mesma
+        // aba. Assim editar algo não te atira de volta para a lista de Clientes.
+        function _wsSairPara(clienteId) {
+            document.getElementById('wsClienteOverlay')?.classList.remove('open');
+            window._wsVoltarCliente = { id: clienteId, aba: window._wsAbaAtual || 'resumo' };
+        }
+        function _wsTentarVoltar() {
+            if (!window._wsVoltarCliente) return;
+            setTimeout(() => {
+                const alvo = window._wsVoltarCliente;
+                if (!alvo) return;
+                // Só reabre quando já não há NENHUM outro modal aberto — se o fecho foi cancelado
+                // ou abriu logo outro modal a seguir, espera pelo próximo fecho.
+                const outroAberto = [...document.querySelectorAll('.modal-overlay.open')].some(el => el.id !== 'wsClienteOverlay');
+                if (outroAberto) return;
+                window._wsVoltarCliente = null;
+                const overlay = document.getElementById('wsClienteOverlay');
+                if (!overlay || !dados.clientes?.some(c => c.id === alvo.id)) return;
+                overlay.classList.add('open');
+                _wsClienteAba(alvo.id, alvo.aba);
+            }, 350);
         }
         async function _wsClienteAba(clienteId, aba) {
+            window._wsAbaAtual = aba;
             const cliente = dados.clientes?.find(c => c.id === clienteId);
             const overlay = document.getElementById('wsClienteOverlay');
             if (!cliente || !overlay) return;
@@ -5205,9 +5230,10 @@
                     </div>
                     <div style="padding:14px 22px 0;display:flex;gap:8px;flex-wrap:wrap;flex-shrink:0;">
                         <button class="btn btn-sm btn-primary" onclick="_wsMarcarOS('${clienteId}')"><i class="fas fa-clipboard-plus"></i> Marcar OS</button>
-                        <button class="btn btn-sm btn-outline" onclick="_wsClienteFechar();abrirModalNovoLocalCliente('${clienteId}')"><i class="fas fa-map-pin"></i> Novo local</button>
-                        <button class="btn btn-sm btn-outline" onclick="_wsClienteFechar();abrirModal('cliente','${clienteId}')"><i class="fas fa-edit"></i> Editar dados</button>
-                        <button class="btn btn-sm btn-outline" onclick="abrirHistoricoCliente('${clienteId}')"><i class="fas fa-clock-rotate-left"></i> Histórico completo</button>
+                        <button class="btn btn-sm btn-outline" onclick="_wsMarcarAssistencia('${clienteId}')"><i class="fas fa-headset"></i> Marcar assistência</button>
+                        <button class="btn btn-sm btn-outline" onclick="_wsSairPara('${clienteId}');abrirModalNovoLocalCliente('${clienteId}')"><i class="fas fa-map-pin"></i> Novo local</button>
+                        <button class="btn btn-sm btn-outline" onclick="_wsSairPara('${clienteId}');abrirModal('cliente','${clienteId}')"><i class="fas fa-edit"></i> Editar dados</button>
+                        <button class="btn btn-sm btn-outline" onclick="_wsSairPara('${clienteId}');abrirHistoricoCliente('${clienteId}')"><i class="fas fa-clock-rotate-left"></i> Histórico completo</button>
                     </div>
                     <div style="padding:12px 22px 14px;display:flex;gap:8px;border-bottom:1px solid #e2e8f0;overflow-x:auto;flex-shrink:0;">
                         ${WS_CLIENTE_ABAS.map(a => `<button class="ws-cliente-aba-btn ${a === aba ? 'active' : ''}" onclick="_wsClienteAba('${clienteId}','${a}')">${WS_CLIENTE_ABAS_LABEL[a]}</button>`).join('')}
@@ -5292,7 +5318,7 @@
                     garantiaTxt = ` · garantia até ${e.garantiaAte.split('-').reverse().join('/')}`;
                     corGarantia = e.garantiaAte < hoje ? ['#991b1b', '#fee2e2'] : null;
                 }
-                return `<div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #f1f5f9;cursor:pointer;" onclick="_wsClienteFechar();abrirModalEquipamentosContrato('${contratoDono.id}')">
+                return `<div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #f1f5f9;cursor:pointer;" onclick="_wsSairPara('${clienteId}');abrirModalEquipamentosContrato('${contratoDono.id}')">
                     <i class="fas fa-microchip" style="color:#94a3b8;width:18px;"></i>
                     <div style="flex:1;min-width:0;">
                         <div style="font-size:.86rem;font-weight:600;">${escapeHtmlSimples(EQUIP_TIPOS[e.tipo] || e.tipo || 'Equipamento')}${e.marca ? ' — ' + escapeHtmlSimples(e.marca) : ''}</div>
@@ -5327,7 +5353,7 @@
                 // abre o TotalGest Assist — a área própria destes pedidos — já no ecrã de criar a
                 // OS a partir dele, que é o próprio fluxo que já usas hoje.
                 const onclick = a.osGeradaId
-                    ? `_wsClienteFechar();abrirVerOS('${a.osGeradaId}')`
+                    ? `_wsSairPara('${clienteId}');abrirVerOS('${a.osGeradaId}')`
                     : `window.open('TOTALGEST_ASSIST.html?criarOS=${a.id}', '_blank')`;
                 return `<div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #f1f5f9;cursor:pointer;" onclick="${onclick}">
                     <i class="fas fa-headset" style="color:#94a3b8;width:18px;"></i>
@@ -5342,6 +5368,12 @@
                 <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:6px 18px;">${linhas}</div>
                 ${_wsAssistBotaoAbrirApp()}
             `;
+        }
+        // Atalho do topo: salta para a aba Assistências e abre logo o formulário de nova.
+        async function _wsMarcarAssistencia(clienteId) {
+            await _wsClienteAba(clienteId, 'assistencias');
+            _wsAssistNovoForm(clienteId);
+            document.getElementById('wsa_assunto')?.focus();
         }
         // Criar uma assistência sem sair do workspace — fica logo válida "por atribuir" (sem
         // técnico definido ainda), tal como já é possível fazer no Total Gest Assist.
@@ -5433,7 +5465,7 @@
                         </div>`).join('')}${relatoriosDoContrato.length > 3 ? `<div style="font-size:.74rem;color:#94a3b8;padding:3px 0;">+ ${relatoriosDoContrato.length - 3} mais antigo(s)</div>` : ''}</div>`
                     : '';
                 return `<div style="padding:11px 0;border-bottom:1px solid #f1f5f9;">
-                    <div style="display:flex;align-items:center;gap:10px;cursor:pointer;" onclick="_wsClienteFechar();abrirModal('contrato','${c.id}')">
+                    <div style="display:flex;align-items:center;gap:10px;cursor:pointer;" onclick="_wsSairPara('${clienteId}');abrirModal('contrato','${c.id}')">
                         <i class="fas fa-file-signature" style="color:#94a3b8;width:18px;"></i>
                         <div style="flex:1;min-width:0;">
                             <div style="font-size:.86rem;font-weight:600;">Contrato ${escapeHtmlSimples(c.numero || '—')} — ${escapeHtmlSimples(_equipStrContrato(c))}</div>
@@ -5463,7 +5495,7 @@
             const linhas = osCliente.map(s => {
                 const [corTexto, corFundo] = cores[s.status] || ['#475569', '#f1f5f9'];
                 const tipos = (s.tiposTrabalho || []).join(', ') || '—';
-                return `<div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #f1f5f9;cursor:pointer;" onclick="_wsClienteFechar();abrirVerOS('${s.id}')">
+                return `<div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #f1f5f9;cursor:pointer;" onclick="_wsSairPara('${clienteId}');abrirVerOS('${s.id}')">
                     <i class="fas fa-clipboard-list" style="color:#94a3b8;width:18px;"></i>
                     <div style="flex:1;min-width:0;">
                         <div style="font-size:.86rem;font-weight:600;">${s.numeroRegisto ? '#' + escapeHtmlSimples(s.numeroRegisto) + ' — ' : ''}${escapeHtmlSimples(s.descricao || tipos)}</div>
@@ -5568,13 +5600,13 @@
                 </div>`;
             const linhaSede = linhaLocal('sede', 'fa-building', 'Sede', cliente.endereco);
             const linhasExtra = locaisCliente.map(l => linhaLocal(l.id, 'fa-map-pin', l.nome, l.morada,
-                `<button class="btn btn-sm btn-outline" onclick="event.stopPropagation();_wsClienteFechar();abrirModalLocalCliente('${clienteId}','${l.id}')"><i class="fas fa-edit"></i></button>`
+                `<button class="btn btn-sm btn-outline" onclick="event.stopPropagation();_wsSairPara('${clienteId}');abrirModalLocalCliente('${clienteId}','${l.id}')"><i class="fas fa-edit"></i></button>`
             )).join('');
             return `
                 <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:0 18px;">
                     ${linhaSede}${linhasExtra}
                 </div>
-                <button class="btn btn-sm btn-outline" style="margin-top:14px;" onclick="_wsClienteFechar();abrirModalNovoLocalCliente('${clienteId}')"><i class="fas fa-plus"></i> Adicionar local</button>
+                <button class="btn btn-sm btn-outline" style="margin-top:14px;" onclick="_wsSairPara('${clienteId}');abrirModalNovoLocalCliente('${clienteId}')"><i class="fas fa-plus"></i> Adicionar local</button>
             `;
         }
         async function _wsLocalToggle(clienteId, chave) {
@@ -5596,7 +5628,7 @@
             if (!osLocal.length && !relLocal.length) { painel.innerHTML = '<p class="help-text" style="margin:6px 0 0;">Sem intervenções nem relatórios registados aqui (últimos 12 meses).</p>'; painel.dataset.carregado = '1'; return; }
             const osHtml = osLocal.length ? `
                 <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.4px;color:#94a3b8;font-weight:700;margin:8px 0 4px;">Intervenções (OS)</div>
-                ${osLocal.map(s => `<div style="display:flex;align-items:center;gap:8px;font-size:.8rem;padding:4px 0;cursor:pointer;color:#334155;" onclick="_wsClienteFechar();abrirVerOS('${s.id}')">
+                ${osLocal.map(s => `<div style="display:flex;align-items:center;gap:8px;font-size:.8rem;padding:4px 0;cursor:pointer;color:#334155;" onclick="_wsSairPara('${clienteId}');abrirVerOS('${s.id}')">
                     <i class="fas fa-clipboard-list" style="width:14px;color:#94a3b8;"></i>${(s.data || '').split('-').reverse().join('/')} — ${escapeHtmlSimples(s.descricao || (s.tiposTrabalho || [])[0] || 'OS')}
                 </div>`).join('')}` : '';
             const relHtml = relLocal.length ? `
@@ -5612,7 +5644,7 @@
         function _wsMarcarOS(clienteId) {
             const cliente = dados.clientes?.find(c => c.id === clienteId);
             if (!cliente) return;
-            _wsClienteFechar();
+            _wsSairPara(clienteId);
             abrirModal('servico', null);
             setTimeout(() => {
                 const busca = document.getElementById('s_cliente_busca');
@@ -5629,7 +5661,7 @@
         function _wsNovoContrato(clienteId) {
             const cliente = dados.clientes?.find(c => c.id === clienteId);
             if (!cliente) return;
-            _wsClienteFechar();
+            _wsSairPara(clienteId);
             abrirModal('contrato', null);
             setTimeout(() => {
                 const busca = document.getElementById('ct_cliente_busca');
@@ -26016,6 +26048,7 @@ async function salvarAdmin(e) {
         }
 
         async function fecharModal() {
+            _wsTentarVoltar();
             if (_folhaOSPendente) {
                 if (!await tgConfirm('Cancelar? A folha de obra não vai ser guardada e a saída picada será revertida.', { titulo: 'Cancelar folha' })) return;
                 const aberto = (dados.ponto || []).find(p => p.servicoId === _folhaOSPendente.osId && p.entrada && p.saida);
@@ -30402,6 +30435,7 @@ window._relPrefill = function(msg){
         }
 
         function _fecharModalGenerico() {
+            _wsTentarVoltar();
             document.getElementById('modalGenericoOverlay').classList.remove('open', 'modal-veros');
             document.getElementById('rpPreviewFlutuante')?.classList.remove('open');
             const _acoes = document.getElementById('modalGenericoAcoes');
