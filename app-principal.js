@@ -253,8 +253,8 @@
         const M = {
             administradores: {
                 tabela: 'administradores',
-                from: r => ({ id: r.id, nome: r.nome, email: r.email, empresa: r.empresa || '', nif: r.nif || null, logo: r.logo || null, licencaFeedback: r.licenca_feedback || null, contratosPlano: r.contratos_plano || null, contratosExpiracao: isoToMs(r.contratos_expiracao), frotaPlano: r.frota_plano || null, frotaExpiracao: isoToMs(r.frota_expiracao), armazemPlano: r.armazem_plano || null, armazemExpiracao: isoToMs(r.armazem_expiracao), portalPlano: r.portal_plano || null, portalExpiracao: isoToMs(r.portal_expiracao), crmPlano: r.crm_plano || null, crmExpiracao: isoToMs(r.crm_expiracao), assistPlano: r.assist_plano || null, assistExpiracao: isoToMs(r.assist_expiracao), erpPlano: r.erp_plano || null, erpExpiracao: isoToMs(r.erp_expiracao), notificacoesPlano: r.notificacoes_plano || null, notificacoesExpiracao: isoToMs(r.notificacoes_expiracao), dadosBancarios: r.dados_bancarios || null, integracaoFaturacao: r.integracao_faturacao || null, ativo: r.ativo, mudarSenha: r.mudar_senha === true, ultimoLogin: isoToMs(r.ultimo_login), ultimaAtividade: isoToMs(r.ultima_atividade), mostrarEstadoOnline: r.mostrar_estado_online === true, layout: r.layout || null, tiposEquipamento: r.tipos_equipamento || [], logo: r.logo, notificarAprovacao: r.notificar_aprovacao === true, numeroRegistoPrevio: r.numero_registo_previo || null, dataRegistoPrevio: r.data_registo_previo || null, numeroAnepc: r.numero_anepc || null, dataAnepc: r.data_anepc || null, anepcValidade: r.anepc_validade || null, registoPrevioValidade: r.registo_previo_validade || null, corCorporativa: r.cor_corporativa || null, favoritos: Array.isArray(r.favoritos) ? r.favoritos : [], ivaPeriodicidade: r.iva_periodicidade || 'mensal', irsPeriodicidade: r.irs_periodicidade || 'semestral', painelTvAtivo: r.painel_tv_ativo === true, descricoesRapidasOS: Array.isArray(r.descricoes_rapidas_os) ? r.descricoes_rapidas_os : ['Instalação', 'Manutenção', 'Visita', 'Formação'], horaEntradaHabitual: r.hora_entrada_habitual || '09:00', toleranciaAtrasoMin: r.tolerancia_atraso_min != null ? r.tolerancia_atraso_min : 15, certificadoraLogo: r.certificadora_logo || null, ehDistribuidor: r.eh_distribuidor === true, distribuidorDesconto: r.distribuidor_desconto != null ? Number(r.distribuidor_desconto) : null, distribuidorId: r.distribuidor_id || null, precoDistribuidorCobrado: r.preco_distribuidor_cobrado != null ? Number(r.preco_distribuidor_cobrado) : null, distribuidorPagamentoPrazo: isoToMs(r.distribuidor_pagamento_prazo), precoFundador: r.preco_fundador === true, obrasAvancadoAtivo: r.obras_avancado_ativo === true, expressAtivo: r.express_ativo === true, obrasChecklistItens: Array.isArray(r.obras_checklist_itens) ? r.obras_checklist_itens : [], checklistEntradaItens: Array.isArray(r.checklist_entrada_itens) ? r.checklist_entrada_itens : [], osModoWizard: r.os_modo_wizard === true, contratoModoWizard: r.contrato_modo_wizard === true, kmPontoGeralAtivo: r.km_ponto_geral_ativo === true, kmPorOsAtivo: r.km_por_os_ativo === true, segurancaAtivo: r.seguranca_ativo === true, segurosAtivo: r.seguros_ativo === true, shstAtivo: r.shst_ativo === true, areasNegocio: Array.isArray(r.areas_negocio) ? r.areas_negocio : null, onboardingComoTrabalha: Array.isArray(r.onboarding_como_trabalha) ? r.onboarding_como_trabalha : [], modulosAtivos: Array.isArray(r.modulos_ativos) ? r.modulos_ativos : null, onboardingAtividadeConcluido: r.onboarding_atividade_concluido === true, lembretePagamentoEm: isoToMs(r.lembrete_pagamento_em), concelho: r.concelho || null, contratosDemoDias: r.contratos_demo_dias || null, frotaDemoDias: r.frota_demo_dias || null, armazemDemoDias: r.armazem_demo_dias || null, crmDemoDias: r.crm_demo_dias || null, erpDemoDias: r.erp_demo_dias || null, rondasPlano: r.rondas_plano || null, rondasExpiracao: isoToMs(r.rondas_expiracao), rondasDemoDias: r.rondas_demo_dias || null, usoSecoes: r.uso_secoes ? (typeof r.uso_secoes === 'string' ? JSON.parse(r.uso_secoes) : r.uso_secoes) : {}, usoSecoesUltima: isoToMs(r.uso_secoes_ultima), ultimaSincronizacaoMoloniArtigos: isoToMs(r.ultima_sincronizacao_moloni_artigos), licencaFaseAvisada: r.licenca_fase_avisada || null, dataCriacao: isoToMs(r.data_criacao) }),
-                to:   o => ({ id: o.id, nome: o.nome, email: o.email, senha: o.senha, empresa: o.empresa || null, nif: o.nif || null, logo: o.logo || null, licenca_feedback: o.licencaFeedback || null, contratos_plano: o.contratosPlano || null, contratos_expiracao: msToISO(o.contratosExpiracao), frota_plano: o.frotaPlano || null, frota_expiracao: msToISO(o.frotaExpiracao), armazem_plano: o.armazemPlano || null, armazem_expiracao: msToISO(o.armazemExpiracao), portal_plano: o.portalPlano || null, portal_expiracao: msToISO(o.portalExpiracao), crm_plano: o.crmPlano || null, crm_expiracao: msToISO(o.crmExpiracao), assist_plano: o.assistPlano || null, assist_expiracao: msToISO(o.assistExpiracao), erp_plano: o.erpPlano || null, erp_expiracao: msToISO(o.erpExpiracao), notificacoes_plano: o.notificacoesPlano || null, notificacoes_expiracao: msToISO(o.notificacoesExpiracao), dados_bancarios: o.dadosBancarios || null, integracao_faturacao: o.integracaoFaturacao || null, ativo: o.ativo !== false, mudar_senha: o.mudarSenha === true, ultimo_login: o.ultimoLogin ? msToISO(o.ultimoLogin) : null, ultima_atividade: o.ultimaAtividade ? msToISO(o.ultimaAtividade) : null, mostrar_estado_online: o.mostrarEstadoOnline === true, layout: o.layout || null, tipos_equipamento: o.tiposEquipamento || [], logo: o.logo || null, notificar_aprovacao: o.notificarAprovacao === true, numero_registo_previo: o.numeroRegistoPrevio || null, data_registo_previo: o.dataRegistoPrevio || null, numero_anepc: o.numeroAnepc || null, data_anepc: o.dataAnepc || null, anepc_validade: o.anepcValidade || null, registo_previo_validade: o.registoPrevioValidade || null, cor_corporativa: o.corCorporativa || null, favoritos: o.favoritos || [], iva_periodicidade: o.ivaPeriodicidade || 'mensal', irs_periodicidade: o.irsPeriodicidade || 'semestral', painel_tv_ativo: o.painelTvAtivo === true, descricoes_rapidas_os: o.descricoesRapidasOS || null, hora_entrada_habitual: o.horaEntradaHabitual || '09:00', tolerancia_atraso_min: o.toleranciaAtrasoMin != null ? o.toleranciaAtrasoMin : 15, certificadora_logo: o.certificadoraLogo || null, eh_distribuidor: o.ehDistribuidor === true, distribuidor_desconto: o.distribuidorDesconto ?? null, distribuidor_id: o.distribuidorId || null, preco_distribuidor_cobrado: o.precoDistribuidorCobrado ?? null, distribuidor_pagamento_prazo: o.distribuidorPagamentoPrazo ? msToISO(o.distribuidorPagamentoPrazo) : null, preco_fundador: o.precoFundador === true, obras_avancado_ativo: o.obrasAvancadoAtivo === true, express_ativo: o.expressAtivo === true, obras_checklist_itens: o.obrasChecklistItens || [], checklist_entrada_itens: o.checklistEntradaItens || [], os_modo_wizard: o.osModoWizard === true, contrato_modo_wizard: o.contratoModoWizard === true, km_ponto_geral_ativo: o.kmPontoGeralAtivo === true, km_por_os_ativo: o.kmPorOsAtivo === true, seguranca_ativo: o.segurancaAtivo === true, seguros_ativo: o.segurosAtivo === true, shst_ativo: o.shstAtivo === true, areas_negocio: o.areasNegocio || null, onboarding_como_trabalha: o.onboardingComoTrabalha || [], modulos_ativos: o.modulosAtivos || null, onboarding_atividade_concluido: o.onboardingAtividadeConcluido === true, lembrete_pagamento_em: o.lembretePagamentoEm ? msToISO(o.lembretePagamentoEm) : null, concelho: o.concelho || null, contratos_demo_dias: o.contratosDemoDias || null, frota_demo_dias: o.frotaDemoDias || null, armazem_demo_dias: o.armazemDemoDias || null, crm_demo_dias: o.crmDemoDias || null, erp_demo_dias: o.erpDemoDias || null, rondas_plano: o.rondasPlano || null, rondas_expiracao: msToISO(o.rondasExpiracao), rondas_demo_dias: o.rondasDemoDias || null, uso_secoes: JSON.stringify(o.usoSecoes || {}), uso_secoes_ultima: o.usoSecoesUltima ? msToISO(o.usoSecoesUltima) : null, ultima_sincronizacao_moloni_artigos: o.ultimaSincronizacaoMoloniArtigos ? msToISO(o.ultimaSincronizacaoMoloniArtigos) : null, licenca_fase_avisada: o.licencaFaseAvisada || null, data_criacao: msToISO(o.dataCriacao) })
+                from: r => ({ id: r.id, nome: r.nome, email: r.email, empresa: r.empresa || '', nif: r.nif || null, logo: r.logo || null, licencaFeedback: r.licenca_feedback || null, contratosPlano: r.contratos_plano || null, contratosExpiracao: isoToMs(r.contratos_expiracao), frotaPlano: r.frota_plano || null, frotaExpiracao: isoToMs(r.frota_expiracao), armazemPlano: r.armazem_plano || null, armazemExpiracao: isoToMs(r.armazem_expiracao), portalPlano: r.portal_plano || null, portalExpiracao: isoToMs(r.portal_expiracao), crmPlano: r.crm_plano || null, crmExpiracao: isoToMs(r.crm_expiracao), assistPlano: r.assist_plano || null, assistExpiracao: isoToMs(r.assist_expiracao), erpPlano: r.erp_plano || null, erpExpiracao: isoToMs(r.erp_expiracao), notificacoesPlano: r.notificacoes_plano || null, notificacoesExpiracao: isoToMs(r.notificacoes_expiracao), dadosBancarios: r.dados_bancarios || null, integracaoFaturacao: r.integracao_faturacao || null, ativo: r.ativo, mudarSenha: r.mudar_senha === true, ultimoLogin: isoToMs(r.ultimo_login), ultimaAtividade: isoToMs(r.ultima_atividade), mostrarEstadoOnline: r.mostrar_estado_online === true, layout: r.layout || null, tiposEquipamento: r.tipos_equipamento || [], logo: r.logo, notificarAprovacao: r.notificar_aprovacao === true, numeroRegistoPrevio: r.numero_registo_previo || null, dataRegistoPrevio: r.data_registo_previo || null, numeroAnepc: r.numero_anepc || null, dataAnepc: r.data_anepc || null, anepcValidade: r.anepc_validade || null, registoPrevioValidade: r.registo_previo_validade || null, corCorporativa: r.cor_corporativa || null, favoritos: Array.isArray(r.favoritos) ? r.favoritos : [], ivaPeriodicidade: r.iva_periodicidade || 'mensal', irsPeriodicidade: r.irs_periodicidade || 'semestral', painelTvAtivo: r.painel_tv_ativo === true, descricoesRapidasOS: Array.isArray(r.descricoes_rapidas_os) ? r.descricoes_rapidas_os : ['Instalação', 'Manutenção', 'Visita', 'Formação'], horaEntradaHabitual: r.hora_entrada_habitual || '09:00', toleranciaAtrasoMin: r.tolerancia_atraso_min != null ? r.tolerancia_atraso_min : 15, certificadoraLogo: r.certificadora_logo || null, ehDistribuidor: r.eh_distribuidor === true, distribuidorDesconto: r.distribuidor_desconto != null ? Number(r.distribuidor_desconto) : null, distribuidorId: r.distribuidor_id || null, precoDistribuidorCobrado: r.preco_distribuidor_cobrado != null ? Number(r.preco_distribuidor_cobrado) : null, distribuidorPagamentoPrazo: isoToMs(r.distribuidor_pagamento_prazo), precoFundador: r.preco_fundador === true, obrasAvancadoAtivo: r.obras_avancado_ativo === true, expressAtivo: r.express_ativo === true, obrasChecklistItens: Array.isArray(r.obras_checklist_itens) ? r.obras_checklist_itens : [], checklistEntradaItens: Array.isArray(r.checklist_entrada_itens) ? r.checklist_entrada_itens : [], osModoWizard: r.os_modo_wizard === true, contratoModoWizard: r.contrato_modo_wizard === true, kmPontoGeralAtivo: r.km_ponto_geral_ativo === true, kmPorOsAtivo: r.km_por_os_ativo === true, segurancaAtivo: r.seguranca_ativo === true, segurosAtivo: r.seguros_ativo === true, shstAtivo: r.shst_ativo === true, materiaisEntregaAtivo: r.materiais_entrega_ativo === true, packAtual: r.pack_atual || null, packEscalao: r.pack_escalao || null, packBlocos: r.pack_blocos || 0, areasNegocio: Array.isArray(r.areas_negocio) ? r.areas_negocio : null, onboardingComoTrabalha: Array.isArray(r.onboarding_como_trabalha) ? r.onboarding_como_trabalha : [], modulosAtivos: Array.isArray(r.modulos_ativos) ? r.modulos_ativos : null, onboardingAtividadeConcluido: r.onboarding_atividade_concluido === true, lembretePagamentoEm: isoToMs(r.lembrete_pagamento_em), concelho: r.concelho || null, contratosDemoDias: r.contratos_demo_dias || null, frotaDemoDias: r.frota_demo_dias || null, armazemDemoDias: r.armazem_demo_dias || null, crmDemoDias: r.crm_demo_dias || null, erpDemoDias: r.erp_demo_dias || null, rondasPlano: r.rondas_plano || null, rondasExpiracao: isoToMs(r.rondas_expiracao), rondasDemoDias: r.rondas_demo_dias || null, usoSecoes: r.uso_secoes ? (typeof r.uso_secoes === 'string' ? JSON.parse(r.uso_secoes) : r.uso_secoes) : {}, usoSecoesUltima: isoToMs(r.uso_secoes_ultima), ultimaSincronizacaoMoloniArtigos: isoToMs(r.ultima_sincronizacao_moloni_artigos), licencaFaseAvisada: r.licenca_fase_avisada || null, dataCriacao: isoToMs(r.data_criacao) }),
+                to:   o => ({ id: o.id, nome: o.nome, email: o.email, senha: o.senha, empresa: o.empresa || null, nif: o.nif || null, logo: o.logo || null, licenca_feedback: o.licencaFeedback || null, contratos_plano: o.contratosPlano || null, contratos_expiracao: msToISO(o.contratosExpiracao), frota_plano: o.frotaPlano || null, frota_expiracao: msToISO(o.frotaExpiracao), armazem_plano: o.armazemPlano || null, armazem_expiracao: msToISO(o.armazemExpiracao), portal_plano: o.portalPlano || null, portal_expiracao: msToISO(o.portalExpiracao), crm_plano: o.crmPlano || null, crm_expiracao: msToISO(o.crmExpiracao), assist_plano: o.assistPlano || null, assist_expiracao: msToISO(o.assistExpiracao), erp_plano: o.erpPlano || null, erp_expiracao: msToISO(o.erpExpiracao), notificacoes_plano: o.notificacoesPlano || null, notificacoes_expiracao: msToISO(o.notificacoesExpiracao), dados_bancarios: o.dadosBancarios || null, integracao_faturacao: o.integracaoFaturacao || null, ativo: o.ativo !== false, mudar_senha: o.mudarSenha === true, ultimo_login: o.ultimoLogin ? msToISO(o.ultimoLogin) : null, ultima_atividade: o.ultimaAtividade ? msToISO(o.ultimaAtividade) : null, mostrar_estado_online: o.mostrarEstadoOnline === true, layout: o.layout || null, tipos_equipamento: o.tiposEquipamento || [], logo: o.logo || null, notificar_aprovacao: o.notificarAprovacao === true, numero_registo_previo: o.numeroRegistoPrevio || null, data_registo_previo: o.dataRegistoPrevio || null, numero_anepc: o.numeroAnepc || null, data_anepc: o.dataAnepc || null, anepc_validade: o.anepcValidade || null, registo_previo_validade: o.registoPrevioValidade || null, cor_corporativa: o.corCorporativa || null, favoritos: o.favoritos || [], iva_periodicidade: o.ivaPeriodicidade || 'mensal', irs_periodicidade: o.irsPeriodicidade || 'semestral', painel_tv_ativo: o.painelTvAtivo === true, descricoes_rapidas_os: o.descricoesRapidasOS || null, hora_entrada_habitual: o.horaEntradaHabitual || '09:00', tolerancia_atraso_min: o.toleranciaAtrasoMin != null ? o.toleranciaAtrasoMin : 15, certificadora_logo: o.certificadoraLogo || null, eh_distribuidor: o.ehDistribuidor === true, distribuidor_desconto: o.distribuidorDesconto ?? null, distribuidor_id: o.distribuidorId || null, preco_distribuidor_cobrado: o.precoDistribuidorCobrado ?? null, distribuidor_pagamento_prazo: o.distribuidorPagamentoPrazo ? msToISO(o.distribuidorPagamentoPrazo) : null, preco_fundador: o.precoFundador === true, obras_avancado_ativo: o.obrasAvancadoAtivo === true, express_ativo: o.expressAtivo === true, obras_checklist_itens: o.obrasChecklistItens || [], checklist_entrada_itens: o.checklistEntradaItens || [], os_modo_wizard: o.osModoWizard === true, contrato_modo_wizard: o.contratoModoWizard === true, km_ponto_geral_ativo: o.kmPontoGeralAtivo === true, km_por_os_ativo: o.kmPorOsAtivo === true, seguranca_ativo: o.segurancaAtivo === true, seguros_ativo: o.segurosAtivo === true, shst_ativo: o.shstAtivo === true, materiais_entrega_ativo: o.materiaisEntregaAtivo === true, pack_atual: o.packAtual || null, pack_escalao: o.packEscalao || null, pack_blocos: o.packBlocos || 0, areas_negocio: o.areasNegocio || null, onboarding_como_trabalha: o.onboardingComoTrabalha || [], modulos_ativos: o.modulosAtivos || null, onboarding_atividade_concluido: o.onboardingAtividadeConcluido === true, lembrete_pagamento_em: o.lembretePagamentoEm ? msToISO(o.lembretePagamentoEm) : null, concelho: o.concelho || null, contratos_demo_dias: o.contratosDemoDias || null, frota_demo_dias: o.frotaDemoDias || null, armazem_demo_dias: o.armazemDemoDias || null, crm_demo_dias: o.crmDemoDias || null, erp_demo_dias: o.erpDemoDias || null, rondas_plano: o.rondasPlano || null, rondas_expiracao: msToISO(o.rondasExpiracao), rondas_demo_dias: o.rondasDemoDias || null, uso_secoes: JSON.stringify(o.usoSecoes || {}), uso_secoes_ultima: o.usoSecoesUltima ? msToISO(o.usoSecoesUltima) : null, ultima_sincronizacao_moloni_artigos: o.ultimaSincronizacaoMoloniArtigos ? msToISO(o.ultimaSincronizacaoMoloniArtigos) : null, licenca_fase_avisada: o.licencaFaseAvisada || null, data_criacao: msToISO(o.dataCriacao) })
             },
             funcionarios: {
                 tabela: 'funcionarios',
@@ -446,6 +446,17 @@
                 from: r => ({ id: r.id, adminId: r.admin_id, devolucaoId: r.devolucao_id, artigoId: r.artigo_id, quantidadeDeclarada: Number(r.quantidade_declarada) || 0, quantidadeConfirmada: r.quantidade_confirmada != null ? Number(r.quantidade_confirmada) : null, series: r.series ? (typeof r.series === 'string' ? JSON.parse(r.series) : r.series) : [] }),
                 to:   o => ({ id: o.id, admin_id: o.adminId, devolucao_id: o.devolucaoId, artigo_id: o.artigoId, quantidade_declarada: Number(o.quantidadeDeclarada) || 0, quantidade_confirmada: o.quantidadeConfirmada != null ? Number(o.quantidadeConfirmada) : null, series: JSON.stringify(o.series || []) })
             },
+            // Documentos de entrega/devolução de material aos funcionários (fardas, ferramentas,
+            // EPI's, etc.) — "Opcionais Extra" → Materiais Entregues. Um registo por documento
+            // (tipo='entrega' ou 'devolucao'). Na devolução, entregaOrigemId aponta para o
+            // documento de entrega em que se baseia, e cada item de "itens" ganha um campo
+            // "recebido" (bool) preenchido nesse momento — a lista de itens em si é copiada da
+            // entrega original, não voltada a escrever à mão.
+            materiaisEntrega: {
+                tabela: 'materiais_entrega',
+                from: r => ({ id: r.id, adminId: r.admin_id, funcionarioId: r.funcionario_id, tipo: r.tipo, entregaOrigemId: r.entrega_origem_id || null, itens: r.itens ? (typeof r.itens === 'string' ? JSON.parse(r.itens) : r.itens) : [], data: r.data, hora: r.hora || '', nomeTecnico: r.nome_tecnico || '', assinaturaTecnico: r.assinatura_tecnico || null, nomeResponsavel: r.nome_responsavel || '', assinaturaResponsavel: r.assinatura_responsavel || null, dataCriacao: isoToMs(r.data_criacao) }),
+                to:   o => ({ id: o.id, admin_id: o.adminId, funcionario_id: o.funcionarioId, tipo: o.tipo, entrega_origem_id: o.entregaOrigemId || null, itens: JSON.stringify(o.itens || []), data: nn(o.data), hora: o.hora || '', nome_tecnico: o.nomeTecnico || '', assinatura_tecnico: o.assinaturaTecnico || null, nome_responsavel: o.nomeResponsavel || '', assinatura_responsavel: o.assinaturaResponsavel || null, data_criacao: msToISO(o.dataCriacao) })
+            },
             movimentosStock: {
                 tabela: 'movimentos_stock',
                 from: r => ({ id: r.id, adminId: r.admin_id, artigoId: r.artigo_id, obraId: r.obra_id, armazemId: r.armazem_id || null, armazemDestinoId: r.armazem_destino_id || null, funcionarioId: r.funcionario_id || null, tipo: r.tipo, quantidade: Number(r.quantidade) || 0, origemTipo: r.origem_tipo, origemId: r.origem_id, nota: r.nota, data: r.data, dataCriacao: isoToMs(r.data_criacao) }),
@@ -539,10 +550,10 @@
         };
 
         // ordem segura de FKs para upsert; deletes fazem-se na ordem inversa
-        const ORDEM = ['administradores','veiculos','funcionarios','encarregados','clientes','locais','equipamentos','servicos','folhasObra','requisicoes','ponto','pedidos','pedidosRenovacao','ajudas','notificacoes','contratos','registosManutencao','veiculoDocumentos','veiculoIntervencoes','veiculoSinistros','fornecedores','obras','artigos','armazens','encomendas','encomendaItens','movimentosStock','obraMateriais','obraDocumentos','obraPastasDocumentos','obraPontoLonga','autosMedicao','categorias','unidadesArtigo','auditoria','historicoLicencas','alertasGeofence','tiposTrabalhoCustom','tiposFaltaCustom','configSeriesRelatorio','relatoriosEspecialidade','despesasMensais','creditosBancarios','leads','oportunidades','propostas','atividadesComerciais','assistencias','garantias','referencias','ferramentas','levantamentosFerramentas','artigoNumerosSerie','devolucoesObra','devolucaoObraItens'];
+        const ORDEM = ['administradores','veiculos','funcionarios','encarregados','clientes','locais','equipamentos','servicos','folhasObra','requisicoes','ponto','pedidos','pedidosRenovacao','ajudas','notificacoes','contratos','registosManutencao','veiculoDocumentos','veiculoIntervencoes','veiculoSinistros','fornecedores','obras','artigos','armazens','encomendas','encomendaItens','movimentosStock','obraMateriais','obraDocumentos','obraPastasDocumentos','obraPontoLonga','autosMedicao','categorias','unidadesArtigo','auditoria','historicoLicencas','alertasGeofence','tiposTrabalhoCustom','tiposFaltaCustom','configSeriesRelatorio','relatoriosEspecialidade','despesasMensais','creditosBancarios','leads','oportunidades','propostas','atividadesComerciais','assistencias','garantias','referencias','ferramentas','levantamentosFerramentas','artigoNumerosSerie','devolucoesObra','devolucaoObraItens','materiaisEntrega'];
 
-        const licToRow = (adminId, l) => ({ admin_id: adminId, codigo: l.codigo, plano: l.plano, data_inicio: msToISO(l.dataInicio), data_expiracao: msToISO(l.dataExpiracao), dias: l.dias, max_funcionarios: l.maxFuncionarios, ativa: l.ativa !== false, aguarda_pagamento: l.aguardaPagamento === true });
-        const licFromRow = (r) => ({ codigo: r.codigo, plano: r.plano, dataInicio: isoToMs(r.data_inicio), dataExpiracao: isoToMs(r.data_expiracao), dias: r.dias, maxFuncionarios: r.max_funcionarios, ativa: r.ativa, aguardaPagamento: r.aguarda_pagamento === true });
+        const licToRow = (adminId, l) => ({ admin_id: adminId, codigo: l.codigo, plano: l.plano, data_inicio: msToISO(l.dataInicio), data_expiracao: msToISO(l.dataExpiracao), dias: l.dias, max_funcionarios: l.maxFuncionarios, ativa: l.ativa !== false, aguarda_pagamento: l.aguardaPagamento === true, pendente_24h: l.pendente24h === true, limite_24h: msToISO(l.limite24hMs) });
+        const licFromRow = (r) => ({ codigo: r.codigo, plano: r.plano, dataInicio: isoToMs(r.data_inicio), dataExpiracao: isoToMs(r.data_expiracao), dias: r.dias, maxFuncionarios: r.max_funcionarios, ativa: r.ativa, aguardaPagamento: r.aguarda_pagamento === true, pendente24h: r.pendente_24h === true, limite24hMs: isoToMs(r.limite_24h) });
 
         // snapshots do último estado sincronizado (id -> JSON da linha)
         let _snap = {};       // _snap[col] = Map(id -> json)
@@ -665,6 +676,24 @@
                 return { tenantId: perfil.admin_id, superAdmin: false };
             } catch (e) { return { tenantId: null, superAdmin: false }; }
         }
+        // Sem isto, o Supabase corta sempre em 1000 linhas por pedido (limite do PostgREST) —
+        // para a maior parte das empresas isso nunca se nota, mas em contas com tabelas grandes
+        // (ex.: mais de 1000 clientes) fazia com que só os primeiros 1000 chegassem à app; os
+        // restantes nunca apareciam em lado nenhum, por mais bem feita que fosse a pesquisa.
+        // Usada tanto no carregamento inicial como ao recarregar só uma tabela específica.
+        async function _buscarPaginadoGenerico(query, limitePorPagina) {
+            const LIMITE = limitePorPagina || 1000;
+            let todos = [];
+            let offset = 0;
+            while (true) {
+                const { data, error } = await query.range(offset, offset + LIMITE - 1);
+                if (error) return { data: todos, error };
+                todos = todos.concat(data || []);
+                if (!data || data.length < LIMITE) break;
+                offset += LIMITE;
+            }
+            return { data: todos, error: null };
+        }
         async function carregarDados(tenantIdParam, superAdminParam, clienteIdParam) {
             await _syncChain; // espera que qualquer gravação pendente termine antes de recarregar,
                                // para nunca apagar alterações locais ainda não sincronizadas
@@ -737,7 +766,7 @@
                         else if (t === 'referencias') q = q.eq('admin_referenciador_id', tenantId); // esta tabela não tem coluna admin_id
                         else q = q.eq('admin_id', tenantId);
                     }
-                    return q;
+                    return _buscarPaginadoGenerico(q);
                 }));
             } catch (e) {
                 // falhou a ligação a meio (ex: ficou offline agora) — usa a cópia local se existir
@@ -2410,6 +2439,24 @@
         function _esc(s) {
             return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
         }
+        // Janela de 24h dos packs: quando uma licença fica "ativa já, a aguardar confirmação de
+        // pagamento" (primeira ativação ou renovação com a licença já no fim), guarda-se em
+        // limite24hMs a hora-limite. Se passar sem o Super Admin confirmar, a licença é suspensa
+        // (ativa=false → o mesmo estado de "pendente de pagamento" que já existe). Verificado
+        // sempre que a app abre — coerente com o resto da app (opção B).
+        function _verificarJanela24hPacks() {
+            if (!dados.administradores) return;
+            let mudou = false;
+            dados.administradores.forEach(a => {
+                const lic = a.licenca;
+                if (lic && lic.pendente24h && lic.limite24hMs && Date.now() >= lic.limite24hMs && lic.ativa !== false) {
+                    lic.ativa = false;          // suspende (pendente de pagamento)
+                    lic.pendente24h = false;    // a janela já passou, não volta a disparar
+                    mudou = true;
+                }
+            });
+            if (mudou) guardarDados(dados);
+        }
         function _verificarPontoEsquecido() {
             const agora = Date.now();
             const LIMITE_HORAS_ESQUECIMENTO = 12; // fecho automático 12h após a entrada, por pedido
@@ -3762,6 +3809,7 @@
                 _abrirPainelTV();
             }
             _verificarPontoEsquecido();
+            _verificarJanela24hPacks();
             renderizarNotifPessoalBanner();
             renderizarOMeuDia();
             _atualizarBannerLicenca();
@@ -4208,9 +4256,12 @@
                 const ehRondas = (p.tipo || '').startsWith('rondas');
                 const ehModulo = ehContrato || ehFrota || ehArmazem || ehPortal || ehNotif || ehCrm || ehAssist || ehRondas;
                 const ehCancelamento = p.tipo === 'cancelamento';
-                const planoAtual = (ehModulo || ehCancelamento) ? '-' : (admin?.licenca ? PLANOS[admin.licenca.plano]?.label : '-');
-                const planoPedido = ehContrato ? 'Contratos de Manutenção' : ehFrota ? 'Frota' : ehArmazem ? 'Armazém' : ehPortal ? 'Portal do Cliente' : ehNotif ? 'Notificações' : ehCrm ? 'CRM Comercial' : ehAssist ? 'Total Gest Assist' : ehRondas ? 'Rondas / Vigilância' : ehCancelamento ? 'Cancelamento de subscrição' : (PLANOS[p.planoPedido]?.label || p.planoPedido);
-                const valorPedido = ehContrato
+                const ehPack = p.tipo === 'pack';
+                const planoAtual = (ehModulo || ehCancelamento || ehPack) ? '-' : (admin?.licenca ? PLANOS[admin.licenca.plano]?.label : '-');
+                const planoPedido = ehPack ? `Pack ${PACKS[p.packPedido]?.nome || p.packPedido}` : ehContrato ? 'Contratos de Manutenção' : ehFrota ? 'Frota' : ehArmazem ? 'Armazém' : ehPortal ? 'Portal do Cliente' : ehNotif ? 'Notificações' : ehCrm ? 'CRM Comercial' : ehAssist ? 'Total Gest Assist' : ehRondas ? 'Rondas / Vigilância' : ehCancelamento ? 'Cancelamento de subscrição' : (PLANOS[p.planoPedido]?.label || p.planoPedido);
+                const valorPedido = ehPack
+                    ? (p.valor != null ? p.valor.toFixed(2) + '€' : '-')
+                    : ehContrato
                     ? (p.tipo === 'contrato_anual' ? PRECO_CONTRATOS_ANUAL.toFixed(2) + '€' : PRECO_CONTRATOS_MENSAL.toFixed(2) + '€')
                     : ehFrota
                     ? (p.tipo === 'frota_anual' ? PRECO_FROTA_ANUAL.toFixed(2) + '€' : PRECO_FROTA_MENSAL.toFixed(2) + '€')
@@ -4227,7 +4278,8 @@
                     : ehRondas
                     ? 'Grátis'
                     : (PLANOS[p.planoPedido]?.preco ? PLANOS[p.planoPedido].preco.toFixed(2) + '€' : '-');
-                const tipoLabel = p.tipo === 'renovacao' ? 'Renovação'
+                const tipoLabel = p.tipo === 'pack' ? `Pack ${PACKS[p.packPedido]?.nome || p.packPedido} (${p.periodoPedido === 'anual' ? 'Anual' : 'Mensal'}, ${p.funcMax} func.)`
+                    : p.tipo === 'renovacao' ? 'Renovação'
                     : p.tipo === 'alteracao' ? 'Alteração de Plano'
                     : p.tipo === 'contrato_mensal' ? 'Contratos (Mensal)'
                     : p.tipo === 'contrato_anual' ? 'Contratos (Anual)'
@@ -4530,8 +4582,34 @@
                 expiracaoMs: admin.rondasExpiracao, precoTexto: 'grátis (fase de lançamento)', pedidoPendente: rondasPedidoPend,
                 descricaoInativo: 'Gestão de rondas de segurança: postos com QR/NFC, rotas com horário e SLA, execução com scanner no telemóvel e alertas automáticos de postos saltados ou fora de horário. Grátis por agora, fase de lançamento. Ative em "Alterar Plano" no topo desta página.'
             });
+            // Cartão de destaque do pack (modelo novo) — só aparece se a conta tiver um pack.
+            // Mostra o pack, o escalão e o preço, mais a lista do que inclui. As contas antigas
+            // (sem pack) não veem isto e continuam a ver só os add-ons individuais como antes.
+            const _packAtual = packDoAdmin(admin);
+            let _packCardHtml = '';
+            if (_packAtual) {
+                const def = PACKS[_packAtual];
+                const esc = admin.packEscalao || '5';
+                const escLabel = esc === '50+' ? 'Mais de 50 (blocos de +5)' : `Até ${esc} funcionários`;
+                const precoBase = PACK_PRECOS[_packAtual]?.[esc === '50+' ? 50 : esc];
+                const inclui = [];
+                if (def.flags?.expressAtivo) inclui.push('Menu simplificado (Express)');
+                if (def.flags?.segurancaAtivo) inclui.push('Relatórios de especialidade');
+                (def.planos || []).forEach(p => {
+                    const nome = { contratosPlano: 'Contratos de Manutenção', frotaPlano: 'Frota', armazemPlano: 'Armazém / Obras', crmPlano: 'CRM Comercial', assistPlano: 'Assist', erpPlano: 'Integração ERP', rondasPlano: 'Rondas', portalPlano: 'Portal do Cliente' }[p];
+                    if (nome) inclui.push(nome);
+                });
+                _packCardHtml = `
+                    <div class="report-card" style="border-left-color:#1e40af;background:linear-gradient(135deg,#eff6ff,#fff);">
+                        <h4><i class="fas fa-box-open"></i> Pack ${def.nome}</h4>
+                        <div class="report-item"><span>Escalão</span><span>${escLabel}</span></div>
+                        ${precoBase ? `<div class="report-item"><span>Preço base</span><span>${precoBase.toFixed(2)} €/mês${_IVA_INC}</span></div>` : ''}
+                        <div style="margin-top:10px;font-size:.85rem;color:#334155;"><strong>Inclui:</strong> Base (OS, folhas, clientes, contratos, relatórios personalizados)${inclui.length ? ', ' + inclui.join(', ') : ''}.</div>
+                    </div>`;
+            }
             container.innerHTML = `
                     ${fbBanner}
+                    ${_packCardHtml}
                     <div class="report-card ${fbClasse}" style="border-left-color: ${valida ? '#16a34a' : '#dc2626'};">
                         <h4><i class="fas fa-id-card"></i> ${admin.nome}</h4>
                         <div class="report-item"><span>Empresa</span><span>${admin.empresa || '-'}</span></div>
@@ -4784,6 +4862,7 @@
                                     <button class="btn btn-sm" style="background:${f.suspenso ? '#16a34a' : '#b45309'};color:#fff;" onclick="toggleSuspensaoPessoa('${f._tipo === 'encarregado' ? 'encarregado' : 'funcionario'}','${f.id}')" title="${f.suspenso ? 'Reativar' : 'Suspender'}"><i class="fas ${f.suspenso ? 'fa-rotate-left' : 'fa-user-slash'}"></i></button>
                                     <button class="btn btn-sm" style="background:#6d28d9;color:#fff;" onclick="definirPin('${f._tipo === 'encarregado' ? 'encarregado' : 'funcionario'}','${f.id}')" title="Definir PIN do Modo Quiosque"><i class="fas fa-hashtag"></i></button>
                                     <button class="btn btn-sm" style="background:#0f6b5c;color:#fff;" onclick="repararContaAcesso('${f._tipo === 'encarregado' ? 'encarregado' : 'funcionario'}','${f.id}')" title="Criar/reparar conta de acesso (login)"><i class="fas fa-key"></i></button>
+                                    ${moduloMateriaisEntregaAtivo(adminAtual()) ? `<button class="btn btn-sm" style="background:#b45309;color:#fff;" onclick="abrirMateriaisEntrega('${f.id}')" title="Materiais entregues/devolvidos"><i class="fas fa-people-carry-box"></i></button>` : ''}
                                     ${f._tipo === 'encarregado'
                                         ? `<button class="btn btn-sm btn-warning" onclick="abrirModalEditarEncarregado('${f.id}')"><i class="fas fa-edit"></i></button>
                                            <button class="btn btn-sm btn-danger" onclick="excluirEncarregado('${f.id}')"><i class="fas fa-trash"></i></button>`
@@ -5050,12 +5129,12 @@
                 lista = [];
             }
             const totalGeral = lista.length;
-            lista = _aplicarFiltroOrdenacao('clientes', lista, ['nome', 'numeroCliente', 'telefone', 'endereco', 'email'], {
+            lista = _aplicarFiltroOrdenacao('clientes', lista, ['nome', 'numeroCliente', 'telefone', 'endereco', 'email', 'nif'], {
                 nome: (a, b) => (a.nome || '').localeCompare(b.nome || ''),
                 numeroCliente: (a, b) => (a.numeroCliente || '').localeCompare(b.numeroCliente || '', undefined, { numeric: true })
             });
             const tb = document.getElementById('clientesToolbar');
-            if (tb) tb.innerHTML = totalGeral ? _toolbarHtml('clientes', 'Pesquisar por nome, telefone, email…', lista.length, totalGeral) : '';
+            if (tb) tb.innerHTML = totalGeral ? _toolbarHtml('clientes', 'Pesquisar por nome, telefone, email, NIF…', lista.length, totalGeral) : '';
             if (lista.length === 0) {
                 tbody.innerHTML = '';
                 empty.style.display = totalGeral ? 'none' : 'block';
@@ -5069,8 +5148,8 @@
                     <tr>
                         <td>${escapeHtmlSimples(c.numeroCliente || '-')}</td>
                         <td>
-                            <button class="btn btn-sm" style="background:#f1f5f9;color:#334155;margin-right:6px;" onclick="_toggleAcordeaoCliente('${c.id}')" title="${numLocais > 0 ? (numLocais + ' instalação(ões) + Sede') : 'Ver Sede / intervenções'}"><i class="fas fa-chevron-down" id="acordeao-icone-${c.id}"></i></button>
-                            <strong>${escapeHtmlSimples(c.nome)}</strong>
+                            <button class="btn btn-sm" style="background:#f1f5f9;color:#334155;margin-right:6px;" onclick="event.stopPropagation();_toggleAcordeaoCliente('${c.id}')" title="${numLocais > 0 ? (numLocais + ' instalação(ões) + Sede') : 'Ver Sede / intervenções'}"><i class="fas fa-chevron-down" id="acordeao-icone-${c.id}"></i></button>
+                            <strong style="cursor:pointer;color:#152a52;" onclick="abrirWorkspaceCliente('${c.id}')" title="Abrir ficha completa do cliente">${escapeHtmlSimples(c.nome)}</strong>
                             <span style="font-size:.7rem;color:#64748b;margin-left:6px;">(${numLocais > 0 ? (numLocais + 1) + ' instalações' : 'Sede'})</span>
                         </td>
                         <td>${escapeHtmlSimples(c.telefone || '-')}</td>
@@ -5092,6 +5171,432 @@
                     </tr>
                 `;
             }).join('');
+        }
+
+        // =====================================================================
+        //  WORKSPACE DO CLIENTE — Fase 1 (Resumo + Locais)
+        //  Ao clicar no nome de um cliente na lista, abre este painel em vez de
+        //  ir direto para a edição. Reúne o que já existe (locais, OS, contratos)
+        //  visto por cliente, com ações rápidas no topo. Os separadores que ainda
+        //  não têm conteúdo próprio (OS, Assistências, Contratos, Equipamentos,
+        //  Financeiro) mostram uma mensagem simples por agora — ficam para as
+        //  próximas fases, sem quebrar nada do que já existe nesses menus.
+        // =====================================================================
+        const WS_CLIENTE_ABAS = ['resumo', 'locais', 'os', 'assistencias', 'contratos', 'equipamentos', 'financeiro'];
+        const WS_CLIENTE_ABAS_LABEL = { resumo: 'Resumo', locais: 'Locais', os: 'Ordens de Serviço', assistencias: 'Assistências', contratos: 'Contratos', equipamentos: 'Equipamentos', financeiro: 'Financeiro' };
+        function abrirWorkspaceCliente(clienteId) {
+            const cliente = dados.clientes?.find(c => c.id === clienteId);
+            if (!cliente) return;
+            let overlay = document.getElementById('wsClienteOverlay');
+            if (!overlay) { overlay = document.createElement('div'); overlay.id = 'wsClienteOverlay'; overlay.className = 'modal-overlay'; document.body.appendChild(overlay); }
+            overlay.classList.add('open');
+            _wsClienteAba(clienteId, 'resumo');
+        }
+        function _wsClienteFechar() {
+            document.getElementById('wsClienteOverlay')?.classList.remove('open');
+        }
+        async function _wsClienteAba(clienteId, aba) {
+            const cliente = dados.clientes?.find(c => c.id === clienteId);
+            const overlay = document.getElementById('wsClienteOverlay');
+            if (!cliente || !overlay) return;
+            const locaisCliente = (dados.locais || []).filter(l => l.clienteId === clienteId);
+            const iniciais = (cliente.nome || '?').trim().split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase();
+            overlay.innerHTML = `
+                <div class="modal" style="max-width:1100px;width:96vw;height:90vh;max-height:90vh;display:flex;flex-direction:column;padding:0;">
+                    <div style="display:flex;align-items:center;gap:14px;padding:18px 22px;border-bottom:1px solid #e2e8f0;flex-shrink:0;">
+                        <div style="width:48px;height:48px;border-radius:12px;background:#eef2f7;display:flex;align-items:center;justify-content:center;font-weight:700;color:#152a52;font-size:1.05rem;flex-shrink:0;">${iniciais}</div>
+                        <div style="flex:1;min-width:0;">
+                            <div style="font-weight:700;font-size:1.15rem;">${escapeHtmlSimples(cliente.nome)}</div>
+                            <div style="font-size:.8rem;color:#64748b;">${cliente.nif ? 'NIF ' + escapeHtmlSimples(cliente.nif) + ' · ' : ''}${escapeHtmlSimples(cliente.cidade || cliente.endereco || '—')} · ${locaisCliente.length + 1} local${locaisCliente.length ? 'is' : ''}</div>
+                        </div>
+                        <button class="close-modal" onclick="_wsClienteFechar()">&times;</button>
+                    </div>
+                    <div style="padding:14px 22px 0;display:flex;gap:8px;flex-wrap:wrap;flex-shrink:0;">
+                        <button class="btn btn-sm btn-primary" onclick="_wsMarcarOS('${clienteId}')"><i class="fas fa-clipboard-plus"></i> Marcar OS</button>
+                        <button class="btn btn-sm btn-outline" onclick="abrirModalNovoLocalCliente('${clienteId}')"><i class="fas fa-map-pin"></i> Novo local</button>
+                        <button class="btn btn-sm btn-outline" onclick="abrirModal('cliente','${clienteId}')"><i class="fas fa-edit"></i> Editar dados</button>
+                        <button class="btn btn-sm btn-outline" onclick="abrirHistoricoCliente('${clienteId}')"><i class="fas fa-clock-rotate-left"></i> Histórico completo</button>
+                    </div>
+                    <div style="padding:12px 22px 0;display:flex;gap:4px;border-bottom:1px solid #e2e8f0;overflow-x:auto;flex-shrink:0;">
+                        ${WS_CLIENTE_ABAS.map(a => `<button class="ws-cliente-aba-btn ${a === aba ? 'active' : ''}" onclick="_wsClienteAba('${clienteId}','${a}')">${WS_CLIENTE_ABAS_LABEL[a]}</button>`).join('')}
+                    </div>
+                    <div style="flex:1;overflow-y:auto;padding:18px 22px;" id="wsClienteConteudo"><p class="help-text">A carregar…</p></div>
+                </div>
+            `;
+            const conteudo = document.getElementById('wsClienteConteudo');
+            if (aba === 'resumo') conteudo.innerHTML = await _wsResumoHtml(clienteId);
+            else if (aba === 'locais') conteudo.innerHTML = _wsLocaisHtml(clienteId);
+            else if (aba === 'os') conteudo.innerHTML = await _wsOsHtml(clienteId);
+            else if (aba === 'contratos') conteudo.innerHTML = _wsContratosHtml(clienteId);
+            else if (aba === 'assistencias') conteudo.innerHTML = _wsAssistenciasHtml(clienteId);
+            else if (aba === 'equipamentos') conteudo.innerHTML = _wsEquipamentosHtml(clienteId);
+            else if (aba === 'financeiro') conteudo.innerHTML = await _wsFinanceiroHtml(clienteId);
+            else conteudo.innerHTML = `<p class="help-text">Este separador ainda não está pronto nesta primeira fase do workspace — por agora, usa "${WS_CLIENTE_ABAS_LABEL[aba]}" no menu principal, já filtrando por este cliente se precisares.</p>`;
+        }
+        // Financeiro por cliente — usa o valor e o estado de pagamento já registados em cada OS
+        // (o mesmo "€ Pago / Não pago" que já usas na ficha da OS). Não inventa nenhum dado novo,
+        // só soma o que já lá está.
+        async function _wsFinanceiroHtml(clienteId) {
+            const desde = _dataCorteMeses(12);
+            await garantirServicosCarregados(desde);
+            const osComValor = (dados.servicos || []).filter(s => s.clienteId === clienteId && (s.data || '') >= desde && s.valor != null && s.valor > 0).sort((a, b) => (b.data || '').localeCompare(a.data || ''));
+            if (!osComValor.length) return `<p class="help-text">Este cliente ainda não tem nenhuma OS com valor registado nos últimos 12 meses.</p>`;
+            const totalFaturado = osComValor.reduce((s, o) => s + o.valor, 0);
+            const totalPorCobrar = osComValor.filter(o => o.pago !== true).reduce((s, o) => s + o.valor, 0);
+            const fmt = v => v.toLocaleString('pt-PT', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+            const linhas = osComValor.map(s => {
+                const pago = s.pago === true;
+                return `<div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #f1f5f9;">
+                    <i class="fas fa-file-invoice-dollar" style="color:#94a3b8;width:18px;"></i>
+                    <div style="flex:1;min-width:0;">
+                        <div style="font-size:.86rem;font-weight:600;">${s.numeroRegisto ? '#' + escapeHtmlSimples(s.numeroRegisto) + ' — ' : ''}${escapeHtmlSimples(s.descricao || 'OS')}</div>
+                        <div style="font-size:.76rem;color:#64748b;">${(s.data || '').split('-').reverse().join('/')}${s.faturaMoloniUrl ? ` · <a href="${s.faturaMoloniUrl}" target="_blank" onclick="event.stopPropagation();" style="color:#2456d8;">Ver fatura</a>` : ''}</div>
+                    </div>
+                    <div style="text-align:right;">
+                        <div style="font-size:.9rem;font-weight:700;">${fmt(s.valor)}</div>
+                        <span style="font-size:.68rem;font-weight:600;color:${pago ? '#166534' : '#991b1b'};">${pago ? 'Pago' : 'Por cobrar'}</span>
+                    </div>
+                </div>`;
+            }).join('');
+            return `
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px;">
+                    <div style="background:#f8fafc;border-radius:10px;padding:14px;"><div style="font-size:.76rem;color:#64748b;">Faturado (12 meses)</div><div style="font-size:1.3rem;font-weight:700;">${fmt(totalFaturado)}</div></div>
+                    <div style="background:${totalPorCobrar ? '#fef2f2' : '#f8fafc'};border-radius:10px;padding:14px;"><div style="font-size:.76rem;color:${totalPorCobrar ? '#991b1b' : '#64748b'};">Por cobrar</div><div style="font-size:1.3rem;font-weight:700;color:${totalPorCobrar ? '#991b1b' : 'inherit'};">${fmt(totalPorCobrar)}</div></div>
+                </div>
+                <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:6px 18px;">${linhas}</div>
+            `;
+        }
+        // Os equipamentos ligam-se a um Local (localId), não diretamente a um cliente — por isso
+        // junta a Sede (localId null) com todos os locais deste cliente para encontrar os que lhe
+        // pertencem. Também não têm ecrã de edição próprio — vivem dentro do contrato a que
+        // pertencem, por isso o link "Ver no contrato" abre esse contrato.
+        function _wsEquipamentosHtml(clienteId) {
+            const locaisCliente = (dados.locais || []).filter(l => l.clienteId === clienteId);
+            const idsLocaisCliente = new Set([null, ...locaisCliente.map(l => l.id)]);
+            const nomeLocal = localId => localId ? (locaisCliente.find(l => l.id === localId)?.nome || 'Local') : 'Sede';
+            const equipCliente = (dados.equipamentos || []).filter(e => idsLocaisCliente.has(e.localId || null));
+            if (!equipCliente.length) return `<p class="help-text">Este cliente ainda não tem equipamentos registados. Os equipamentos adicionam-se a partir de um contrato — vai ao separador "Contratos" para os associares.</p>`;
+            const contratosCliente = (dados.contratos || []).filter(c => c.clienteId === clienteId);
+            const hoje = getDataHoje();
+            const linhas = equipCliente.map(e => {
+                const contratoDono = contratosCliente.find(c => (c.equipamentosIds || []).includes(e.id));
+                let garantiaTxt = '', corGarantia = null;
+                if (e.garantiaAte) {
+                    garantiaTxt = ` · garantia até ${e.garantiaAte.split('-').reverse().join('/')}`;
+                    corGarantia = e.garantiaAte < hoje ? ['#991b1b', '#fee2e2'] : null;
+                }
+                return `<div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #f1f5f9;${contratoDono ? 'cursor:pointer;' : ''}" ${contratoDono ? `onclick="_wsClienteFechar();abrirModalEquipamentosContrato('${contratoDono.id}')"` : ''}>
+                    <i class="fas fa-microchip" style="color:#94a3b8;width:18px;"></i>
+                    <div style="flex:1;min-width:0;">
+                        <div style="font-size:.86rem;font-weight:600;">${escapeHtmlSimples(EQUIP_TIPOS[e.tipo] || e.tipo || 'Equipamento')}${e.marca ? ' — ' + escapeHtmlSimples(e.marca) : ''}</div>
+                        <div style="font-size:.76rem;color:#64748b;">${escapeHtmlSimples(nomeLocal(e.localId))}${e.numeroSerie ? ' · nº série ' + escapeHtmlSimples(e.numeroSerie) : ''}${garantiaTxt}</div>
+                    </div>
+                    ${corGarantia ? `<span style="font-size:.7rem;font-weight:600;padding:3px 9px;border-radius:6px;background:${corGarantia[1]};color:${corGarantia[0]};white-space:nowrap;">Garantia expirada</span>` : ''}
+                    ${contratoDono ? `<i class="fas fa-chevron-right" style="color:#cbd5e1;"></i>` : ''}
+                </div>`;
+            }).join('');
+            return `
+                <div class="help-text" style="margin:0 0 12px;">${equipCliente.length} equipamento${equipCliente.length === 1 ? '' : 's'} registado${equipCliente.length === 1 ? '' : 's'} (Sede + locais).</div>
+                <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:6px 18px;">${linhas}</div>
+            `;
+        }
+        function _wsAssistenciasHtml(clienteId) {
+            const assistCliente = (dados.assistencias || []).filter(a => a.clienteId === clienteId && !a.apagadoSuperAdmin).sort((a, b) => (b.dataCriacao || 0) - (a.dataCriacao || 0));
+            const cabecalho = `
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                    <div class="help-text" style="margin:0;">${assistCliente.length} pedido${assistCliente.length === 1 ? '' : 's'} de assistência registado${assistCliente.length === 1 ? '' : 's'}.</div>
+                    <button class="btn btn-sm btn-primary" onclick="_wsAssistNovoForm('${clienteId}')"><i class="fas fa-plus"></i> Nova assistência</button>
+                </div>
+                <div id="wsAssistFormArea"></div>
+            `;
+            if (!assistCliente.length) return cabecalho + `<p class="help-text">Este cliente ainda não tem nenhum pedido de assistência registado.</p>${_wsAssistBotaoAbrirApp()}`;
+            const ASSIST_PRIORIDADES = { baixa: { label: 'Baixa', cor: '#64748b' }, normal: { label: 'Normal', cor: '#2456d8' }, alta: { label: 'Alta', cor: '#b0650a' }, urgente: { label: 'Urgente', cor: '#d1342f' } };
+            const estadoLabel = { aberta: 'Aberta', andamento: 'Em andamento', resolvida: 'Resolvida', fechada: 'Fechada' };
+            const estadoCor = { aberta: ['#92400e', '#fef3c7'], andamento: ['#1e40af', '#dbeafe'], resolvida: ['#166534', '#dcfce7'], fechada: ['#475569', '#f1f5f9'] };
+            const linhas = assistCliente.map(a => {
+                const [corTexto, corFundo] = estadoCor[a.estado] || estadoCor.aberta;
+                const prio = ASSIST_PRIORIDADES[a.prioridade] || ASSIST_PRIORIDADES.normal;
+                // Se já gerou uma OS, "ver" abre essa OS diretamente (já cá dentro da app); senão,
+                // abre o TotalGest Assist — a área própria destes pedidos — já no ecrã de criar a
+                // OS a partir dele, que é o próprio fluxo que já usas hoje.
+                const onclick = a.osGeradaId
+                    ? `_wsClienteFechar();abrirVerOS('${a.osGeradaId}')`
+                    : `window.open('TOTALGEST_ASSIST.html?criarOS=${a.id}', '_blank')`;
+                return `<div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #f1f5f9;cursor:pointer;" onclick="${onclick}">
+                    <i class="fas fa-headset" style="color:#94a3b8;width:18px;"></i>
+                    <div style="flex:1;min-width:0;">
+                        <div style="font-size:.86rem;font-weight:600;">${a.numero ? '#' + escapeHtmlSimples(a.numero) + ' — ' : ''}${escapeHtmlSimples(a.assunto || 'Pedido de assistência')}</div>
+                        <div style="font-size:.76rem;color:#64748b;">${a.dataCriacao ? new Date(a.dataCriacao).toLocaleDateString('pt-PT') : '—'} · <span style="color:${prio.cor};font-weight:600;">${prio.label}</span> · ${a.atribuidoId ? escapeHtmlSimples(obterNomeFuncionario(a.atribuidoId) || 'Atribuída') : 'Por atribuir'}${a.osGeradaId ? ' · OS já criada' : ''}</div>
+                    </div>
+                    <span style="font-size:.7rem;font-weight:600;padding:3px 9px;border-radius:6px;background:${corFundo};color:${corTexto};white-space:nowrap;">${estadoLabel[a.estado] || 'Aberta'}</span>
+                </div>`;
+            }).join('');
+            return cabecalho + `
+                <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:6px 18px;">${linhas}</div>
+                ${_wsAssistBotaoAbrirApp()}
+            `;
+        }
+        // Criar uma assistência sem sair do workspace — fica logo válida "por atribuir" (sem
+        // técnico definido ainda), tal como já é possível fazer no Total Gest Assist.
+        function _wsAssistNovoForm(clienteId) {
+            const area = document.getElementById('wsAssistFormArea');
+            if (!area) return;
+            if (area.dataset.aberto === '1') { area.innerHTML = ''; area.dataset.aberto = ''; return; }
+            area.dataset.aberto = '1';
+            const ASSIST_PRIORIDADES = { baixa: 'Baixa', normal: 'Normal', alta: 'Alta', urgente: 'Urgente' };
+            area.innerHTML = `
+                <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:16px 18px;margin-bottom:14px;">
+                    <div class="form-group"><label>Assunto</label><input type="text" id="wsa_assunto" placeholder="Ex: Alarme a disparar sem motivo" /></div>
+                    <div class="form-group"><label>Descrição (opcional)</label><textarea id="wsa_descricao" rows="2" placeholder="Mais detalhes sobre o pedido..."></textarea></div>
+                    <div style="display:flex;gap:10px;">
+                        <div class="form-group" style="flex:1;"><label>Prioridade</label>
+                            <select id="wsa_prioridade">${Object.entries(ASSIST_PRIORIDADES).map(([k, l]) => `<option value="${k}" ${k === 'normal' ? 'selected' : ''}>${l}</option>`).join('')}</select>
+                        </div>
+                        <div class="form-group" style="flex:1;"><label>Atribuir a</label>
+                            <select id="wsa_atribuido"><option value="">— Por atribuir —</option>${_mePessoas().map(p => `<option value="${p.id}">${escapeHtmlSimples(p.nome)}</option>`).join('')}</select>
+                        </div>
+                    </div>
+                    <div style="display:flex;gap:8px;margin-top:6px;">
+                        <button type="button" class="btn btn-sm btn-primary" onclick="_wsAssistGuardar('${clienteId}')"><i class="fas fa-check"></i> Criar assistência</button>
+                        <button type="button" class="btn btn-sm btn-outline" onclick="_wsAssistNovoForm('${clienteId}')">Cancelar</button>
+                    </div>
+                </div>
+            `;
+        }
+        async function _wsAssistGuardar(clienteId) {
+            const assunto = document.getElementById('wsa_assunto')?.value.trim();
+            if (!assunto) { alert('Escreve o assunto do pedido.'); return; }
+            const tid = _tenantId();
+            const registo = {
+                id: gerarId(), adminId: tid, numero: _wsGerarNumeroAssistencia(), clienteId,
+                assunto, descricao: document.getElementById('wsa_descricao')?.value.trim() || null,
+                prioridade: document.getElementById('wsa_prioridade')?.value || 'normal',
+                estado: 'aberta',
+                atribuidoId: document.getElementById('wsa_atribuido')?.value || null, // fica por atribuir se não se escolher ninguém
+                criadoPor: usuarioLogado?.id || null, osGeradaId: null, notas: [],
+                dataCriacao: Date.now(), dataModificacao: Date.now(),
+            };
+            dados.assistencias = dados.assistencias || [];
+            dados.assistencias.push(registo);
+            try { await guardarDados(dados, ['assistencias']); } catch (e) { alert('⚠️ Ficou no ecrã, mas ainda não foi possível confirmar no servidor.'); }
+            const conteudo = document.getElementById('wsClienteConteudo');
+            if (conteudo) conteudo.innerHTML = _wsAssistenciasHtml(clienteId);
+        }
+        // Mesma lógica de numeração já usada no Total Gest Assist (AST-<iniciais><mm><aa>-N).
+        function _wsGerarNumeroAssistencia() {
+            const admin = dados.administradores?.find(a => a.id === _tenantId());
+            const iniciais = _empresaIniciais(admin?.empresa || admin?.nome || '');
+            const agora = new Date();
+            const base = `AST-${iniciais}${String(agora.getMonth() + 1).padStart(2, '0')}${String(agora.getFullYear()).slice(-2)}`;
+            const existentes = (dados.assistencias || []).filter(a => a.numero && a.numero.startsWith(base));
+            return base + '-' + (existentes.length + 1);
+        }
+        function _wsAssistBotaoAbrirApp() {
+            return `<div style="text-align:center;margin-top:14px;">
+                <button class="btn btn-sm btn-outline" onclick="window.open('TOTALGEST_ASSIST.html', '_blank')"><i class="fas fa-external-link-alt"></i> Abrir Total Gest Assist</button>
+            </div>`;
+        }
+        function _wsContratosHtml(clienteId) {
+            const contratosCliente = (dados.contratos || []).filter(c => c.clienteId === clienteId).sort((a, b) => (a.validadeContrato || '9999').localeCompare(b.validadeContrato || '9999'));
+            if (!contratosCliente.length) return `<p class="help-text">Este cliente ainda não tem nenhum contrato de manutenção registado.</p>`;
+            const hoje = getDataHoje();
+            const em30 = new Date(Date.now() + 30 * 86400000).toISOString().slice(0, 10);
+            const locaisCliente = (dados.locais || []).filter(l => l.clienteId === clienteId);
+            const nomeLocal = localId => localId ? (locaisCliente.find(l => l.id === localId)?.nome || 'Local') : 'Sede';
+            const nomesRelatorio = { REX: 'Extintores', RBI: 'Bocas de Incêndio', RSI: 'Central de Incêndio', RCM: 'Central de Monóxido', RIE: 'Iluminação de Emergência', RCP: 'Portas Corta-Fogo', RCCTV: 'Videovigilância', RIN: 'Deteção de Intrusão', RDI: 'Declaração de Instalação' };
+            const linhas = contratosCliente.map(c => {
+                let cor = ['#475569', '#f1f5f9'], estado = 'Sem validade definida';
+                if (c.validadeContrato) {
+                    if (c.validadeContrato < hoje) { cor = ['#991b1b', '#fee2e2']; estado = 'Expirado'; }
+                    else if (c.validadeContrato <= em30) { cor = ['#92400e', '#fef3c7']; estado = 'A vencer'; }
+                    else { cor = ['#166534', '#dcfce7']; estado = 'Válido'; }
+                }
+                // Os relatórios de especialidade não têm contratoId próprio — ligam-se por
+                // cliente + local + tipo. Cruza pelos tipos de trabalho deste contrato, no
+                // mesmo local, para mostrar os relatórios que lhe pertencem na prática.
+                const tiposContrato = c.tiposTrabalho || [];
+                const relatoriosDoContrato = (dados.relatoriosEspecialidade || [])
+                    .filter(r => r.clienteId === clienteId && (r.localId || null) === (c.localId || null) && tiposContrato.includes(r.tipo) && !r.rascunho)
+                    .sort((a, b) => (b.data || '').localeCompare(a.data || ''));
+                const relatoriosHtml = relatoriosDoContrato.length
+                    ? `<div style="margin-top:6px;padding-left:28px;">${relatoriosDoContrato.slice(0, 3).map(r => `
+                        <div style="display:flex;align-items:center;gap:8px;font-size:.76rem;color:#64748b;padding:3px 0;cursor:pointer;" onclick="event.stopPropagation();_verRelatorioEspecialidadeSnapshot('${r.id}', false)">
+                            <i class="fas fa-file-lines" style="width:14px;"></i>
+                            ${escapeHtmlSimples(nomesRelatorio[r.tipo] || r.tipo)} — ${escapeHtmlSimples(r.numeroDocumento || '')} · ${(r.data || '').split('-').reverse().join('/')}
+                        </div>`).join('')}${relatoriosDoContrato.length > 3 ? `<div style="font-size:.74rem;color:#94a3b8;padding:3px 0;">+ ${relatoriosDoContrato.length - 3} mais antigo(s)</div>` : ''}</div>`
+                    : '';
+                return `<div style="padding:11px 0;border-bottom:1px solid #f1f5f9;">
+                    <div style="display:flex;align-items:center;gap:10px;cursor:pointer;" onclick="_wsClienteFechar();abrirModal('contrato','${c.id}')">
+                        <i class="fas fa-file-signature" style="color:#94a3b8;width:18px;"></i>
+                        <div style="flex:1;min-width:0;">
+                            <div style="font-size:.86rem;font-weight:600;">Contrato ${escapeHtmlSimples(c.numero || '—')} — ${escapeHtmlSimples(_equipStrContrato(c))}</div>
+                            <div style="font-size:.76rem;color:#64748b;">${escapeHtmlSimples(nomeLocal(c.localId))} · ${PERIODICIDADE_LABEL[c.periodicidade] || '—'}${c.validadeContrato ? ' · válido até ' + c.validadeContrato.split('-').reverse().join('/') : ''}</div>
+                        </div>
+                        <span style="font-size:.7rem;font-weight:600;padding:3px 9px;border-radius:6px;background:${cor[1]};color:${cor[0]};white-space:nowrap;">${estado}</span>
+                    </div>
+                    ${relatoriosHtml}
+                </div>`;
+            }).join('');
+            return `
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                    <div class="help-text" style="margin:0;">${contratosCliente.length} contrato${contratosCliente.length === 1 ? '' : 's'} registado${contratosCliente.length === 1 ? '' : 's'}.</div>
+                    <button class="btn btn-sm btn-primary" onclick="_wsNovoContrato('${clienteId}')"><i class="fas fa-plus"></i> Novo contrato</button>
+                </div>
+                <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:6px 18px;">${linhas}</div>
+            `;
+        }
+        async function _wsOsHtml(clienteId, desdeStr) {
+            const desde = desdeStr || _dataCorteMeses(12);
+            await garantirServicosCarregados(desde);
+            const osCliente = (dados.servicos || []).filter(s => s.clienteId === clienteId && (s.data || '') >= desde).sort((a, b) => (b.data || '').localeCompare(a.data || '') || (b.hora || '').localeCompare(a.hora || ''));
+            if (!osCliente.length) return `<p class="help-text">Ainda não há nenhuma Ordem de Serviço registada para este cliente neste período.</p>${_wsOsBotaoCarregarMais(clienteId, desde)}`;
+            const cores = { 'pendente': ['#92400e', '#fef3c7'], 'em andamento': ['#1e40af', '#dbeafe'], 'concluído': ['#166534', '#dcfce7'], 'concluido': ['#166534', '#dcfce7'], 'por aprovar': ['#92400e', '#fde68a'], 'recusado': ['#991b1b', '#fee2e2'] };
+            const locaisCliente = (dados.locais || []).filter(l => l.clienteId === clienteId);
+            const nomeLocal = localId => localId ? (locaisCliente.find(l => l.id === localId)?.nome || 'Local') : 'Sede';
+            const linhas = osCliente.map(s => {
+                const [corTexto, corFundo] = cores[s.status] || ['#475569', '#f1f5f9'];
+                const tipos = (s.tiposTrabalho || []).join(', ') || '—';
+                return `<div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #f1f5f9;cursor:pointer;" onclick="_wsClienteFechar();abrirVerOS('${s.id}')">
+                    <i class="fas fa-clipboard-list" style="color:#94a3b8;width:18px;"></i>
+                    <div style="flex:1;min-width:0;">
+                        <div style="font-size:.86rem;font-weight:600;">${s.numeroRegisto ? '#' + escapeHtmlSimples(s.numeroRegisto) + ' — ' : ''}${escapeHtmlSimples(s.descricao || tipos)}</div>
+                        <div style="font-size:.76rem;color:#64748b;">${(s.data || '').split('-').reverse().join('/')} · ${escapeHtmlSimples(nomeLocal(s.localId))} · ${escapeHtmlSimples(obterNomeFuncionario(s.funcionarioId) || 'Sem técnico')}</div>
+                    </div>
+                    <span style="font-size:.7rem;font-weight:600;padding:3px 9px;border-radius:6px;background:${corFundo};color:${corTexto};white-space:nowrap;text-transform:capitalize;">${escapeHtmlSimples(s.status || 'pendente')}</span>
+                </div>`;
+            }).join('');
+            return `
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                    <div class="help-text" style="margin:0;">${osCliente.length} Ordem${osCliente.length === 1 ? '' : 'ns'} de Serviço desde ${desde.split('-').reverse().join('/')}.</div>
+                    <button class="btn btn-sm btn-primary" onclick="_wsMarcarOS('${clienteId}')"><i class="fas fa-plus"></i> Nova OS</button>
+                </div>
+                <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:6px 18px;">${linhas}</div>
+                ${_wsOsBotaoCarregarMais(clienteId, desde)}
+            `;
+        }
+        function _wsOsBotaoCarregarMais(clienteId, desdeAtual) {
+            return `<div style="text-align:center;margin-top:14px;">
+                <button class="btn btn-sm btn-outline" id="ws-os-carregar-mais" onclick="_wsOsCarregarMais('${clienteId}','${desdeAtual}')"><i class="fas fa-clock-rotate-left"></i> Carregar mais antigas</button>
+            </div>`;
+        }
+        // Mesma lógica do "carregar mais" já usado no Histórico de Intervenções — recua a data
+        // de corte 3 meses de cada vez, e avisa quando já não há dados mais antigos.
+        async function _wsOsCarregarMais(clienteId, desdeAtualStr) {
+            const btn = document.getElementById('ws-os-carregar-mais');
+            if (btn) { if (btn.disabled) return; btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> A carregar…'; }
+            const novoDesde = _dataCorteMeses(_mesesDesdeCorteAtual(desdeAtualStr) + 3);
+            const n = await garantirServicosCarregados(novoDesde);
+            const conteudo = document.getElementById('wsClienteConteudo');
+            if (conteudo) conteudo.innerHTML = await _wsOsHtml(clienteId, novoDesde);
+            if (!n) {
+                const btn2 = document.getElementById('ws-os-carregar-mais');
+                if (btn2) {
+                    const maisAntiga = (dados.servicos || []).filter(s => s.clienteId === clienteId && s.data).reduce((min, s) => (!min || s.data < min) ? s.data : min, null);
+                    btn2.disabled = true;
+                    btn2.innerHTML = maisAntiga ? `<i class="fas fa-check"></i> Só há dados a partir de ${new Date(maisAntiga + 'T00:00:00').toLocaleDateString('pt-PT')}` : `<i class="fas fa-check"></i> Não há dados mais antigos`;
+                }
+            }
+        }
+        async function _wsResumoHtml(clienteId) {
+            const desde = _dataCorteMeses(12);
+            await garantirServicosCarregados(desde);
+            const cliente = dados.clientes.find(c => c.id === clienteId);
+            const locaisCliente = (dados.locais || []).filter(l => l.clienteId === clienteId);
+            const osCliente = (dados.servicos || []).filter(s => s.clienteId === clienteId);
+            const osAbertas = osCliente.filter(s => s.status !== 'concluído').length;
+            // Equipamentos ligam-se por localId, não têm clienteId próprio — junta a Sede
+            // (localId null) com os locais deste cliente para saber quais lhe pertencem.
+            const idsLocaisCliente = new Set([null, ...locaisCliente.map(l => l.id)]);
+            const equipCliente = (dados.equipamentos || []).filter(e => idsLocaisCliente.has(e.localId || null)).length;
+            const contratosCliente = (dados.contratos || []).filter(c => c.clienteId === clienteId);
+            const hoje = getDataHoje();
+            const em30 = new Date(Date.now() + 30 * 86400000).toISOString().slice(0, 10);
+            const contratosAVencer = contratosCliente.filter(c => c.validadeContrato && c.validadeContrato >= hoje && c.validadeContrato <= em30).length;
+            // Um "local" para este efeito é a Sede (localId vazio) + cada local extra — mostra a
+            // última OS de cada um, para se ver logo onde há mais/menos atividade.
+            const locaisParaMostrar = [{ id: null, nome: 'Sede', morada: cliente.endereco || '' }, ...locaisCliente];
+            const linhasLocais = locaisParaMostrar.map(l => {
+                const osDoLocal = osCliente.filter(s => (s.localId || null) === l.id).sort((a, b) => (b.data || '').localeCompare(a.data || ''));
+                const ultima = osDoLocal[0];
+                const contratoDoLocal = contratosCliente.find(c => (c.localId || null) === l.id && c.validadeContrato);
+                let estadoTxt = 'Sem OS registadas ainda', estadoCor = '#f1f5f9', estadoTexto = '#64748b';
+                if (ultima) { estadoTxt = `Última OS · ${(ultima.data || '').split('-').reverse().join('/')} · ${escapeHtmlSimples(ultima.descricao || (ultima.tiposTrabalho || [])[0] || 'OS')}`; estadoCor = '#dcfce7'; estadoTexto = '#166534'; }
+                if (contratoDoLocal && contratoDoLocal.validadeContrato && contratoDoLocal.validadeContrato <= em30) { estadoCor = '#fef3c7'; estadoTexto = '#92400e'; }
+                return `<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #f1f5f9;">
+                    <i class="fas fa-store" style="color:#94a3b8;width:18px;"></i>
+                    <div style="flex:1;min-width:0;">
+                        <div style="font-size:.86rem;font-weight:600;">${escapeHtmlSimples(l.nome)}</div>
+                        <div style="font-size:.76rem;color:#64748b;">${estadoTxt}</div>
+                    </div>
+                    <span style="font-size:.7rem;font-weight:600;padding:3px 9px;border-radius:6px;background:${estadoCor};color:${estadoTexto};white-space:nowrap;">${contratoDoLocal && contratoDoLocal.validadeContrato <= em30 ? 'Contrato a vencer' : (ultima ? 'Em dia' : 'Novo')}</span>
+                </div>`;
+            }).join('');
+            return `
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:20px;">
+                    <div style="background:#f8fafc;border-radius:10px;padding:14px;"><div style="font-size:.76rem;color:#64748b;">Locais</div><div style="font-size:1.5rem;font-weight:700;">${locaisParaMostrar.length}</div></div>
+                    <div style="background:#f8fafc;border-radius:10px;padding:14px;"><div style="font-size:.76rem;color:#64748b;">OS abertas</div><div style="font-size:1.5rem;font-weight:700;">${osAbertas}</div></div>
+                    <div style="background:#f8fafc;border-radius:10px;padding:14px;"><div style="font-size:.76rem;color:#64748b;">Equipamentos</div><div style="font-size:1.5rem;font-weight:700;">${equipCliente}</div></div>
+                    <div style="background:${contratosAVencer ? '#fef3c7' : '#f8fafc'};border-radius:10px;padding:14px;"><div style="font-size:.76rem;color:${contratosAVencer ? '#92400e' : '#64748b'};">Contratos a vencer</div><div style="font-size:1.5rem;font-weight:700;color:${contratosAVencer ? '#92400e' : 'inherit'};">${contratosAVencer}</div></div>
+                </div>
+                <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 18px;">
+                    <div style="font-weight:600;font-size:.9rem;margin-bottom:8px;">Locais e última atividade</div>
+                    ${linhasLocais}
+                </div>
+            `;
+        }
+        function _wsLocaisHtml(clienteId) {
+            const cliente = dados.clientes.find(c => c.id === clienteId);
+            const locaisCliente = (dados.locais || []).filter(l => l.clienteId === clienteId);
+            const linhaSede = `<div style="display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid #f1f5f9;">
+                <i class="fas fa-building" style="color:#94a3b8;width:18px;"></i>
+                <div style="flex:1;"><div style="font-weight:600;font-size:.88rem;">Sede</div><div style="font-size:.78rem;color:#64748b;">${escapeHtmlSimples(cliente.endereco || 'Sem morada registada')}</div></div>
+            </div>`;
+            const linhasExtra = locaisCliente.map(l => `<div style="display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid #f1f5f9;">
+                <i class="fas fa-map-pin" style="color:#94a3b8;width:18px;"></i>
+                <div style="flex:1;"><div style="font-weight:600;font-size:.88rem;">${escapeHtmlSimples(l.nome)}</div><div style="font-size:.78rem;color:#64748b;">${escapeHtmlSimples(l.morada || 'Sem morada registada')}</div></div>
+                <button class="btn btn-sm btn-outline" onclick="abrirModalLocalCliente('${clienteId}','${l.id}')"><i class="fas fa-edit"></i></button>
+            </div>`).join('');
+            return `
+                <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 18px;">
+                    ${linhaSede}${linhasExtra}
+                </div>
+                <button class="btn btn-sm btn-outline" style="margin-top:14px;" onclick="abrirModalNovoLocalCliente('${clienteId}')"><i class="fas fa-plus"></i> Adicionar local</button>
+            `;
+        }
+        // Abre a criação de OS já com este cliente escolhido — poupa o passo de o
+        // procurar outra vez no formulário.
+        function _wsMarcarOS(clienteId) {
+            const cliente = dados.clientes?.find(c => c.id === clienteId);
+            if (!cliente) return;
+            _wsClienteFechar();
+            abrirModal('servico', null);
+            setTimeout(() => {
+                const busca = document.getElementById('s_cliente_busca');
+                const hidden = document.getElementById('s_cliente');
+                if (!busca || !hidden) return;
+                hidden.value = clienteId;
+                const label = typeof _clienteLabel === 'function' ? _clienteLabel(cliente) : cliente.nome;
+                busca.value = label;
+                busca.dataset.selecionadoLabel = label;
+                if (typeof _osPreencherMorada === 'function') _osPreencherMorada();
+            }, 150);
+        }
+
+        function _wsNovoContrato(clienteId) {
+            const cliente = dados.clientes?.find(c => c.id === clienteId);
+            if (!cliente) return;
+            _wsClienteFechar();
+            abrirModal('contrato', null);
+            setTimeout(() => {
+                const busca = document.getElementById('ct_cliente_busca');
+                const hidden = document.getElementById('ct_cliente');
+                if (!busca || !hidden) return;
+                hidden.value = clienteId;
+                const label = typeof _clienteLabel === 'function' ? _clienteLabel(cliente) : cliente.nome;
+                busca.value = label;
+                busca.dataset.selecionadoLabel = label;
+                if (typeof onClienteContratoChange === 'function') onClienteContratoChange();
+            }, 150);
         }
 
         _registarTabela('servicos', renderizarServicos);
@@ -7135,7 +7640,120 @@
             abrirSecao('contratos');
         }
 
+        // =====================================================================
+        //  MOTOR DE PACKS (Fase 1) — "Opção B": um pack é só um atalho que liga o conjunto
+        //  certo de módulos/add-ons que já existem. NADA disto corre automaticamente ainda —
+        //  fica aqui pronto, desligado, para as fases seguintes (site, checkout, super admin,
+        //  renovação, limites) irem ligando peça a peça. Nenhuma conta existente é tocada.
+        //
+        //  Packs são cumulativos: Express ⊂ Expert ⊂ Pro ⊂ Supreme. Cada nível traz tudo o do
+        //  anterior mais o seu. A base (OS, folhas de obra, clientes, contratos, relatórios
+        //  personalizados, calendário de equipa) está em todos e não precisa de flag.
+        // =====================================================================
+        const PACKS = {
+            express: {
+                nome: 'Express',
+                ordem: 1,
+                // Menu reduzido, sem ponto/armazém/frota/CRM. É o único que liga expressAtivo.
+                flags: { expressAtivo: true },
+                planos: [],       // add-ons "com plano" (frotaPlano, crmPlano, etc.) que ficam ativos
+                limites: { relatoriosPersonalizados: 5, camposPorRelatorio: 5 },
+            },
+            expert: {
+                nome: 'Expert',
+                ordem: 2,
+                // Parte de pessoas/campo: ponto, GPS picagem, férias, portal, assistências,
+                // relatórios de especialidade, mapa da equipa, painel TV.
+                flags: { segurancaAtivo: true, painelTvAtivo: true },
+                planos: ['assistPlano', 'portalPlano'],
+                limites: { relatoriosPersonalizados: 15, camposPorRelatorio: 15 },
+            },
+            pro: {
+                nome: 'Pro',
+                ordem: 3,
+                // Operacional pesado: obras, stock, frota, ferramentas, financeiro, custos internos.
+                // Herda tudo o do Expert (menos o painelTv, que o teu ficheiro tirou do Pro).
+                flags: { segurancaAtivo: true, obrasAvancadoAtivo: true, materiaisEntregaAtivo: true, painelTvAtivo: true },
+                planos: ['assistPlano', 'portalPlano', 'contratosPlano', 'frotaPlano', 'armazemPlano'],
+                limites: { relatoriosPersonalizados: 40, camposPorRelatorio: 40 },
+            },
+            supreme: {
+                nome: 'Supreme',
+                ordem: 4,
+                // Topo: CRM, dashboard analítico, GPS mapa/geofence, rondas, ERP, auditoria,
+                // painel TV. Herda tudo o do Pro.
+                flags: { segurancaAtivo: true, obrasAvancadoAtivo: true, materiaisEntregaAtivo: true, painelTvAtivo: true },
+                planos: ['assistPlano', 'portalPlano', 'contratosPlano', 'frotaPlano', 'armazemPlano', 'crmPlano', 'erpPlano', 'rondasPlano'],
+                limites: { relatoriosPersonalizados: Infinity, camposPorRelatorio: Infinity },
+            },
+        };
+        // Preços base por escalão de funcionários (c/ IVA), tal como definidos no plano de packs.
+        const PACK_PRECOS = {
+            express: { 5: 42.49, 10: 47.49, 25: 62.49, 50: 102.49 },
+            expert:  { 5: 52.49, 10: 57.49, 25: 72.49, 50: 112.49 },
+            pro:     { 5: 72.49, 10: 77.49, 25: 92.49, 50: 132.49 },
+            supreme: { 5: 102.49, 10: 107.49, 25: 122.49, 50: 162.49 },
+        };
+        // Acima de 50 funcionários: blocos de +5, a 5€/bloco/mês, iguais em todos os packs.
+        const PACK_PRECO_BLOCO_5 = 5;
+        // Devolve o pack atual da conta (ou null se for uma conta antiga, ainda no modelo de
+        // add-ons soltos). Preparado para a Fase 6 (migração) — por agora, quase todas devolvem null.
+        function packDoAdmin(admin) {
+            const p = admin?.packAtual;
+            return (p && PACKS[p]) ? p : null;
+        }
+        // Limite de uma funcionalidade para o pack da conta. Sem pack (conta antiga) → sem limite
+        // (Infinity), para o modelo antigo continuar a funcionar exatamente como antes.
+        function packLimite(admin, chaveLimite) {
+            const p = packDoAdmin(admin);
+            if (!p) return Infinity;
+            const lim = PACKS[p].limites?.[chaveLimite];
+            return lim == null ? Infinity : lim;
+        }
+        // Aplica um pack a uma conta: liga as flags e marca os planos como ativos. Recebe uma
+        // validade (ms) para os add-ons "com plano". NÃO grava — quem chamar decide guardar.
+        // Só será usado a partir da Fase 3 (super admin / checkout); aqui fica pronto.
+        function aplicarPackAoAdmin(admin, nomePack, validadeMs) {
+            const def = PACKS[nomePack];
+            if (!admin || !def) return false;
+            admin.packAtual = nomePack;
+            Object.entries(def.flags || {}).forEach(([k, v]) => { admin[k] = v; });
+            (def.planos || []).forEach(planoKey => {
+                admin[planoKey] = 'mensal';
+                const expKey = planoKey.replace('Plano', 'Expiracao');
+                admin[expKey] = validadeMs || (Date.now() + 30 * 24 * 60 * 60 * 1000);
+            });
+            return true;
+        }
+        // Quando o super admin escolhe um pack no formulário (criar/editar), preenche os
+        // seletores de licença individuais em baixo conforme o pack — para ele VER o que o pack
+        // liga, e para o guardar reaproveitar a lógica de licenças que já existe. prefixo é
+        // 'admin' (criar) ou 'edit_admin' (editar). "Sem pack" não mexe em nada (gestão à peça).
+        function _adminPackMudou(prefixo) {
+            const pack = document.getElementById(prefixo + '_pack')?.value;
+            const info = document.getElementById('admin_pack_info');
+            if (!pack || !PACKS[pack]) return;
+            const def = PACKS[pack];
+            const mapaPlanos = { contratosPlano: '_contratos', frotaPlano: '_frota', armazemPlano: '_armazem', crmPlano: '_crm', assistPlano: '_assist', erpPlano: '_erp', rondasPlano: '_rondas', portalPlano: '_portal' };
+            Object.values(mapaPlanos).forEach(sufixo => {
+                const el = document.getElementById(prefixo + sufixo);
+                if (el) el.value = '';
+            });
+            (def.planos || []).forEach(planoKey => {
+                const el = document.getElementById(prefixo + (mapaPlanos[planoKey] || ''));
+                if (el) el.value = 'mensal';
+            });
+            if (info) {
+                const precoBase = PACK_PRECOS[pack]?.[document.getElementById(prefixo + '_pack_escalao')?.value || '5'];
+                info.innerHTML = `<b>Pack ${def.nome}</b> — as licenças em baixo foram preenchidas conforme este pack${precoBase ? ` · preço base ${precoBase.toFixed(2)} €/mês` : ''}. Ajusta à mão se precisares.`;
+            }
+        }
+
+
         // ----- Licenciamento do módulo de Frota (mesma lógica dos Contratos) -----
+        // NOTA: estas duas linhas foram repostas — tinham sido apagadas por engano ao inserir o
+        // motor de packs, o que fazia _addonsAtivosDe rebentar com "PRECO_FROTA_MENSAL is not
+        // defined" e deixava a app em branco logo no login do admin/super admin.
         const PRECO_FROTA_MENSAL = 9.99;
         const PRECO_FROTA_ANUAL = +(9.99 * 12 * 0.9).toFixed(2); // 107.89
         const PRECO_ARMAZEM_MENSAL = 9.99;
@@ -7564,6 +8182,10 @@
             if (!admin) return false;
             return !!admin.erpPlano && admin.erpExpiracao && admin.erpExpiracao > Date.now();
         }
+        // "Opcionais Extra" → controlo de materiais entregues/devolvidos aos funcionários.
+        function moduloMateriaisEntregaAtivo(admin) {
+            return !!admin?.materiaisEntregaAtivo;
+        }
         function moduloCrmAtivo(admin) {
             if (!admin) return false;
             return !!admin.crmPlano && admin.crmExpiracao && admin.crmExpiracao > Date.now();
@@ -7735,6 +8357,7 @@
         }
         function valorDoPedido(p) {
             const t = p.tipo || '';
+            if (t === 'pack') return p.valor || 0; // pedido de pack: valor já calculado ao pedir
             if (t === 'contrato_anual') return PRECO_CONTRATOS_ANUAL;
             if (t === 'contrato_mensal') return PRECO_CONTRATOS_MENSAL;
             if (t === 'frota_anual') return PRECO_FROTA_ANUAL;
@@ -10801,7 +11424,7 @@
             } else {
                 q = q.eq('admin_id', aid);
             }
-            const { data, error } = await q;
+            const { data, error } = await _buscarPaginadoGenerico(q);
             if (error) { console.warn('carregarTabelaEspecifica (' + col + '):', error); return; }
             dados[col] = (data || []).map(M[col].from);
             const m = new Map();
@@ -20985,6 +21608,26 @@ async function salvarEncarregado(e) {
                             <div class="help-text">Ele vai pagar-te este % a menos em cada licença/add-on de cliente que emitir. Fica com um painel próprio ("Distribuição") para criar e gerir os clientes dele — e não paga uma licença base para si próprio, já que não é um cliente normal.</div>
                         </div>
                     </div>
+                    <div class="form-group" style="background:#eef6ff;padding:14px;border-radius:8px;border:1px solid #bfdbfe;">
+                        <label style="font-weight:700;color:#1e40af;"><i class="fas fa-box-open"></i> Pack (modelo novo)</label>
+                        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">
+                            <select id="admin_pack" onchange="_adminPackMudou('admin')" style="flex:1;min-width:150px;">
+                                <option value="">— Sem pack (licenças à peça, em baixo) —</option>
+                                <option value="express">Express</option>
+                                <option value="expert">Expert</option>
+                                <option value="pro">Pro</option>
+                                <option value="supreme">Supreme</option>
+                            </select>
+                            <select id="admin_pack_escalao" style="width:130px;">
+                                <option value="5">Até 5 func.</option>
+                                <option value="10">Até 10 func.</option>
+                                <option value="25">Até 25 func.</option>
+                                <option value="50">Até 50 func.</option>
+                                <option value="50+">50+ (blocos)</option>
+                            </select>
+                        </div>
+                        <div id="admin_pack_info" class="help-text" style="margin-top:6px;">Ao escolher um pack, as licenças individuais em baixo são preenchidas automaticamente conforme o pack. Deixa "Sem pack" para gerires à peça, como antes.</div>
+                    </div>
                     <div class="form-group">
                         <label>Licença de Contratos de Manutenção</label>
                         <select id="admin_contratos">
@@ -21160,6 +21803,15 @@ async function salvarAdmin(e) {
             const rondasSel = document.getElementById('admin_rondas')?.value || '';
             const rondasAddon = aplicarAddonCriar(rondasSel);
             if (rondasAddon) { admin.rondasPlano = rondasAddon.plano; admin.rondasExpiracao = now + rondasAddon.dias * 86400000; if (rondasAddon.plano === 'demo') admin.rondasDemoDias = rondasAddon.dias; }
+            // Pack escolhido (modelo novo). Os seletores individuais já foram preenchidos pelo
+            // _adminPackMudou, por isso as licenças em cima já refletem o pack — aqui só se grava
+            // o pack em si + as flags que não são "licença" (expressAtivo, segurancaAtivo, etc.).
+            const packSelCriar = document.getElementById('admin_pack')?.value || '';
+            if (packSelCriar && PACKS[packSelCriar]) {
+                admin.packAtual = packSelCriar;
+                admin.packEscalao = document.getElementById('admin_pack_escalao')?.value || '5';
+                Object.entries(PACKS[packSelCriar].flags || {}).forEach(([k, v]) => { admin[k] = v; });
+            }
             if (!dados.administradores) dados.administradores = [];
             dados.administradores.push(admin);
             // Reunir o que foi emitido e o respetivo valor, para email de pagamento
@@ -21639,6 +22291,19 @@ async function salvarAdmin(e) {
                 { n: conversoesTotal, l: 'Conversões' },
                 { n: taxaConversao + '%', l: 'Taxa de conversão' },
             ];
+            // Duração e scroll só existem para visitas de quem já tem o ficheiro atualizado — as
+            // mais antigas ficam sem isto (fica de fora da média, não conta como "0 segundos").
+            const comDuracao = visitas.filter(v => v.duracao_segundos != null);
+            if (comDuracao.length) {
+                const duracaoMediaSeg = Math.round(comDuracao.reduce((s, v) => s + v.duracao_segundos, 0) / comDuracao.length);
+                const min = Math.floor(duracaoMediaSeg / 60), seg = duracaoMediaSeg % 60;
+                cards.push({ n: `${min}m ${seg}s`, l: 'Duração média' });
+            }
+            const comScroll = visitas.filter(v => v.scroll_maximo_pct != null);
+            if (comScroll.length) {
+                const scrollMedio = Math.round(comScroll.reduce((s, v) => s + v.scroll_maximo_pct, 0) / comScroll.length);
+                cards.push({ n: scrollMedio + '%', l: 'Scroll médio da página' });
+            }
             document.getElementById('an_resumo').innerHTML = cards.map(c => `
                 <div style="background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:14px;text-align:center;">
                     <div style="font-size:1.5rem;font-weight:800;color:#152a52;">${c.n}</div>
@@ -22192,6 +22857,26 @@ async function salvarAdmin(e) {
                         </div>
                         ${admin.distribuidorId ? `<div class="help-text" style="margin-top:8px;"><i class="fas fa-diagram-project"></i> Este cliente foi criado por um distribuidor: <strong>${escapeHtmlSimples(dados.administradores?.find(a => a.id === admin.distribuidorId)?.nome || '—')}</strong></div>` : ''}
                     </div>
+                    <div class="form-group" style="background:#eef6ff;padding:14px;border-radius:8px;border:1px solid #bfdbfe;">
+                        <label style="font-weight:700;color:#1e40af;"><i class="fas fa-box-open"></i> Pack (modelo novo)</label>
+                        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">
+                            <select id="edit_admin_pack" onchange="_adminPackMudou('edit_admin')" style="flex:1;min-width:150px;">
+                                <option value="" ${!admin.packAtual ? 'selected' : ''}>— Sem pack (licenças à peça, em baixo) —</option>
+                                <option value="express" ${admin.packAtual === 'express' ? 'selected' : ''}>Express</option>
+                                <option value="expert" ${admin.packAtual === 'expert' ? 'selected' : ''}>Expert</option>
+                                <option value="pro" ${admin.packAtual === 'pro' ? 'selected' : ''}>Pro</option>
+                                <option value="supreme" ${admin.packAtual === 'supreme' ? 'selected' : ''}>Supreme</option>
+                            </select>
+                            <select id="edit_admin_pack_escalao" style="width:130px;">
+                                <option value="5" ${(admin.packEscalao || '5') === '5' ? 'selected' : ''}>Até 5 func.</option>
+                                <option value="10" ${admin.packEscalao === '10' ? 'selected' : ''}>Até 10 func.</option>
+                                <option value="25" ${admin.packEscalao === '25' ? 'selected' : ''}>Até 25 func.</option>
+                                <option value="50" ${admin.packEscalao === '50' ? 'selected' : ''}>Até 50 func.</option>
+                                <option value="50+" ${admin.packEscalao === '50+' ? 'selected' : ''}>50+ (blocos)</option>
+                            </select>
+                        </div>
+                        <div class="help-text" style="margin-top:6px;">Ao mudar de pack, as licenças individuais em baixo são preenchidas conforme o pack ao guardar. Deixa "Sem pack" para gerires à peça.</div>
+                    </div>
                     <div class="form-group">
                         <label>Licença de Contratos de Manutenção</label>
                         <select id="edit_admin_contratos">
@@ -22485,6 +23170,16 @@ async function salvarAdmin(e) {
                 func.email = email;
                 if (senha) func.senha = senha;
             }
+            // Pack (modelo novo) — os seletores de licença já foram lidos acima; aqui grava-se o
+            // pack e as suas flags. Mudar de/para "Sem pack" também é respeitado.
+            const packSelE = document.getElementById('edit_admin_pack')?.value || '';
+            if (packSelE && PACKS[packSelE]) {
+                admin.packAtual = packSelE;
+                admin.packEscalao = document.getElementById('edit_admin_pack_escalao')?.value || '5';
+                Object.entries(PACKS[packSelE].flags || {}).forEach(([k, v]) => { admin[k] = v; });
+            } else {
+                admin.packAtual = null; // voltou a "sem pack" — gestão à peça
+            }
             guardarDados(dados);
             fecharModalEditarAdmin();
             renderizarTudo();
@@ -22589,11 +23284,155 @@ async function salvarAdmin(e) {
         ];
         let _renStep = 1;
         let _renWiz = { tier: '', semPlano: false, addons: [], periodo: 'mensal', obs: '' };
+        // ===================================================================
+        //  RENOVAÇÃO / MUDANÇA DE PACK (modelo novo) — Fase 4
+        // ===================================================================
+        let _renPack = null; // { pack, escalao, blocos, periodo }
+        function _abrirRenovacaoPack() {
+            const admin = adminAtual();
+            const atual = packDoAdmin(admin);
+            _renPack = {
+                pack: atual || 'expert',
+                escalao: admin.packEscalao || '5',
+                blocos: (admin.packEscalao === '50+' && admin.packBlocos) ? admin.packBlocos : 0,
+                periodo: 'mensal',
+            };
+            let overlay = document.getElementById('renPackOverlay');
+            if (!overlay) { overlay = document.createElement('div'); overlay.id = 'renPackOverlay'; overlay.className = 'modal-overlay'; document.body.appendChild(overlay); }
+            overlay.classList.add('open');
+            _renPackRender();
+        }
+        function _renPackFmt(v) { return v.toLocaleString('pt-PT', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €'; }
+        // Total = preço do pack no escalão + blocos de +5. No anual, tudo com -10% e ×12.
+        function _renPackCalcular() {
+            const precos = PACK_PRECOS[_renPack.pack];
+            let mensal = (_renPack.escalao === '50+') ? precos[50] + _renPack.blocos * PACK_PRECO_BLOCO_5 : precos[_renPack.escalao];
+            if (_renPack.periodo === 'anual') {
+                const anual = +(mensal * 12 * 0.9).toFixed(2);
+                return { base: mensal, total: anual, sufixo: '/ano', desconto: true };
+            }
+            return { base: mensal, total: mensal, sufixo: '/mês', desconto: false };
+        }
+        function _renPackFuncMax() {
+            return _renPack.escalao === '50+' ? 50 + _renPack.blocos * 5 : parseInt(_renPack.escalao, 10);
+        }
+        function _renPackRender() {
+            const admin = adminAtual();
+            const c = _renPackCalcular();
+            const diasRest = admin.licenca ? calcularDiasRestantes(admin.licenca.dataExpiracao) : 0;
+            const licValida = admin.licenca && isLicencaValida(admin.licenca.dataExpiracao);
+            // Janela de 24h só se a licença já expirou ou expira nas próximas 24h.
+            const janela24h = !licValida || diasRest <= 1;
+            const overlay = document.getElementById('renPackOverlay');
+            overlay.innerHTML = `
+                <div class="modal" style="max-width:600px;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;">
+                        <h3><i class="fas fa-box-open"></i> O meu pack</h3>
+                        <button class="close-modal" onclick="document.getElementById('renPackOverlay').classList.remove('open')">&times;</button>
+                    </div>
+                    <div class="form-group">
+                        <label>Pack</label>
+                        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                            ${['express','expert','pro','supreme'].map(p => `<button type="button" class="ren-pack-btn ${_renPack.pack === p ? 'active' : ''}" onclick="_renPackSet('pack','${p}')">${PACKS[p].nome}</button>`).join('')}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Funcionários</label>
+                        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                            ${['5','10','25','50','50+'].map(e => `<button type="button" class="ren-pack-btn ${_renPack.escalao === e ? 'active' : ''}" onclick="_renPackSet('escalao','${e}')">${e === '50+' ? '50+' : 'Até ' + e}</button>`).join('')}
+                        </div>
+                        ${_renPack.escalao === '50+' ? `
+                        <div style="margin-top:10px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px 12px;">
+                            <div style="font-size:.82rem;margin-bottom:6px;">Blocos de +5 funcionários (5 €/mês cada), até 100 no total:</div>
+                            <div style="display:flex;align-items:center;gap:12px;">
+                                <button type="button" onclick="_renPackBloco(-1)" style="width:32px;height:32px;border-radius:6px;border:1px solid #cbd5e1;background:#fff;cursor:pointer;font-size:1.1rem;">−</button>
+                                <span><strong>${_renPack.blocos}</strong> bloco(s) → <strong>${_renPackFuncMax()}</strong> funcionários</span>
+                                <button type="button" onclick="_renPackBloco(1)" style="width:32px;height:32px;border-radius:6px;border:1px solid #cbd5e1;background:#fff;cursor:pointer;font-size:1.1rem;">+</button>
+                            </div>
+                            ${_renPackFuncMax() >= 100 ? '<div style="font-size:.78rem;color:#b45309;margin-top:6px;">Máximo de 100 funcionários por licença. Para mais, fala connosco.</div>' : ''}
+                        </div>` : ''}
+                    </div>
+                    <div class="form-group">
+                        <label>Período</label>
+                        <div style="display:flex;gap:6px;">
+                            <button type="button" class="ren-pack-btn ${_renPack.periodo === 'mensal' ? 'active' : ''}" onclick="_renPackSet('periodo','mensal')">Mensal</button>
+                            <button type="button" class="ren-pack-btn ${_renPack.periodo === 'anual' ? 'active' : ''}" onclick="_renPackSet('periodo','anual')">Anual (−10%)</button>
+                        </div>
+                    </div>
+                    <div style="background:#eff6ff;border-radius:10px;padding:14px 16px;margin:8px 0;">
+                        <div style="display:flex;justify-content:space-between;align-items:baseline;">
+                            <span style="font-weight:600;">Pack ${PACKS[_renPack.pack].nome} · ${_renPack.escalao === '50+' ? _renPackFuncMax() + ' func.' : 'até ' + _renPack.escalao}</span>
+                            <span style="font-size:1.3rem;font-weight:700;color:#0b1f3a;">${_renPackFmt(c.total)}<span style="font-size:.8rem;font-weight:400;color:#64748b;">${c.sufixo}${_IVA_INC}</span></span>
+                        </div>
+                        ${c.desconto ? `<div style="font-size:.78rem;color:#16a34a;margin-top:4px;">Já com 10% de desconto anual (equivale a ${_renPackFmt(+(c.total/12).toFixed(2))}/mês).</div>` : ''}
+                        ${diasRest > 1 && licValida ? `<div style="font-size:.78rem;color:#64748b;margin-top:4px;">Os ${diasRest} dias que ainda tens somam-se ao novo período.</div>` : ''}
+                    </div>
+                    ${janela24h
+                        ? `<div style="background:#fef3c7;border-radius:8px;padding:12px;color:#92400e;font-size:.85rem;margin-bottom:8px;"><i class="fas fa-clock"></i> A licença fica <strong>ativa já</strong>, e tens <strong>24 horas</strong> para o pagamento ser confirmado. Se não for confirmado nesse prazo, a licença fica suspensa até ao pagamento.</div>`
+                        : `<div style="background:#d1fae5;border-radius:8px;padding:12px;color:#065f46;font-size:.85rem;margin-bottom:8px;"><i class="fas fa-check-circle"></i> Como a tua licença ainda é válida, esta mudança fica ativa sem prazo de 24h — os dias que faltam somam-se.</div>`}
+                    <div class="form-group">
+                        <label>Observações (opcional)</label>
+                        <textarea id="ren_pack_obs" rows="2" placeholder="Algo que queiras dizer-nos sobre este pedido..."></textarea>
+                    </div>
+                    <button type="button" class="btn btn-primary" style="width:100%;" onclick="_renPackEnviar()"><i class="fas fa-paper-plane"></i> Pedir ${PACKS[_renPack.pack].nome} — ${_renPackFmt(c.total)}${c.sufixo}</button>
+                </div>`;
+        }
+        function _renPackSet(campo, valor) {
+            _renPack[campo] = valor;
+            if (campo === 'escalao' && valor !== '50+') _renPack.blocos = 0;
+            _renPackRender();
+        }
+        function _renPackBloco(delta) {
+            const novo = _renPack.blocos + delta;
+            if (novo < 0) return;
+            if (50 + novo * 5 > 100) return; // teto de 100
+            _renPack.blocos = novo;
+            _renPackRender();
+        }
+        function _renPackEnviar() {
+            const admin = adminAtual();
+            const c = _renPackCalcular();
+            const obs = document.getElementById('ren_pack_obs')?.value?.trim() || '';
+            const pedido = {
+                id: gerarId(),
+                adminId: admin.id,
+                tipo: 'pack',
+                packPedido: _renPack.pack,
+                escalaoPedido: _renPack.escalao,
+                blocosPedido: _renPack.blocos,
+                periodoPedido: _renPack.periodo,
+                funcMax: _renPackFuncMax(),
+                valor: c.total,
+                status: 'pendente',
+                data: Date.now(),
+                observacoes: obs,
+            };
+            dados.pedidosRenovacao = dados.pedidosRenovacao || [];
+            dados.pedidosRenovacao.push(pedido);
+            // Janela de 24h: só se a licença já expirou ou expira nas próximas 24h. Nesse caso, a
+            // licença fica ativa já, mas com uma hora-limite — se o Super Admin não confirmar o
+            // pagamento até lá, _verificarJanela24hPacks suspende-a. Se a licença ainda é válida
+            // com folga, não se arma nada (o cliente não é penalizado por mudar de plano).
+            const _diasRest = admin.licenca ? calcularDiasRestantes(admin.licenca.dataExpiracao) : 0;
+            const _licValida = admin.licenca && isLicencaValida(admin.licenca.dataExpiracao);
+            if (admin.licenca && (!_licValida || _diasRest <= 1)) {
+                admin.licenca.ativa = true;                 // ativa já
+                admin.licenca.pendente24h = true;
+                admin.licenca.limite24hMs = Date.now() + 24 * 60 * 60 * 1000;
+                if (!_licValida) admin.licenca.dataExpiracao = admin.licenca.limite24hMs; // dá acesso durante a janela
+            }
+            guardarDados(dados);
+            document.getElementById('renPackOverlay').classList.remove('open');
+            alert(`Pedido enviado! 🎉\n\nPack ${PACKS[_renPack.pack].nome} · ${_renPackFmt(c.total)}${c.sufixo}\n\nA licença fica ativa e o Super Admin vai confirmar o pagamento.`);
+        }
         function abrirModalRenovacao(tipo) {
             if (!usuarioLogado || usuarioLogado.role !== 'admin' && usuarioLogado.role !== 'subadmin') {
                 alert('Apenas administradores podem fazer pedidos de renovação.');
                 return;
             }
+            // Contas com pack (modelo novo) usam o modal de renovação próprio de packs, não o
+            // wizard de add-ons à peça (que continua a servir as contas antigas).
+            if (packDoAdmin(adminAtual())) { _abrirRenovacaoPack(); return; }
             renovacaoTipo = tipo;
             const overlay = document.getElementById('modalRenovacaoOverlay');
             const titulo = tipo === 'renovacao' ? 'Pedir Renovação / Alteração ao seu Plano' : 'Alterar Plano';
@@ -23235,6 +24074,36 @@ async function salvarAdmin(e) {
             // pedidos, o que fazia a validade "perder" os dias ainda por gastar sempre que se
             // aprovava antes do fim do ciclo atual.
             const _baseRenov = (expAtual) => (expAtual && expAtual > Date.now()) ? expAtual : Date.now();
+            // Pedido de PACK (modelo novo): aplica o pack, define o máximo de funcionários pelo
+            // escalão/blocos, e soma o período (30 ou 365 dias) ao que ainda falta. A confirmação
+            // do Super Admin aqui é o "pagamento confirmado" — a licença passa a válida pelo
+            // período contratado, e a janela de 24h deixa de estar pendente.
+            if ((pedido.tipo || '') === 'pack') {
+                const dias = pedido.periodoPedido === 'anual' ? 365 : 30;
+                // Aplica o pack (liga flags + add-ons). A validade dos add-ons acompanha a licença
+                // base: parte do que ainda falta e soma o período contratado.
+                const novaValidade = _baseRenov(admin.licenca?.dataExpiracao) + dias * 86400000;
+                aplicarPackAoAdmin(admin, pedido.packPedido, novaValidade);
+                admin.packEscalao = pedido.escalaoPedido;
+                admin.packBlocos = pedido.blocosPedido || 0;
+                // Licença base: soma o período ao que falta, e ajusta o máximo de funcionários.
+                if (admin.licenca) {
+                    admin.licenca.dataExpiracao = _baseRenov(admin.licenca.dataExpiracao) + dias * 86400000;
+                    admin.licenca.maxFuncionarios = pedido.funcMax;
+                    admin.licenca.ativa = true;
+                    admin.licenca.pendente24h = false;
+                    admin.licenca.limite24hMs = null;
+                }
+                pedido.status = 'aprovado';
+                admin.licencaFeedback = 'verde';
+                guardarDados(dados);
+                piscarAdmin(admin.id, 'verde');
+                const labelP = `Pack ${PACKS[pedido.packPedido]?.nome || pedido.packPedido} — ${pedido.periodoPedido === 'anual' ? 'Anual' : 'Mensal'} (${pedido.funcMax} func.)`;
+                if (!silencioso) alert(`✅ ${labelP} ativado para ${admin.nome}.`);
+                registarHistoricoLicenca(admin.id, 'renovacao_aprovada', labelP, pedido.valor);
+                if (!silencioso) _enviarEmailRenovacaoAprovada(admin, labelP);
+                return labelP;
+            }
             if ((pedido.tipo || '').startsWith('contrato')) {
                 const planoC = pedido.tipo === 'contrato_anual' ? 'anual' : 'mensal';
                 const dias = planoC === 'anual' ? 365 : 30;
@@ -23914,9 +24783,8 @@ async function salvarAdmin(e) {
                                     <div style="margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
                                         <input type="text" id="s_novo_tipo_input" placeholder="Novo tipo de trabalho..." style="max-width:220px;" />
                                         <button type="button" class="btn btn-sm btn-outline" onclick="_sAdicionarTipoTrabalho()"><i class="fas fa-plus"></i> Adicionar</button>
-                                        <button type="button" class="btn btn-sm" style="background:#eef2ff;color:#3730a3;" onclick="abrirGestaoRelatoriosPersonalizados()"><i class="fas fa-clipboard-list"></i> Relatórios personalizados por tipo</button>
                                     </div>
-                                    <div class="help-text">Os tipos REX, RBI, RSI, RCM, RIE, RCP, CCTV e Intrusão geram automaticamente um relatório de especialidade a preencher quando a OS for concluída.</div>
+                                    <div class="help-text">Os tipos REX, RBI, RSI, RCM, RIE, RCP, CCTV e Intrusão geram automaticamente um relatório de especialidade a preencher quando a OS for concluída. Para os outros tipos, desenha o relatório em Obras e Serviços → Relatórios Personalizados.</div>
                                 </div>
                             </div>
                         </div>
@@ -24708,6 +25576,309 @@ async function salvarAdmin(e) {
         }
 
         // =============================================================
+        //  ASSINATURA GENÉRICA (por id) — para ecrãs com mais que uma
+        //  assinatura no mesmo modal (ex.: Materiais Entregues: técnico +
+        //  quem entrega/recebe). Mesma técnica do inicializarAssinatura,
+        //  mas parametrizada por id em vez de fixa em "fo_assinatura_canvas".
+        // =============================================================
+        let _assinaturasGenericas = {}; // id -> { ctx, desenhou }
+        function _assinaturaGenericaAjustarTamanho(id) {
+            const canvas = document.getElementById(id);
+            if (!canvas) return;
+            const ratio = window.devicePixelRatio || 1;
+            const rect = canvas.getBoundingClientRect();
+            const larg = rect.width || canvas.parentElement?.clientWidth || 300;
+            canvas.width = larg * ratio;
+            canvas.height = 140 * ratio;
+            const ctx = canvas.getContext('2d');
+            ctx.scale(ratio, ratio);
+            ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.strokeStyle = '#111';
+            _assinaturasGenericas[id] = _assinaturasGenericas[id] || {};
+            _assinaturasGenericas[id].ctx = ctx;
+        }
+        function inicializarAssinaturaGenerica(id) {
+            let canvas = document.getElementById(id);
+            if (!canvas) return;
+            const clone = canvas.cloneNode(false);
+            canvas.parentNode.replaceChild(clone, canvas);
+            canvas = clone;
+            _assinaturasGenericas[id] = { desenhou: false };
+            _assinaturaGenericaAjustarTamanho(id);
+            let desenhando = false, ult = null;
+            const pos = e => ({ x: e.offsetX, y: e.offsetY });
+            const start = e => { desenhando = true; ult = pos(e); e.preventDefault(); };
+            const move = e => {
+                const st = _assinaturasGenericas[id];
+                if (!desenhando || !st?.ctx) return;
+                const p = pos(e);
+                st.ctx.beginPath(); st.ctx.moveTo(ult.x, ult.y); st.ctx.lineTo(p.x, p.y); st.ctx.stroke();
+                ult = p; st.desenhou = true; e.preventDefault();
+            };
+            const end = () => { desenhando = false; };
+            canvas.addEventListener('pointerdown', start);
+            canvas.addEventListener('pointermove', move);
+            canvas.addEventListener('pointerup', end);
+            canvas.addEventListener('pointercancel', end);
+            canvas.addEventListener('pointerleave', end);
+        }
+        function limparAssinaturaGenerica(id) {
+            const canvas = document.getElementById(id);
+            const st = _assinaturasGenericas[id];
+            if (canvas && st?.ctx) st.ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (st) st.desenhou = false;
+        }
+        function capturarAssinaturaGenerica(id) {
+            const canvas = document.getElementById(id);
+            const st = _assinaturasGenericas[id];
+            if (!canvas || !st?.desenhou) return '';
+            try { return canvas.toDataURL('image/png'); } catch (e) { return ''; }
+        }
+
+        // =============================================================
+        //  MATERIAIS ENTREGUES / DEVOLVIDOS — "Opcionais Extra"
+        // =============================================================
+        function _meBlocoAssinatura(id, titulo) {
+            return `<div class="form-group ff-span2" style="margin-top:6px;">
+                <label>${titulo}</label>
+                <canvas id="${id}" style="width:100%;height:140px;touch-action:none;display:block;border:1px dashed #cbd5e1;border-radius:8px;background:#fff;"></canvas>
+                <button type="button" class="btn btn-sm btn-outline" style="margin-top:4px;" onclick="limparAssinaturaGenerica('${id}')">Limpar assinatura</button>
+            </div>`;
+        }
+        function abrirMateriaisEntrega(funcionarioId) {
+            const admin = adminAtual();
+            if (!moduloMateriaisEntregaAtivo(admin)) {
+                alert('O controlo de materiais entregues não está ativo. Liga-o em Perfil → Opcionais Extra.');
+                return;
+            }
+            tgEscolher('O que queres fazer?', [
+                { rotulo: '📦 Documento de Entrega de Material', valor: 'entrega' },
+                { rotulo: '📥 Documento de Devolução de Material', valor: 'devolucao' },
+            ]).then(escolha => {
+                if (escolha === 'entrega') _abrirEntregaMaterial(funcionarioId);
+                else if (escolha === 'devolucao') _abrirEscolherEntregaParaDevolucao(funcionarioId);
+            });
+        }
+        function _mePessoas() {
+            const adminId = _tenantId ? _tenantId() : (usuarioLogado?.adminId || usuarioLogado?.id);
+            return [...(dados.funcionarios || []), ...(dados.encarregados || [])].filter(p => p.adminId === adminId && p.ativo !== false);
+        }
+        function _meNomePessoa(id) {
+            return _mePessoas().find(p => p.id === id)?.nome || 'Pessoa removida';
+        }
+        function _meLinhaItem(nome, qtd, extra) {
+            return `<div class="me-item-row" style="display:flex;gap:8px;margin-bottom:6px;align-items:center;">
+                <input type="text" class="me-item-nome" placeholder="Ex: Farda tamanho M" value="${escapeHtmlSimples(nome || '')}" style="flex:1;" />
+                <input type="number" class="me-item-qtd" min="1" value="${qtd || 1}" style="width:70px;" />
+                ${extra || ''}
+                <button type="button" class="btn btn-sm btn-danger" onclick="this.closest('.me-item-row').remove()" title="Remover"><i class="fas fa-trash"></i></button>
+            </div>`;
+        }
+        function _meAddItem() {
+            document.getElementById('me_itens_lista').insertAdjacentHTML('beforeend', _meLinhaItem('', 1));
+        }
+        function _abrirEntregaMaterial(funcionarioIdPre) {
+            let overlay = document.getElementById('meModalOverlay');
+            if (!overlay) { overlay = document.createElement('div'); overlay.id = 'meModalOverlay'; overlay.className = 'modal-overlay'; document.body.appendChild(overlay); }
+            const hoje = getDataHoje();
+            const agora = new Date().toTimeString().slice(0, 5);
+            overlay.innerHTML = `
+                <div class="modal" style="max-width:640px;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;">
+                        <h3><i class="fas fa-people-carry-box"></i> Documento de Entrega de Material</h3>
+                        <button class="close-modal" onclick="document.getElementById('meModalOverlay').classList.remove('open')">&times;</button>
+                    </div>
+                    <div class="form-group ff-span2"><label>Funcionário</label>
+                        <select id="me_funcionario" ${funcionarioIdPre ? 'disabled' : ''}>${_mePessoas().map(p => `<option value="${p.id}" ${p.id === funcionarioIdPre ? 'selected' : ''}>${escapeHtmlSimples(p.nome)}</option>`).join('')}</select>
+                        ${funcionarioIdPre ? `<input type="hidden" id="me_funcionario_fixo" value="${funcionarioIdPre}" />` : ''}
+                    </div>
+                    <div style="display:flex;gap:10px;">
+                        <div class="form-group" style="flex:1;"><label>Data</label><input type="date" id="me_data" value="${hoje}" /></div>
+                        <div class="form-group" style="flex:1;"><label>Hora</label><input type="time" id="me_hora" value="${agora}" /></div>
+                    </div>
+                    <div class="form-group ff-span2">
+                        <label>Material entregue</label>
+                        <div id="me_itens_lista">${_meLinhaItem('', 1)}</div>
+                        <button type="button" class="btn btn-sm btn-outline" onclick="_meAddItem()"><i class="fas fa-plus"></i> Adicionar material</button>
+                    </div>
+                    <div class="form-group ff-span2"><label>Nome do técnico (quem recebe o material)</label><input type="text" id="me_nome_tecnico" placeholder="Nome completo" /></div>
+                    ${_meBlocoAssinatura('me_sign_tecnico', 'Assinatura do técnico')}
+                    <div class="form-group ff-span2" style="margin-top:10px;"><label>Nome de quem entrega (pela empresa)</label><input type="text" id="me_nome_entrega" placeholder="Nome completo" /></div>
+                    ${_meBlocoAssinatura('me_sign_entrega', 'Assinatura de quem entrega')}
+                    <button type="button" class="btn btn-primary" style="width:100%;margin-top:16px;" onclick="_meGuardarEntrega()"><i class="fas fa-file-signature"></i> Gerar Documento</button>
+                </div>
+            `;
+            overlay.classList.add('open');
+            setTimeout(() => { inicializarAssinaturaGenerica('me_sign_tecnico'); inicializarAssinaturaGenerica('me_sign_entrega'); }, 50);
+        }
+        function _meColherItens() {
+            return [...document.querySelectorAll('#me_itens_lista .me-item-row')].map(row => ({
+                nome: row.querySelector('.me-item-nome').value.trim(),
+                qtd: parseInt(row.querySelector('.me-item-qtd').value, 10) || 1,
+            })).filter(i => i.nome);
+        }
+        async function _meGuardarEntrega() {
+            const funcionarioId = document.getElementById('me_funcionario').value;
+            if (!funcionarioId) { alert('Escolhe o funcionário.'); return; }
+            const itens = _meColherItens();
+            if (!itens.length) { alert('Adiciona pelo menos um material.'); return; }
+            const nomeTecnico = document.getElementById('me_nome_tecnico').value.trim();
+            const nomeEntrega = document.getElementById('me_nome_entrega').value.trim();
+            if (!nomeTecnico || !nomeEntrega) { alert('Preenche os nomes de quem recebe e de quem entrega.'); return; }
+            const assinaturaTecnico = capturarAssinaturaGenerica('me_sign_tecnico');
+            const assinaturaEntrega = capturarAssinaturaGenerica('me_sign_entrega');
+            if (!assinaturaTecnico || !assinaturaEntrega) { alert('Faltam as duas assinaturas.'); return; }
+            const adminId = _tenantId ? _tenantId() : (usuarioLogado?.adminId || usuarioLogado?.id);
+            const registo = {
+                id: gerarId(), adminId, funcionarioId, tipo: 'entrega', entregaOrigemId: null, itens,
+                data: document.getElementById('me_data').value, hora: document.getElementById('me_hora').value,
+                nomeTecnico, assinaturaTecnico, nomeResponsavel: nomeEntrega, assinaturaResponsavel: assinaturaEntrega,
+                dataCriacao: Date.now(),
+            };
+            dados.materiaisEntrega = dados.materiaisEntrega || [];
+            dados.materiaisEntrega.push(registo);
+            guardarDados(dados);
+            document.getElementById('meModalOverlay').classList.remove('open');
+            _meImprimirDocumento(registo);
+        }
+        // Escolher a que entrega a devolução se refere — só mostra entregas que ainda não têm
+        // devolução associada (para não se repetir uma devolução já feita por engano).
+        function _abrirEscolherEntregaParaDevolucao(funcionarioIdFiltro) {
+            const adminId = _tenantId ? _tenantId() : (usuarioLogado?.adminId || usuarioLogado?.id);
+            const entregas = (dados.materiaisEntrega || [])
+                .filter(m => m.adminId === adminId && m.tipo === 'entrega')
+                .filter(m => !funcionarioIdFiltro || m.funcionarioId === funcionarioIdFiltro)
+                .filter(m => !(dados.materiaisEntrega || []).some(d => d.tipo === 'devolucao' && d.entregaOrigemId === m.id))
+                .sort((a, b) => (b.dataCriacao || 0) - (a.dataCriacao || 0));
+            if (!entregas.length) { alert(funcionarioIdFiltro ? 'Este funcionário não tem nenhum documento de entrega por devolver.' : 'Não há nenhum documento de entrega por devolver.'); return; }
+            tgEscolher('A que documento de entrega se refere esta devolução?', entregas.map(m => ({
+                rotulo: `${_meNomePessoa(m.funcionarioId)} — ${(m.data || '').split('-').reverse().join('/')} (${m.itens.length} item${m.itens.length === 1 ? '' : 's'})`,
+                valor: m.id,
+            }))).then(id => { if (id) _abrirDevolucaoMaterial(id); });
+        }
+        function _abrirDevolucaoMaterial(entregaId) {
+            const entrega = (dados.materiaisEntrega || []).find(m => m.id === entregaId);
+            if (!entrega) return;
+            let overlay = document.getElementById('meModalOverlay');
+            if (!overlay) { overlay = document.createElement('div'); overlay.id = 'meModalOverlay'; overlay.className = 'modal-overlay'; document.body.appendChild(overlay); }
+            const hoje = getDataHoje();
+            const agora = new Date().toTimeString().slice(0, 5);
+            overlay.innerHTML = `
+                <div class="modal" style="max-width:640px;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;">
+                        <h3><i class="fas fa-rotate-left"></i> Documento de Devolução de Material</h3>
+                        <button class="close-modal" onclick="document.getElementById('meModalOverlay').classList.remove('open')">&times;</button>
+                    </div>
+                    <p class="help-text">Baseado na entrega de <b>${escapeHtmlSimples(_meNomePessoa(entrega.funcionarioId))}</b>, em ${(entrega.data || '').split('-').reverse().join('/')}.</p>
+                    <div style="display:flex;gap:10px;">
+                        <div class="form-group" style="flex:1;"><label>Data</label><input type="date" id="me_data" value="${hoje}" /></div>
+                        <div class="form-group" style="flex:1;"><label>Hora</label><input type="time" id="me_hora" value="${agora}" /></div>
+                    </div>
+                    <div class="form-group ff-span2">
+                        <label>Material — marca o que foi mesmo devolvido/recebido pela empresa</label>
+                        <div id="me_devol_itens">
+                            ${entrega.itens.map((it, i) => `<div class="me-devol-row" style="display:flex;gap:8px;align-items:center;margin-bottom:6px;padding:6px 8px;background:#f8fafc;border-radius:6px;">
+                                <input type="checkbox" class="me-devol-check" data-idx="${i}" checked style="width:auto;margin:0;" />
+                                <span style="flex:1;">${escapeHtmlSimples(it.nome)}</span>
+                                <span style="color:#64748b;font-size:.85rem;">Entregue: ${it.qtd}</span>
+                                <input type="number" class="me-devol-qtd" data-idx="${i}" min="0" value="${it.qtd}" style="width:70px;" />
+                            </div>`).join('')}
+                        </div>
+                    </div>
+                    <div class="form-group ff-span2"><label>Nome do técnico (quem devolve o material)</label><input type="text" id="me_nome_tecnico" value="${escapeHtmlSimples(entrega.nomeTecnico || '')}" placeholder="Nome completo" /></div>
+                    ${_meBlocoAssinatura('me_sign_tecnico', 'Assinatura do técnico')}
+                    <div class="form-group ff-span2" style="margin-top:10px;"><label>Nome de quem recebe (pela empresa)</label><input type="text" id="me_nome_entrega" placeholder="Nome completo" /></div>
+                    ${_meBlocoAssinatura('me_sign_entrega', 'Assinatura de quem recebe')}
+                    <button type="button" class="btn btn-primary" style="width:100%;margin-top:16px;" onclick="_meGuardarDevolucao('${entregaId}')"><i class="fas fa-file-signature"></i> Gerar Documento</button>
+                </div>
+            `;
+            overlay.classList.add('open');
+            setTimeout(() => { inicializarAssinaturaGenerica('me_sign_tecnico'); inicializarAssinaturaGenerica('me_sign_entrega'); }, 50);
+        }
+        async function _meGuardarDevolucao(entregaId) {
+            const entrega = (dados.materiaisEntrega || []).find(m => m.id === entregaId);
+            if (!entrega) return;
+            const nomeTecnico = document.getElementById('me_nome_tecnico').value.trim();
+            const nomeRecebe = document.getElementById('me_nome_entrega').value.trim();
+            if (!nomeTecnico || !nomeRecebe) { alert('Preenche os nomes de quem devolve e de quem recebe.'); return; }
+            const assinaturaTecnico = capturarAssinaturaGenerica('me_sign_tecnico');
+            const assinaturaRecebe = capturarAssinaturaGenerica('me_sign_entrega');
+            if (!assinaturaTecnico || !assinaturaRecebe) { alert('Faltam as duas assinaturas.'); return; }
+            const itens = entrega.itens.map((it, i) => {
+                const chk = document.querySelector(`.me-devol-check[data-idx="${i}"]`);
+                const qtdEl = document.querySelector(`.me-devol-qtd[data-idx="${i}"]`);
+                return { nome: it.nome, qtd: it.qtd, recebido: !!chk?.checked, qtdRecebida: parseInt(qtdEl?.value, 10) || 0 };
+            });
+            const registo = {
+                id: gerarId(), adminId: entrega.adminId, funcionarioId: entrega.funcionarioId, tipo: 'devolucao', entregaOrigemId: entregaId, itens,
+                data: document.getElementById('me_data').value, hora: document.getElementById('me_hora').value,
+                nomeTecnico, assinaturaTecnico, nomeResponsavel: nomeRecebe, assinaturaResponsavel: assinaturaRecebe,
+                dataCriacao: Date.now(),
+            };
+            dados.materiaisEntrega = dados.materiaisEntrega || [];
+            dados.materiaisEntrega.push(registo);
+            guardarDados(dados);
+            document.getElementById('meModalOverlay').classList.remove('open');
+            _meImprimirDocumento(registo, entrega);
+        }
+        // Documento final, pronto a imprimir/guardar em PDF — logótipo e NIF da empresa, nome do
+        // funcionário, lista de material com um ✓ à frente, data/hora, e as duas assinaturas.
+        function _meImprimirDocumento(registo, entregaOrigem) {
+            const admin = adminAtual();
+            const ehDevolucao = registo.tipo === 'devolucao';
+            const titulo = ehDevolucao ? 'Documento de Devolução de Material' : 'Documento de Entrega de Material';
+            const dataFmt = (registo.data || '').split('-').reverse().join('/');
+            const linhasItens = registo.itens.map(it => ehDevolucao
+                ? `<tr><td>${it.recebido ? '✓' : '✗'}</td><td>${escapeHtmlSimples(it.nome)}</td><td>${it.qtd}</td><td>${it.qtdRecebida}</td></tr>`
+                : `<tr><td>✓</td><td>${escapeHtmlSimples(it.nome)}</td><td>${it.qtd}</td></tr>`
+            ).join('');
+            const w = window.open('', '_blank');
+            w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>${titulo}</title>
+                <style>
+                    body{font-family:Arial,sans-serif;color:#1e293b;padding:32px;max-width:760px;margin:0 auto;}
+                    .cab{display:flex;align-items:center;gap:16px;border-bottom:2px solid #152a52;padding-bottom:16px;margin-bottom:20px;}
+                    .cab img{max-height:60px;max-width:180px;object-fit:contain;}
+                    .cab .info{font-size:.85rem;color:#475569;}
+                    h1{font-size:1.3rem;margin:0 0 4px;color:#152a52;}
+                    table{width:100%;border-collapse:collapse;margin:16px 0;}
+                    th,td{border:1px solid #cbd5e1;padding:8px 10px;text-align:left;font-size:.9rem;}
+                    th{background:#f1f5f9;}
+                    .sign-bloco{display:flex;gap:24px;margin-top:40px;}
+                    .sign-col{flex:1;text-align:center;}
+                    .sign-col img{max-width:100%;height:100px;object-fit:contain;border-bottom:1px solid #94a3b8;}
+                    .sign-col .nome{margin-top:6px;font-weight:600;}
+                    .rodape{margin-top:30px;font-size:.8rem;color:#64748b;}
+                    @media print{.no-print{display:none;}}
+                </style></head><body>
+                <div class="cab">
+                    ${admin?.logo ? `<img src="${admin.logo}" />` : ''}
+                    <div class="info"><b>${escapeHtmlSimples(admin?.empresa || admin?.nome || '')}</b><br>NIF: ${escapeHtmlSimples(admin?.nif || '—')}</div>
+                </div>
+                <h1>${titulo}</h1>
+                <p>Funcionário: <b>${escapeHtmlSimples(_meNomePessoa(registo.funcionarioId))}</b></p>
+                ${ehDevolucao && entregaOrigem ? `<p style="color:#64748b;font-size:.85rem;">Referente à entrega de ${(entregaOrigem.data || '').split('-').reverse().join('/')}</p>` : ''}
+                <table>
+                    <thead><tr><th></th><th>Material</th><th>Qtd. ${ehDevolucao ? 'entregue' : ''}</th>${ehDevolucao ? '<th>Qtd. recebida</th>' : ''}</tr></thead>
+                    <tbody>${linhasItens}</tbody>
+                </table>
+                <div class="sign-bloco">
+                    <div class="sign-col">
+                        ${registo.assinaturaTecnico ? `<img src="${registo.assinaturaTecnico}" />` : ''}
+                        <div class="nome">${escapeHtmlSimples(registo.nomeTecnico)}</div>
+                        <div style="font-size:.8rem;color:#64748b;">Técnico</div>
+                    </div>
+                    <div class="sign-col">
+                        ${registo.assinaturaResponsavel ? `<img src="${registo.assinaturaResponsavel}" />` : ''}
+                        <div class="nome">${escapeHtmlSimples(registo.nomeResponsavel)}</div>
+                        <div style="font-size:.8rem;color:#64748b;">${ehDevolucao ? 'Recebeu pela empresa' : 'Entregou pela empresa'}</div>
+                    </div>
+                </div>
+                <p class="rodape">Documento gerado em ${dataFmt} às ${escapeHtmlSimples(registo.hora || '')}.</p>
+                <button class="no-print" onclick="window.print()" style="margin-top:20px;padding:10px 20px;background:#152a52;color:#fff;border:none;border-radius:8px;cursor:pointer;">Imprimir / Guardar PDF</button>
+                </body></html>`);
+            w.document.close();
+        }
+
+        // =============================================================
         //  FUNÇÕES PARA CLIENTE RÁPIDO NA OS (ENCARREGADO)
         // =============================================================
         let _ncTargetSelect = 's_cliente';
@@ -25073,7 +26244,10 @@ async function salvarAdmin(e) {
                         ? (dados.clientes || []).find(c => c.adminId === obj.adminId && c.nif === obj.nif && c.id !== idEditando)
                         : null;
                     if (_outroComMesmoNif) {
-                        alert(`Já existe um cliente com este NIF: "${_outroComMesmoNif.nome}". Cada cliente precisa de um NIF diferente — é o que identifica o login no Portal.`);
+                        if (confirm(`Já existe um cliente com este NIF: "${_outroComMesmoNif.nome}". Cada cliente precisa de um NIF diferente — é o que identifica o login no Portal.\n\nQueres abrir esse cliente agora, para veres/editares?`)) {
+                            fecharModal();
+                            setTimeout(() => abrirModal('cliente', _outroComMesmoNif.id), 100);
+                        }
                         return;
                     }
                 }
@@ -26364,6 +27538,10 @@ async function salvarAdmin(e) {
             { valor: 'numero', label: 'Número', icon: 'fa-hashtag' },
             { valor: 'checkbox', label: 'Sim / Não', icon: 'fa-toggle-on' },
             { valor: 'checklist', label: 'Passo do checklist (obrigatório)', icon: 'fa-list-check' },
+            { valor: 'lista', label: 'Lista de escolha', icon: 'fa-caret-down' },
+            { valor: 'data', label: 'Data', icon: 'fa-calendar-day' },
+            { valor: 'hora', label: 'Hora', icon: 'fa-clock' },
+            { valor: 'titulo', label: 'Título de secção', icon: 'fa-heading' },
         ];
         // Relatório de Km Percorridos (estimados) — só admin/subadmin. Junta os registos de
         // dados.kmViagens (capturados ao tocar em "Navegar" nas OS) por técnico, com total do
@@ -26480,60 +27658,140 @@ async function salvarAdmin(e) {
             `;
         }
         function abrirGestaoRelatoriosPersonalizados() {
-            const tid = _tenantId();
-            const tipos = (dados.tiposTrabalhoCustom || []).filter(t => t.adminId === tid);
             document.getElementById('modalGenericoTitulo').innerHTML = '<i class="fas fa-clipboard-list"></i> Relatórios personalizados por tipo de trabalho';
             const _modalEl = document.querySelector('#modalGenericoOverlay .modal');
-            if (_modalEl) { _modalEl.dataset.maxWidthOriginal = _modalEl.style.maxWidth || ''; _modalEl.style.maxWidth = '920px'; }
-            document.getElementById('modalGenericoCampos').innerHTML = `
-                <div class="rp-editor-scroll">
-                    <p class="help-text" style="margin-bottom:12px;">Escolhe um tipo de trabalho criado por ti para desenhares o formulário que aparece quando um técnico fecha uma OS desse tipo. Os tipos base (REX, RBI, etc.) já têm o relatório de especialidade próprio e não aparecem aqui.</p>
-                    ${tipos.length ? `
-                        <div class="form-group">
-                            <label>Tipo de trabalho</label>
-                            <select id="rp_tipo_select" onchange="_rpRenderCampos(this.value)">
-                                <option value="">— Escolhe —</option>
-                                ${tipos.map(t => `<option value="${t.codigo}">${escapeHtmlSimples(t.nome)}${(t.campos || []).length ? ` (${t.campos.length} campo${t.campos.length === 1 ? '' : 's'})` : ' — Crie o seu relatório'}</option>`).join('')}
-                            </select>
-                        </div>
-                        <div id="rp_campos_area"></div>
-                    ` : `<p class="help-text">Ainda não criaste nenhum tipo de trabalho próprio. Cria um primeiro no campo "Novo tipo de trabalho" ao editar uma OS.</p>`}
-                </div>
-            `;
+            if (_modalEl) {
+                _modalEl.dataset.maxWidthOriginal = _modalEl.style.maxWidth || '';
+                _modalEl.style.maxWidth = '920px';
+                _modalEl.style.width = '48vw';
+                _modalEl.style.minWidth = '480px';
+                _modalEl.style.height = '90vh';
+                _modalEl.style.maxHeight = '90vh';
+                _modalEl.style.display = 'flex';
+                _modalEl.style.flexDirection = 'column';
+            }
+            document.getElementById('rpPreviewFlutuante')?.classList.remove('open'); // só aparece ao "Personalizar" um tipo
+            const _formRp = document.getElementById('modalGenericoForm');
+            if (_formRp) { _formRp.style.flex = '1'; _formRp.style.minHeight = '0'; _formRp.style.display = 'flex'; _formRp.style.flexDirection = 'column'; }
+            const _camposRp = document.getElementById('modalGenericoCampos');
+            if (_camposRp) { _camposRp.style.flex = '1'; _camposRp.style.minHeight = '0'; _camposRp.style.overflow = 'hidden'; }
+            _rpRenderListaTipos();
             document.getElementById('modalGenericoForm').onsubmit = ev => { ev.preventDefault(); _fecharModalGenerico(); };
             const _bgRp = document.querySelector('#modalGenericoOverlay .modal-actions .btn-success'); if (_bgRp) { _bgRp.style.display = ''; _bgRp.innerHTML = '<i class="fas fa-check"></i> Finalizar'; }
             document.getElementById('modalGenericoOverlay').classList.add('open', 'modal-veros');
         }
+        // Lista de tipos de trabalho próprios (criados pelo admin), com as três ações por
+        // linha: Personalizar (desenhar os campos do relatório), Editar (mudar o nome) e Apagar.
+        function _rpRenderListaTipos() {
+            document.getElementById('rpPreviewFlutuante')?.classList.remove('open');
+            const tid = _tenantId();
+            const tipos = (dados.tiposTrabalhoCustom || []).filter(t => t.adminId === tid);
+            document.getElementById('modalGenericoCampos').innerHTML = `
+                <div class="rp-editor-scroll" style="height:100%;overflow-y:auto;display:flex;flex-direction:column;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;flex-wrap:wrap;">
+                        <p class="help-text" style="margin:0;">Tipos de trabalho criados por ti. Os tipos base (REX, RBI, etc.) já têm o relatório de especialidade próprio e não aparecem aqui.${(() => { const lim = packLimite(adminAtual(), 'relatoriosPersonalizados'); return lim !== Infinity ? ` <strong>${tipos.length}/${lim}</strong> usados.` : ''; })()}</p>
+                        <button type="button" class="btn btn-sm btn-primary" style="flex-shrink:0;" onclick="_rpNovoTipo()"><i class="fas fa-plus"></i> Novo</button>
+                    </div>
+                    ${tipos.length ? `
+                        <div class="table-wrapper">
+                            <table style="width:100%;">
+                                <thead><tr><th>Nome</th><th>Campos</th><th style="text-align:right;">Ações</th></tr></thead>
+                                <tbody>
+                                    ${tipos.map(t => `<tr id="rp_linha_${t.codigo}">
+                                        <td>${escapeHtmlSimples(t.nome)}</td>
+                                        <td>${(t.campos || []).length ? `${t.campos.length} campo${t.campos.length === 1 ? '' : 's'}` : '<span style="color:#b45309;font-weight:600;">Crie o seu relatório</span>'}</td>
+                                        <td style="text-align:right;white-space:nowrap;">
+                                            <button type="button" class="btn btn-sm" style="background:#eef2ff;color:#3730a3;" onclick="_rpRenderCampos('${t.codigo}')" title="Personalizar campos"><i class="fas fa-pen-to-square"></i> Personalizar</button>
+                                            <button type="button" class="btn btn-sm btn-outline" onclick="_rpEditarNome('${t.codigo}')" title="Editar nome"><i class="fas fa-i-cursor"></i> Editar</button>
+                                            <button type="button" class="btn btn-sm btn-danger" onclick="_rpApagarTipo('${t.codigo}')" title="Apagar"><i class="fas fa-trash"></i> Apagar</button>
+                                        </td>
+                                    </tr>`).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="rp_campos_area"></div>
+                    ` : `<p class="help-text">Ainda não criaste nenhum tipo de trabalho próprio — clica em "+ Novo" para criares o primeiro.</p>`}
+                </div>
+            `;
+        }
+        // Criar um novo tipo de trabalho próprio diretamente daqui — a mesma coisa que já dava
+        // para fazer ao editar uma OS (campo "Novo tipo de trabalho"), sem precisar de lá ir.
+        function _rpNovoTipo() {
+            const tid = _tenantId();
+            // Limite de modelos de relatório por pack (Express 5 / Expert 15 / Pro 40 / Supreme ∞).
+            // Contas sem pack (modelo antigo) não têm limite. Os tipos base (REX, etc.) não contam,
+            // só os personalizados criados pela empresa.
+            const limite = packLimite(adminAtual(), 'relatoriosPersonalizados');
+            const jaTem = (dados.tiposTrabalhoCustom || []).filter(t => t.adminId === tid).length;
+            if (jaTem >= limite) {
+                alert(`O teu pack permite até ${limite} modelo${limite === 1 ? '' : 's'} de relatório personalizado, e já os tens todos. Para criares mais, muda para um pack superior em "Minha Licença".`);
+                return;
+            }
+            const nome = (prompt('Nome do novo tipo de trabalho:') || '').trim();
+            if (!nome) return;
+            const codigo = 'CUSTOM_' + nome.toUpperCase().replace(/[^A-Z0-9]+/g, '_').slice(0, 30) + '_' + Date.now().toString(36);
+            dados.tiposTrabalhoCustom = dados.tiposTrabalhoCustom || [];
+            dados.tiposTrabalhoCustom.push({ id: gerarId(), adminId: tid, codigo, nome, criadoEm: Date.now() });
+            guardarDados(dados);
+            _rpRenderListaTipos();
+            _rpRenderCampos(codigo); // já entra a personalizar, para não ser preciso outro clique
+        }
+        async function _rpEditarNome(codigo) {
+            const tid = _tenantId();
+            const tipo = (dados.tiposTrabalhoCustom || []).find(t => t.codigo === codigo && t.adminId === tid);
+            if (!tipo) return;
+            const novoNome = prompt('Novo nome para este tipo de trabalho:', tipo.nome);
+            if (novoNome === null) return; // cancelou
+            const nomeLimpo = novoNome.trim();
+            if (!nomeLimpo) { alert('O nome não pode ficar vazio.'); return; }
+            tipo.nome = nomeLimpo;
+            guardarDados(dados);
+            _rpRenderListaTipos();
+        }
+        async function _rpApagarTipo(codigo) {
+            const tid = _tenantId();
+            const tipo = (dados.tiposTrabalhoCustom || []).find(t => t.codigo === codigo && t.adminId === tid);
+            if (!tipo) return;
+            const emUso = (dados.servicos || []).filter(s => (s.tiposTrabalho || []).includes(codigo)).length;
+            const aviso = emUso
+                ? `"${tipo.nome}" está a ser usado em ${emUso} Ordem${emUso === 1 ? '' : 's'} de Serviço. Apagá-lo não muda essas OS já criadas, mas deixa de poder ser escolhido em OS novas, e perdes o relatório personalizado desenhado para ele.\n\nTens a certeza que queres apagar?`
+                : `Vais apagar "${tipo.nome}" e o relatório personalizado desenhado para ele. Não é possível desfazer.\n\nTens a certeza?`;
+            if (!confirm(aviso)) return;
+            dados.tiposTrabalhoCustom = (dados.tiposTrabalhoCustom || []).filter(t => t.codigo !== codigo);
+            guardarDados(dados);
+            _rpRenderListaTipos();
+        }
         function _rpRenderCampos(codigo) {
             const area = document.getElementById('rp_campos_area');
             if (!area) return;
-            if (!codigo) { area.innerHTML = ''; return; }
+            if (!codigo) { area.innerHTML = ''; document.getElementById('rpPreviewFlutuante')?.classList.remove('open'); return; }
             const tid = _tenantId();
             const tipo = (dados.tiposTrabalhoCustom || []).find(t => t.codigo === codigo && t.adminId === tid);
             if (!tipo) return;
             tipo.campos = tipo.campos || [];
             area.innerHTML = `
-                <div style="border-top:1px solid #e2e8f0;padding-top:12px;margin-top:8px;display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start;">
-                    <div style="flex:1 1 320px;min-width:280px;">
-                        <div id="rp_lista_campos" style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px;"></div>
-                        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-                            <input type="text" id="rp_novo_campo_label" placeholder="Ex: Central testada?" style="flex:1;min-width:160px;" />
-                            <select id="rp_novo_campo_tipo" style="width:150px;">
-                                ${CAMPO_TIPOS.map(c => `<option value="${c.valor}">${c.label}</option>`).join('')}
-                            </select>
-                            <button type="button" class="btn btn-sm btn-outline" onclick="_rpAdicionarCampo('${codigo}')"><i class="fas fa-plus"></i> Adicionar campo</button>
-                        </div>
-                    </div>
-                    <div style="flex:1 1 300px;min-width:260px;max-width:380px;">
-                        <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.4px;color:var(--muted,#64748b);font-weight:700;margin-bottom:6px;">
-                            <i class="fas fa-eye"></i> Pré-visualização (o que o técnico vai ver)
-                        </div>
-                        <div style="border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;background:#f8fafc;">
-                            <iframe id="rp_preview_iframe" style="width:100%;height:62vh;min-height:420px;border:none;background:#fff;"></iframe>
-                        </div>
+                <div style="border-top:1px solid #e2e8f0;padding-top:12px;margin-top:8px;flex:1;display:flex;flex-direction:column;min-height:0;">
+                    <a href="#" onclick="_rpRenderListaTipos();return false;" style="font-size:.82rem;display:inline-flex;align-items:center;gap:4px;margin-bottom:10px;flex-shrink:0;"><i class="fas fa-arrow-left"></i> Voltar à lista</a>
+                    <p class="help-text" style="margin:0 0 10px;flex-shrink:0;"><i class="fas fa-arrows-up-down"></i> Arrasta os campos pela pega (⋮⋮) para os reordenar — o painel de pré-visualização ao lado atualiza logo. Usa "½" para pores dois campos lado a lado na mesma linha.</p>
+                    <div id="rp_lista_campos" style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px;overflow-y:auto;flex:1;min-height:0;"></div>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;flex-shrink:0;">
+                        <input type="text" id="rp_novo_campo_label" placeholder="Ex: Central testada?" style="flex:1;min-width:160px;" />
+                        <select id="rp_novo_campo_tipo" style="width:150px;">
+                            ${CAMPO_TIPOS.map(c => `<option value="${c.valor}">${c.label}</option>`).join('')}
+                        </select>
+                        <label style="display:flex;align-items:center;gap:5px;font-size:.82rem;white-space:nowrap;" title="O campo fica só com metade da largura, para partilhar a linha com outro campo de meia largura logo a seguir">
+                            <input type="checkbox" id="rp_novo_campo_metade" style="width:auto;margin:0;" /> Meia largura
+                        </label>
+                        <select id="rp_novo_campo_tamanho" style="width:120px;" title="Tamanho da letra deste campo">
+                            <option value="pequeno">Letra pequena</option>
+                            <option value="normal" selected>Letra normal</option>
+                            <option value="grande">Letra grande</option>
+                        </select>
+                        <button type="button" class="btn btn-sm btn-outline" onclick="_rpAdicionarCampo('${codigo}')"><i class="fas fa-plus"></i> Adicionar campo</button>
                     </div>
                 </div>
             `;
+            document.getElementById('rpPreviewFlutuante')?.classList.add('open');
             _rpAtualizarLista(tipo);
             _rpAtualizarPreview(tipo);
         }
@@ -26547,28 +27805,93 @@ async function salvarAdmin(e) {
             if (!iframe) return;
             try {
                 const html = _gerarTemplateRelatorioCustom(tipo);
+                iframe.onload = () => {
+                    const admin = adminAtual();
+                    if (!admin) return;
+                    iframe.contentWindow.postMessage({
+                        type: 'init',
+                        empresaNome: admin.empresa || admin.nome || '',
+                        logoBase64: admin.logo || '',
+                        corCorporativa: admin.corCorporativa || '',
+                        anepcNumero: admin.numeroAnepc || '',
+                        registoPrevioNumero: admin.numeroRegistoPrevio || '',
+                        certificadoraLogo: admin.certificadoraLogo || '',
+                        cliente: 'Cliente de exemplo',
+                        morada: 'Morada de exemplo, nº 1',
+                        numero: 'PRÉ-VISUALIZAÇÃO',
+                        data: getDataHoje(),
+                    }, '*');
+                };
                 iframe.srcdoc = html;
             } catch (e) {
                 iframe.srcdoc = '<p style="font-family:sans-serif;color:#94a3b8;padding:16px;font-size:.85rem;">Adiciona um campo para veres aqui a pré-visualização.</p>';
             }
         }
+        // Estado do arrastar (drag-and-drop) da lista de campos — guarda de que campo se partiu
+        // o arrasto, para saber o que mover quando se largar sobre outra linha.
+        let _rpDragIndice = null;
+        function _rpDragStart(ev, indice) {
+            _rpDragIndice = indice;
+            ev.dataTransfer.effectAllowed = 'move';
+            try { ev.dataTransfer.setData('text/plain', String(indice)); } catch (e) {}
+        }
+        function _rpDragOver(ev) {
+            ev.preventDefault();
+            ev.currentTarget.classList.add('rp-drag-over');
+        }
+        async function _rpDrop(ev, codigo, indiceAlvo) {
+            ev.preventDefault();
+            ev.currentTarget.classList.remove('rp-drag-over');
+            const origem = _rpDragIndice;
+            _rpDragIndice = null;
+            if (origem === null || origem === indiceAlvo) return;
+            const tid = _tenantId();
+            const tipo = (dados.tiposTrabalhoCustom || []).find(t => t.codigo === codigo && t.adminId === tid);
+            if (!tipo || !tipo.campos) return;
+            const [movido] = tipo.campos.splice(origem, 1);
+            tipo.campos.splice(indiceAlvo, 0, movido);
+            try { await guardarDados(dados, ['tiposTrabalhoCustom']); } catch (e) { alert('⚠️ Ficou no ecrã, mas ainda não foi possível confirmar no servidor.'); }
+            _rpAtualizarLista(tipo);
+            _rpAtualizarPreview(tipo);
+        }
+        const RP_TAMANHOS = { pequeno: 'Pequena', normal: 'Normal', grande: 'Grande' };
         function _rpAtualizarLista(tipo) {
             const lista = document.getElementById('rp_lista_campos');
             if (!lista) return;
             lista.innerHTML = (tipo.campos || []).length ? tipo.campos.map((c, i) => {
                 const info = CAMPO_TIPOS.find(t => t.valor === c.tipo) || CAMPO_TIPOS[0];
-                const ehPrimeiro = i === 0, ehUltimo = i === tipo.campos.length - 1;
-                return `<div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:#f8fafc;border-radius:8px;">
-                    <div style="display:flex;flex-direction:column;gap:2px;">
-                        <button type="button" class="btn btn-sm" style="padding:2px 7px;background:${ehPrimeiro ? '#e2e8f0' : '#eef2ff'};color:${ehPrimeiro ? '#94a3b8' : '#3730a3'};" ${ehPrimeiro ? 'disabled' : ''} onclick="_rpMoverCampo('${tipo.codigo}', ${i}, -1)" title="Mover para cima"><i class="fas fa-chevron-up"></i></button>
-                        <button type="button" class="btn btn-sm" style="padding:2px 7px;background:${ehUltimo ? '#e2e8f0' : '#eef2ff'};color:${ehUltimo ? '#94a3b8' : '#3730a3'};" ${ehUltimo ? 'disabled' : ''} onclick="_rpMoverCampo('${tipo.codigo}', ${i}, 1)" title="Mover para baixo"><i class="fas fa-chevron-down"></i></button>
-                    </div>
+                const ehMetade = c.largura === 'metade';
+                const tamanhoAtual = c.tamanho || 'normal';
+                return `<div class="rp-campo-linha" draggable="true" ondragstart="_rpDragStart(event, ${i})" ondragover="_rpDragOver(event)" ondragleave="this.classList.remove('rp-drag-over')" ondrop="_rpDrop(event, '${tipo.codigo}', ${i})" style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:#f8fafc;border-radius:8px;border:2px solid transparent;">
+                    <i class="fas fa-grip-vertical" style="color:#cbd5e1;cursor:grab;" title="Arrasta para reordenar"></i>
                     <i class="fas ${info.icon}" style="color:#64748b;width:18px;"></i>
                     <span style="flex:1;">${escapeHtmlSimples(c.label)}</span>
                     <span class="help-text">${info.label}</span>
+                    <select onchange="_rpAlterarTamanho('${tipo.codigo}', ${i}, this.value)" title="Tamanho da letra" style="font-size:.78rem;padding:3px 4px;">
+                        ${Object.entries(RP_TAMANHOS).map(([v, l]) => `<option value="${v}" ${tamanhoAtual === v ? 'selected' : ''}>${l}</option>`).join('')}
+                    </select>
+                    ${c.tipo !== 'titulo' ? `<button type="button" class="btn btn-sm" style="background:${ehMetade ? '#dcfce7' : '#eef2ff'};color:${ehMetade ? '#166534' : '#3730a3'};min-width:38px;" onclick="_rpAlternarLargura('${tipo.codigo}', ${i})" title="${ehMetade ? 'Meia largura — clica para pôr a largura toda' : 'Largura toda — clica para meia largura (lado a lado)'}">${ehMetade ? '½' : '1/1'}</button>` : ''}
                     <button type="button" class="btn btn-sm" style="background:#fee2e2;color:#991b1b;" onclick="_rpRemoverCampo('${tipo.codigo}', ${i})"><i class="fas fa-trash"></i></button>
                 </div>`;
             }).join('') : '<p class="help-text">Ainda sem campos — adiciona o primeiro abaixo.</p>';
+        }
+        async function _rpAlterarTamanho(codigo, indice, tamanho) {
+            const tid = _tenantId();
+            const tipo = (dados.tiposTrabalhoCustom || []).find(t => t.codigo === codigo && t.adminId === tid);
+            if (!tipo || !tipo.campos?.[indice]) return;
+            tipo.campos[indice].tamanho = tamanho;
+            try { await guardarDados(dados, ['tiposTrabalhoCustom']); } catch (e) { alert('⚠️ Ficou no ecrã, mas ainda não foi possível confirmar no servidor.'); }
+            _rpAtualizarPreview(tipo);
+        }
+        async function _rpAlternarLargura(codigo, indice) {
+            const tid = _tenantId();
+            const tipo = (dados.tiposTrabalhoCustom || []).find(t => t.codigo === codigo && t.adminId === tid);
+            if (!tipo || !tipo.campos?.[indice]) return;
+            const c = tipo.campos[indice];
+            c.largura = c.largura === 'metade' ? 'completo' : 'metade';
+            try { await guardarDados(dados, ['tiposTrabalhoCustom']); } catch (e) { alert('⚠️ Ficou no ecrã, mas ainda não foi possível confirmar no servidor.'); }
+            _rpAtualizarLista(tipo);
+            _rpAtualizarPreview(tipo);
         }
         async function _rpMoverCampo(codigo, indice, direcao) {
             const tid = _tenantId();
@@ -26584,14 +27907,33 @@ async function salvarAdmin(e) {
         async function _rpAdicionarCampo(codigo) {
             const label = document.getElementById('rp_novo_campo_label').value.trim();
             const tipoCampo = document.getElementById('rp_novo_campo_tipo').value;
-            if (!label) { alert('Escreve o nome do campo.'); return; }
+            if (!label) { alert('Escreve o nome do campo (ou, para um Título de secção, o texto do título).'); return; }
+            let opcoes = null;
+            if (tipoCampo === 'lista') {
+                const opcoesTxto = prompt('Escreve as opções da lista, separadas por vírgula (ex: Bom, Razoável, Mau):');
+                if (opcoesTxto === null) return; // cancelou
+                opcoes = opcoesTxto.split(',').map(o => o.trim()).filter(Boolean);
+                if (!opcoes.length) { alert('Tens de escrever pelo menos uma opção.'); return; }
+            }
             const tid = _tenantId();
             const tipo = (dados.tiposTrabalhoCustom || []).find(t => t.codigo === codigo && t.adminId === tid);
             if (!tipo) return;
             tipo.campos = tipo.campos || [];
-            tipo.campos.push({ id: gerarId(), label, tipo: tipoCampo });
+            // Limite de campos por relatório, conforme o pack (Express 5 / Expert 15 / Pro 40 / ∞).
+            const limiteCampos = packLimite(adminAtual(), 'camposPorRelatorio');
+            if (tipo.campos.length >= limiteCampos) {
+                alert(`O teu pack permite até ${limiteCampos} campos por relatório. Para mais, muda para um pack superior em "Minha Licença".`);
+                return;
+            }
+            const metade = document.getElementById('rp_novo_campo_metade')?.checked && tipoCampo !== 'titulo';
+            const tamanho = document.getElementById('rp_novo_campo_tamanho')?.value || 'normal';
+            const novoCampo = { id: gerarId(), label, tipo: tipoCampo, largura: metade ? 'metade' : 'completo', tamanho };
+            if (opcoes) novoCampo.opcoes = opcoes;
+            tipo.campos.push(novoCampo);
             try { await guardarDados(dados, ['tiposTrabalhoCustom']); } catch (e) { alert('⚠️ Ficou no ecrã, mas ainda não foi possível confirmar no servidor.'); }
             document.getElementById('rp_novo_campo_label').value = '';
+            const _chkMetade = document.getElementById('rp_novo_campo_metade'); if (_chkMetade) _chkMetade.checked = false;
+            const _selTamanho = document.getElementById('rp_novo_campo_tamanho'); if (_selTamanho) _selTamanho.value = 'normal';
             _rpAtualizarLista(tipo);
             _rpAtualizarPreview(tipo);
             const sel = document.getElementById('rp_tipo_select');
@@ -26627,23 +27969,54 @@ async function salvarAdmin(e) {
         // (REX, RBI, etc.), para que todo o resto do fluxo — guardar rascunho, concluir,
         // reaproveitar valores do relatório anterior, storage — funcione sem alterações.
         function _gerarTemplateRelatorioCustom(tipoDef) {
-            const campoHtml = c => {
+            const campoHtml = (c, fsz) => {
+                fsz = fsz || '.9rem';
                 const idAttr = `id="${c.id}"`;
-                if (c.tipo === 'textarea') return `<textarea ${idAttr} style="width:100%;min-height:70px;font-family:inherit;font-size:.9rem;padding:8px;border:1px solid var(--line);border-radius:6px;"></textarea>`;
-                if (c.tipo === 'numero') return `<input type="number" step="0.01" ${idAttr} style="width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:6px;font-family:inherit;font-size:.9rem;">`;
-                if (c.tipo === 'checkbox') return `<div class="campo-sim-nao" data-simnao="${c.id}">
+                if (c.tipo === 'textarea') return `<textarea ${idAttr} style="width:100%;min-height:70px;font-family:inherit;font-size:${fsz};padding:8px;border:1px solid var(--line);border-radius:6px;"></textarea>`;
+                if (c.tipo === 'numero') return `<input type="number" step="0.01" ${idAttr} style="width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:6px;font-family:inherit;font-size:${fsz};">`;
+                if (c.tipo === 'data') return `<input type="date" ${idAttr} style="width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:6px;font-family:inherit;font-size:${fsz};">`;
+                if (c.tipo === 'hora') return `<input type="time" ${idAttr} style="width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:6px;font-family:inherit;font-size:${fsz};">`;
+                if (c.tipo === 'lista') return `<select ${idAttr} style="width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:6px;font-family:inherit;font-size:${fsz};background:#fff;">
+                    <option value="">— Escolhe —</option>
+                    ${(c.opcoes || []).map(o => `<option value="${escapeHtmlSimples(o)}">${escapeHtmlSimples(o)}</option>`).join('')}
+                </select>`;
+                if (c.tipo === 'checkbox') return `<div class="campo-sim-nao" data-simnao="${c.id}" style="font-size:${fsz};">
                     <input type="hidden" ${idAttr} value="">
-                    <button type="button" class="btn-simnao" data-val="sim" onclick="_relSimNao('${c.id}','sim')">Sim</button>
-                    <button type="button" class="btn-simnao" data-val="nao" onclick="_relSimNao('${c.id}','nao')">Não</button>
+                    <button type="button" class="btn-simnao" data-val="sim" onclick="_relSimNao('${c.id}','sim')" style="font-size:${fsz};">Sim</button>
+                    <button type="button" class="btn-simnao" data-val="nao" onclick="_relSimNao('${c.id}','nao')" style="font-size:${fsz};">Não</button>
                 </div>`;
-                if (c.tipo === 'checklist') return `<label style="display:flex;align-items:center;gap:8px;font-size:.88rem;"><input type="checkbox" ${idAttr} style="width:18px;height:18px;"> Verificado / concluído</label>`;
-                return `<input type="text" ${idAttr} style="width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:6px;font-family:inherit;font-size:.9rem;">`;
+                if (c.tipo === 'checklist') return `<label style="display:flex;align-items:center;gap:8px;font-size:${fsz};"><input type="checkbox" ${idAttr} style="width:18px;height:18px;"> Verificado / concluído</label>`;
+                return `<input type="text" ${idAttr} style="width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:6px;font-family:inherit;font-size:${fsz};">`;
             };
-            const camposHtml = (tipoDef.campos || []).map(c => `
-                <div class="field-row">
-                    <label>${escapeHtmlSimples(c.label)}</label>
-                    ${campoHtml(c)}
-                </div>`).join('');
+            // "Título de secção" não é um campo a preencher — é só um separador visual entre
+            // grupos de campos. Campos marcados como "metade" juntam-se em pares na mesma
+            // linha (lado a lado); um campo "completo" ou "titulo" fecha sempre o par pendente
+            // primeiro (nunca fica um campo perdido a meio de outra linha).
+            let camposHtml = '';
+            let _pendente = null;
+            const _RP_TAM_TITULO = { pequeno: '.88rem', normal: '1rem', grande: '1.3rem' };
+            const _RP_TAM_LABEL = { pequeno: '.64rem', normal: '.72rem', grande: '.82rem' };
+            const _RP_TAM_CAMPO = { pequeno: '.8rem', normal: '.9rem', grande: '1.08rem' };
+            const _flush = () => { if (_pendente) { camposHtml += `<div class="field-row" style="display:flex;gap:14px;">${_pendente}<div style="flex:1;"></div></div>`; _pendente = null; } };
+            (tipoDef.campos || []).forEach(c => {
+                const tam = c.tamanho || 'normal';
+                if (c.tipo === 'titulo') {
+                    _flush();
+                    camposHtml += `<div class="field-row" style="margin:18px 0 10px;padding-top:10px;border-top:1px solid var(--line);">
+                        <h3 style="margin:0;font-size:${_RP_TAM_TITULO[tam]};color:var(--accent);text-transform:none;letter-spacing:0;">${escapeHtmlSimples(c.label)}</h3>
+                    </div>`;
+                    return;
+                }
+                const campoBloco = `<div style="flex:1;min-width:0;"><label style="font-size:${_RP_TAM_LABEL[tam]};">${escapeHtmlSimples(c.label)}</label>${campoHtml(c, _RP_TAM_CAMPO[tam])}</div>`;
+                if (c.largura === 'metade') {
+                    if (_pendente) { camposHtml += `<div class="field-row" style="display:flex;gap:14px;">${_pendente}${campoBloco}</div>`; _pendente = null; }
+                    else { _pendente = campoBloco; }
+                } else {
+                    _flush();
+                    camposHtml += `<div class="field-row">${campoBloco}</div>`;
+                }
+            });
+            _flush();
             return `<!DOCTYPE html>
 <html lang="pt-PT">
 <head>
@@ -26693,6 +28066,8 @@ async function salvarAdmin(e) {
   <header class="top">
     <div class="brand">
       <div class="empresa-nome" id="empresaNomeTxt"></div>
+      <div id="anepcRpLinha" style="display:none;font-size:.68rem;color:var(--muted);margin-top:3px;line-height:1.5;"></div>
+      <img id="certLogoImg" style="display:none;max-height:34px;max-width:120px;margin-top:6px;object-fit:contain;" />
     </div>
     <div class="meta">
       <div>Nº <input type="text" class="docNo"></div>
@@ -26761,6 +28136,17 @@ window._relPrefill = function(msg){
           document.documentElement.style.setProperty('--accent-soft', soft);
         }
       }
+      // ANEPC / registo prévio — só aparecem se a empresa os tiver mesmo preenchidos (ativados em
+      // "Opcionais Extra" → área de segurança). Sem isso, a linha e o logótipo ficam escondidos.
+      const linhaAnepcRp = document.getElementById('anepcRpLinha');
+      if (linhaAnepcRp) {
+        const partes = [];
+        if (msg.registoPrevioNumero) partes.push('Registo Prévio nº ' + msg.registoPrevioNumero);
+        if (msg.anepcNumero) partes.push('ANEPC nº ' + msg.anepcNumero);
+        if (partes.length) { linhaAnepcRp.textContent = partes.join(' · '); linhaAnepcRp.style.display = ''; }
+      }
+      const certLogoImg = document.getElementById('certLogoImg');
+      if (certLogoImg && msg.certificadoraLogo) { certLogoImg.src = msg.certificadoraLogo; certLogoImg.style.display = ''; }
     } catch(e){ console.error('branding relatório custom:', e); }
   }
   window._relAplicarBranding = _relAplicarBranding;
@@ -26852,6 +28238,7 @@ window._relPrefill = function(msg){
   document.getElementById('_relBtnRascunho').addEventListener('click', function(){
     document.querySelectorAll('input, select, textarea').forEach(el=>{
       if (el.type === 'checkbox' || el.type === 'radio') { if (el.checked) el.setAttribute('checked','checked'); else el.removeAttribute('checked'); }
+      else if (el.tagName === 'SELECT') { [...el.options].forEach(o=>o.removeAttribute('selected')); if (el.selectedOptions[0]) el.selectedOptions[0].setAttribute('selected','selected'); }
       else if (el.tagName === 'TEXTAREA') { el.textContent = el.value; }
       else { el.setAttribute('value', el.value); }
     });
@@ -26873,6 +28260,7 @@ window._relPrefill = function(msg){
     }
     document.querySelectorAll('input, select, textarea').forEach(el=>{
       if (el.type === 'checkbox' || el.type === 'radio') { if (el.checked) el.setAttribute('checked','checked'); else el.removeAttribute('checked'); }
+      else if (el.tagName === 'SELECT') { [...el.options].forEach(o=>o.removeAttribute('selected')); if (el.selectedOptions[0]) el.selectedOptions[0].setAttribute('selected','selected'); }
       else if (el.tagName === 'TEXTAREA') { el.textContent = el.value; }
       else { el.setAttribute('value', el.value); }
     });
@@ -28971,6 +30359,7 @@ window._relPrefill = function(msg){
 
         function _fecharModalGenerico() {
             document.getElementById('modalGenericoOverlay').classList.remove('open', 'modal-veros');
+            document.getElementById('rpPreviewFlutuante')?.classList.remove('open');
             const _acoes = document.getElementById('modalGenericoAcoes');
             if (_acoes) _acoes.style.display = ''; // repõe o rodapé Cancelar/Guardar, para não ficar escondido nos outros usos deste modal
             const _btnCancelar = document.querySelector('#modalGenericoOverlay .modal-actions button[type="button"]');
@@ -28978,7 +30367,22 @@ window._relPrefill = function(msg){
             const _bg = document.querySelector('#modalGenericoOverlay .modal-actions .btn-success');
             if (_bg) { _bg.style.display = ''; _bg.innerHTML = '<i class="fas fa-save"></i> Guardar'; }
             const _modalEl = document.querySelector('#modalGenericoOverlay .modal');
-            if (_modalEl) _modalEl.style.maxWidth = ''; // repõe a largura padrão do CSS (720px) — os ecrãs "Ver OS"/"Ver Obra" tinham um valor fixo próprio
+            if (_modalEl) {
+                // repõe tudo ao padrão do CSS — o ecrã de Relatórios Personalizados usa um
+                // modal maior e em coluna flex, os outros usos deste modal genérico não devem
+                // herdar isso.
+                _modalEl.style.maxWidth = '';
+                _modalEl.style.width = '';
+                _modalEl.style.minWidth = '';
+                _modalEl.style.height = '';
+                _modalEl.style.maxHeight = '';
+                _modalEl.style.display = '';
+                _modalEl.style.flexDirection = '';
+            }
+            const _formRp = document.getElementById('modalGenericoForm');
+            if (_formRp) { _formRp.style.flex = ''; _formRp.style.minHeight = ''; _formRp.style.display = ''; _formRp.style.flexDirection = ''; }
+            const _camposRp = document.getElementById('modalGenericoCampos');
+            if (_camposRp) { _camposRp.style.flex = ''; _camposRp.style.minHeight = ''; _camposRp.style.overflow = ''; }
         }
         // ---- Arrastar para confirmar (picagem de entrada) ----
         let _peSlideDragging = false, _peSlideConfirmed = false, _peSlideStartX = 0, _peSlideMax = 0;
@@ -30613,7 +32017,7 @@ window._relPrefill = function(msg){
                         const ic = c.querySelector('.icon i')?.className || 'fas fa-circle';
                         const nome = c.querySelector('.info h3')?.textContent?.trim() || sec;
                         const href = sec === 'crm' ? 'TOTALGEST_CRM.html' : (sec === 'assistencias' ? 'TOTALGEST_ASSIST.html' : (sec === 'rondas' ? 'TOTALGEST_RONDAS.html' : null));
-                        const onclickAttr = sec === 'crm' ? 'return _abrirCRM(event)' : (sec === 'assistencias' ? 'return _abrirAssist(event)' : (sec === 'rondas' ? 'return _abrirRondas(event)' : `abrirSecao('${sec}')`));
+                        const onclickAttr = sec === 'crm' ? 'return _abrirCRM(event)' : (sec === 'assistencias' ? 'return _abrirAssist(event)' : (sec === 'rondas' ? 'return _abrirRondas(event)' : (sec === 'relatorios-personalizados' ? 'abrirGestaoRelatoriosPersonalizados()' : `abrirSecao('${sec}')`)));
                         const atributosExtra = href ? `href="${href}" target="_blank" rel="noopener"` : '';
                         html += `<a class="tg-nav-item" data-secao="${sec}" ${atributosExtra} onclick="${onclickAttr}"><i class="${ic}"></i><span>${nome}</span></a>`;
                     });
@@ -30634,7 +32038,7 @@ window._relPrefill = function(msg){
                         // lateral tem de ser um <a href> a sério, tal como o card correspondente
                         // no ecrã principal, e não um simples onclick sem destino nenhum.
                         const href = sec === 'crm' ? 'TOTALGEST_CRM.html' : (sec === 'assistencias' ? 'TOTALGEST_ASSIST.html' : (sec === 'rondas' ? 'TOTALGEST_RONDAS.html' : null));
-                        const onclickAttr = sec === 'crm' ? 'return _abrirCRM(event)' : (sec === 'assistencias' ? 'return _abrirAssist(event)' : (sec === 'rondas' ? 'return _abrirRondas(event)' : `abrirSecao('${sec}')`));
+                        const onclickAttr = sec === 'crm' ? 'return _abrirCRM(event)' : (sec === 'assistencias' ? 'return _abrirAssist(event)' : (sec === 'rondas' ? 'return _abrirRondas(event)' : (sec === 'relatorios-personalizados' ? 'abrirGestaoRelatoriosPersonalizados()' : `abrirSecao('${sec}')`)));
                         const atributosExtra = href ? `href="${href}" target="_blank" rel="noopener"` : '';
                         html += `<a class="tg-nav-item" data-secao="${sec}" ${atributosExtra} onclick="${onclickAttr}"><i class="${ic}"></i><span>${nome}</span></a>`;
                     });
@@ -32260,7 +33664,7 @@ window._relPrefill = function(msg){
                         </div>
 
                         <div class="ff-secao ff-tint-doc">
-                            <div class="ff-secao-head"><i class="fas fa-sliders"></i> Áreas de Atuação</div>
+                            <div class="ff-secao-head"><i class="fas fa-sliders"></i> Opcionais Extra</div>
                             <div class="ff-secao-body">
                                 <div class="form-group ff-span2">
                                     <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
@@ -32282,6 +33686,13 @@ window._relPrefill = function(msg){
                                         Quer ativar Saúde, Higiene e Segurança no Trabalho (SHST)?
                                     </label>
                                     <div class="help-text">Se sim, a ficha de cada funcionário passa a controlar a validade da consulta de medicina do trabalho — anual a partir dos 50 anos, de 2 em 2 anos antes disso — com aviso automático quando faltarem 30 dias.</div>
+                                </div>
+                                <div class="form-group ff-span2">
+                                    <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                                        <input type="checkbox" id="perf_materiais_entrega_ativo" ${admin?.materiaisEntregaAtivo ? 'checked' : ''} style="width:auto;margin:0;" />
+                                        Quer controlar materiais/equipamento entregues aos funcionários (fardas, ferramentas, EPI's, etc.)?
+                                    </label>
+                                    <div class="help-text">Se sim, aparece um botão em Equipa → Funcionários para gerar documentos de entrega e de devolução de material, com lista de itens, data/hora e assinatura de quem entrega e de quem recebe.</div>
                                 </div>
                             </div>
                         </div>
@@ -32627,6 +34038,7 @@ window._relPrefill = function(msg){
                     admin.segurancaAtivo = document.getElementById('perf_seguranca_ativo')?.checked || false;
                     admin.segurosAtivo = document.getElementById('perf_seguros_ativo')?.checked || false;
                     admin.shstAtivo = document.getElementById('perf_shst_ativo')?.checked || false;
+                    admin.materiaisEntregaAtivo = document.getElementById('perf_materiais_entrega_ativo')?.checked || false;
                     if (senha) admin.senha = senha;
                     if (logoData !== undefined) admin.logo = logoData;
                     if (window._perfCertificadoraLogoRemover) { admin.certificadoraLogo = null; window._perfCertificadoraLogoRemover = false; }
