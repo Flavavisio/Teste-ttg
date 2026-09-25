@@ -7788,7 +7788,7 @@
                 // Parte de pessoas/campo: ponto, GPS picagem, férias, portal, assistências,
                 // relatórios de especialidade, mapa da equipa, painel TV.
                 flags: { segurancaAtivo: true, painelTvAtivo: true },
-                planos: ['assistPlano', 'portalPlano'],
+                planos: ['assistPlano', 'portalPlano', 'contratosPlano'],
                 limites: { relatoriosPersonalizados: 15, camposPorRelatorio: 15 },
             },
             pro: {
