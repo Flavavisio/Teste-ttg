@@ -1272,11 +1272,23 @@
                             console.error('upsert ' + meta.tabela + ' (lote ' + (i / TAMANHO_LOTE + 1) + '):', error.message);
                             const colunaFalta = _colunaEmFalta(error);
                             if (colunaFalta) {
-                                // Repete o mesmo lote sem essa coluna — para não ficar preso a
-                                // tentar os mesmos registos para sempre enquanto ela não existir.
-                                console.warn('Coluna "' + colunaFalta + '" não existe em "' + meta.tabela + '" — a sincronizar sem ela por agora. Corre a query SQL correspondente para isto passar a gravar completo.');
-                                const loteRowsSemColuna = loteRows.map(r => { const r2 = { ...r }; delete r2[colunaFalta]; return r2; });
-                                const retry = await supa.from(meta.tabela).upsert(loteRowsSemColuna, { onConflict: 'id' }).select('id');
+                                // Repete sem essa coluna — e pode ser preciso repetir mais que uma
+                                // vez, se faltar mais que uma coluna de uma vez (ex.: várias
+                                // migrações novas ainda por correr ao mesmo tempo). Antes só
+                                // tentava tirar UMA coluna e desistia se a tentativa seguinte
+                                // batesse noutra em falta — o registo todo ficava por gravar,
+                                // mesmo os campos que nada tinham a ver com a coluna que faltava.
+                                let loteRowsSemColuna = loteRows.map(r => { const r2 = { ...r }; delete r2[colunaFalta]; return r2; });
+                                const colunasJaTiradas = [colunaFalta];
+                                let retry = await supa.from(meta.tabela).upsert(loteRowsSemColuna, { onConflict: 'id' }).select('id');
+                                while (retry.error && colunasJaTiradas.length < 8) { // limite de segurança, nunca deve chegar lá
+                                    const outraColunaFalta = _colunaEmFalta(retry.error);
+                                    if (!outraColunaFalta || colunasJaTiradas.includes(outraColunaFalta)) break;
+                                    colunasJaTiradas.push(outraColunaFalta);
+                                    loteRowsSemColuna = loteRowsSemColuna.map(r => { const r2 = { ...r }; delete r2[outraColunaFalta]; return r2; });
+                                    retry = await supa.from(meta.tabela).upsert(loteRowsSemColuna, { onConflict: 'id' }).select('id');
+                                }
+                                console.warn('Coluna(s) "' + colunasJaTiradas.join('", "') + '" não existe(m) em "' + meta.tabela + '" — a sincronizar sem ela(s) por agora. Corre a(s) query(ies) SQL correspondente(s) para isto passar a gravar completo.');
                                 if (!retry.error && retry.data && retry.data.length >= loteRowsSemColuna.length) {
                                     loteJson.forEach(u => _snap[col].set(u.id, u.json));
                                     continue; // este lote já ficou tratado — não conta como erro
@@ -7843,7 +7855,15 @@
         function _adminPackMudou(prefixo) {
             const pack = document.getElementById(prefixo + '_pack')?.value;
             const info = document.getElementById('admin_pack_info');
-            if (!pack || !PACKS[pack]) return;
+            const blocoLicenca = document.getElementById('admin_plano_bloco') || document.getElementById('edit_admin_plano_bloco');
+            const campoLicenca = document.getElementById('admin_plano') || document.getElementById('edit_admin_plano');
+            if (!pack || !PACKS[pack]) {
+                // Voltou a "Sem pack" — repõe a licença base como campo normal, outra vez
+                // obrigatório (é o modelo antigo de add-ons, que depende dela).
+                if (blocoLicenca) blocoLicenca.style.display = '';
+                if (campoLicenca) campoLicenca.required = true;
+                return;
+            }
             const def = PACKS[pack];
             const mapaPlanos = { contratosPlano: '_contratos', frotaPlano: '_frota', armazemPlano: '_armazem', crmPlano: '_crm', assistPlano: '_assist', erpPlano: '_erp', rondasPlano: '_rondas', portalPlano: '_portal' };
             Object.values(mapaPlanos).forEach(sufixo => {
@@ -7854,8 +7874,16 @@
                 const el = document.getElementById(prefixo + (mapaPlanos[planoKey] || ''));
                 if (el) el.value = 'mensal';
             });
+            // A licença base (o plano "30 dias - X func." de sempre) é o que dá acesso à app em
+            // si — um pack não a substitui, só decide o que vem incluído. Por isso continua a
+            // ser preciso um plano válido lá por trás; a diferença é que, com um pack escolhido,
+            // preenche-se sozinho a partir do escalão — deixa de pedir para escolher outra vez.
+            const escalao = document.getElementById(prefixo + '_pack_escalao')?.value || '5';
+            const planoEquivalente = '30_' + (escalao === '50+' ? '100' : escalao);
+            if (campoLicenca && PLANOS[planoEquivalente]) { campoLicenca.value = planoEquivalente; campoLicenca.required = false; }
+            if (blocoLicenca) blocoLicenca.style.display = 'none';
             if (info) {
-                const precoBase = PACK_PRECOS[pack]?.[document.getElementById(prefixo + '_pack_escalao')?.value || '5'];
+                const precoBase = PACK_PRECOS[pack]?.[escalao === '50+' ? 50 : escalao];
                 info.innerHTML = `<b>Pack ${def.nome}</b> — as licenças em baixo foram preenchidas conforme este pack${precoBase ? ` · preço base ${precoBase.toFixed(2)} €/mês` : ''}. Ajusta à mão se precisares.`;
             }
         }
