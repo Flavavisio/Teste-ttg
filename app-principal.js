@@ -353,8 +353,8 @@
             },
             pedidosRenovacao: {
                 tabela: 'pedidos_renovacao',
-                from: r => ({ id: r.id, adminId: r.admin_id, tipo: r.tipo, planoAtual: r.plano_atual, planoPedido: r.plano_pedido, observacao: r.observacao, status: r.status, dataCriacao: isoToMs(r.data_criacao), assinaturaNome: r.assinatura_nome || null, assinaturaImg: r.assinatura_img || null, dataAssinatura: isoToMs(r.data_assinatura), prazoRecolha: isoToMs(r.prazo_recolha), grupoId: r.grupo_id || null }),
-                to:   o => ({ id: o.id, admin_id: o.adminId, tipo: o.tipo, plano_atual: o.planoAtual || null, plano_pedido: o.planoPedido || null, observacao: o.observacao || null, status: o.status || 'pendente', data_criacao: msToISO(o.dataCriacao), assinatura_nome: o.assinaturaNome || null, assinatura_img: o.assinaturaImg || null, data_assinatura: o.dataAssinatura ? msToISO(o.dataAssinatura) : null, prazo_recolha: o.prazoRecolha ? msToISO(o.prazoRecolha) : null, grupo_id: o.grupoId || null })
+                from: r => ({ id: r.id, adminId: r.admin_id, tipo: r.tipo, planoAtual: r.plano_atual, planoPedido: r.plano_pedido, observacao: r.observacao, status: r.status, dataCriacao: isoToMs(r.data_criacao), assinaturaNome: r.assinatura_nome || null, assinaturaImg: r.assinatura_img || null, dataAssinatura: isoToMs(r.data_assinatura), prazoRecolha: isoToMs(r.prazo_recolha), grupoId: r.grupo_id || null, packPedido: r.pack_pedido || null, escalaoPedido: r.escalao_pedido || null, blocosPedido: r.blocos_pedido || 0, periodoPedido: r.periodo_pedido || null, funcMax: r.func_max || null, valor: r.valor != null ? Number(r.valor) : null }),
+                to:   o => ({ id: o.id, admin_id: o.adminId, tipo: o.tipo, plano_atual: o.planoAtual || null, plano_pedido: o.planoPedido || null, observacao: o.observacao || null, status: o.status || 'pendente', data_criacao: msToISO(o.dataCriacao), assinatura_nome: o.assinaturaNome || null, assinatura_img: o.assinaturaImg || null, data_assinatura: o.dataAssinatura ? msToISO(o.dataAssinatura) : null, prazo_recolha: o.prazoRecolha ? msToISO(o.prazoRecolha) : null, grupo_id: o.grupoId || null, pack_pedido: o.packPedido || null, escalao_pedido: o.escalaoPedido || null, blocos_pedido: o.blocosPedido || 0, periodo_pedido: o.periodoPedido || null, func_max: o.funcMax || null, valor: o.valor != null ? o.valor : null })
             },
             ajudas: {
                 tabela: 'ajudas',
@@ -23543,8 +23543,8 @@ async function salvarAdmin(e) {
                 funcMax: _renPackFuncMax(),
                 valor: c.total,
                 status: 'pendente',
-                data: Date.now(),
-                observacoes: obs,
+                dataCriacao: Date.now(),
+                observacao: obs,
             };
             dados.pedidosRenovacao = dados.pedidosRenovacao || [];
             dados.pedidosRenovacao.push(pedido);
