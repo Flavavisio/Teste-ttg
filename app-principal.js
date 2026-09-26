@@ -20489,6 +20489,13 @@
                     return;
                 }
 
+                if (cardName === 'relatorios-personalizados') {
+                    // O funcionário usa relatórios já feitos (nas OS), não os desenha — essa
+                    // ferramenta é para quem gere a empresa.
+                    card.classList.toggle('hidden-card', !!isFuncionario);
+                    return;
+                }
+
                 if (cardName === 'agenda') {
                     card.classList.toggle('hidden-card', !(isAdmin || isEncarregado || isFuncionario));
                     return;
@@ -32230,8 +32237,12 @@ window._relPrefill = function(msg){
                 // "Total Gest Foco": clicar num grupo abre-o em acordeão, com os itens logo por
                 // baixo desse grupo — não abre mais nenhum painel lateral à parte.
                 document.querySelectorAll('#cardsGrid .grupo-cards').forEach(grupo => {
-                    const titulo = grupo.querySelector('.grupo-header h3')?.textContent?.trim() || '';
+                    let titulo = grupo.querySelector('.grupo-header h3')?.textContent?.trim() || '';
                     const icone = grupo.querySelector('.grupo-header h3 i')?.className || 'fas fa-circle';
+                    // O grupo "Equipa" é onde o admin gere toda a gente — para o próprio
+                    // funcionário, o que lá está (Ponto, Assiduidade, Calendário) é sobre ele
+                    // próprio, não sobre uma equipa, por isso o rótulo muda para "Funcionário".
+                    if (titulo === 'Equipa' && usuarioLogado.role === 'funcionario') titulo = 'Funcionário';
                     const grupoKey = grupo.getAttribute('data-grupo') || '';
                     const cards = [...grupo.querySelectorAll('.card-principal')].filter(c => !c.classList.contains('hidden-card') && !c.classList.contains('card-bloqueado'));
                     if (!cards.length) return;
@@ -32250,7 +32261,8 @@ window._relPrefill = function(msg){
                 });
             } else {
                 document.querySelectorAll('#cardsGrid .grupo-cards').forEach(grupo => {
-                    const titulo = grupo.querySelector('.grupo-header h3')?.textContent?.trim() || '';
+                    let titulo = grupo.querySelector('.grupo-header h3')?.textContent?.trim() || '';
+                    if (titulo === 'Equipa' && usuarioLogado.role === 'funcionario') titulo = 'Funcionário';
                     const cards = [...grupo.querySelectorAll('.card-principal')].filter(c => !c.classList.contains('hidden-card') && !c.classList.contains('card-bloqueado'));
                     if (!cards.length) return;
                     html += `<div class="tg-nav-group">${titulo}</div>`;
