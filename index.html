@@ -349,7 +349,6 @@
         <button type="button" class="pack-escalao-btn" data-escalao="10" onclick="_packMudarEscalao('10')">Até 10</button>
         <button type="button" class="pack-escalao-btn" data-escalao="25" onclick="_packMudarEscalao('25')">Até 25</button>
         <button type="button" class="pack-escalao-btn" data-escalao="50" onclick="_packMudarEscalao('50')">Até 50</button>
-        <button type="button" class="pack-escalao-btn" data-escalao="50+" onclick="_packMudarEscalao('50+')">50+</button>
       </div>
     </div>
 
@@ -388,7 +387,7 @@
         <a class="btn btn-ghost" href="#" onclick="_tgRegistarEvento('clique_cta','pack_supreme');abrirModalSignup('supreme');return false;">Começar</a>
       </div>
     </div>
-    <p class="pack-nota-blocos" id="packNotaBlocos" style="display:none;">Acima de 50 funcionários, junta blocos de +5 por 5 €/mês cada. Mais de 100? <a href="#" onclick="abrirModalSignup();return false;">Fala connosco</a>.</p>
+    <p class="pack-nota-blocos" id="packNotaBlocos">Precisa de mais funcionários? Junte blocos de +5 por <strong>5 €/mês cada</strong>, em qualquer pack, até 100 no total. Mais de 100? <a href="#" onclick="abrirModalSignup();return false;">Fala connosco</a>.</p>
     <div id="packDetalhesInline"></div>
 
     <p class="price-foot">Todos os preços incluem IVA à taxa legal em vigor. Cada pack inclui tudo o do nível anterior. Pagamento por transferência bancária, com ativação após confirmação.</p>
@@ -2776,8 +2775,8 @@
         <button class="close-x" onclick="fecharModalSignup()">&times;</button>
         <div id="tg-signup-body">
           <img class="signup-logo tg-logo-clone" src="" alt="Total Gest" />
-          <h2>Comece agora o seu teste gratuito</h2>
-          <p class="signup-sub">Preencha os dados abaixo — a conta fica pronta assim que confirmar o email.</p>
+          <h2 id="su_titulo">Comece agora o seu teste gratuito</h2>
+          <p class="signup-sub" id="su_subtitulo">Preencha os dados abaixo — a conta fica pronta assim que confirmar o email.</p>
           <div id="su_plano_resumo" style="display:none;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:12px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:10px;">
             <div>
               <div style="font-size:.72rem;color:#5a6781;text-transform:uppercase;font-weight:700;">Plano escolhido</div>
@@ -2839,10 +2838,10 @@
               <label style="display:block;font-size:.84rem;font-weight:600;color:#0b1f3a;margin-bottom:8px;">Quantos funcionários? <span style="font-weight:400;color:#5a6781;">(define o preço do pack)</span></label>
               <div id="su_escalao_botoes" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
               <div id="su_blocos_wrap" style="display:none;margin-top:10px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px 12px;">
-                <div style="font-size:.82rem;color:#0b1f3a;margin-bottom:6px;">Acima de 50, junta blocos de +5 funcionários (5 €/mês cada):</div>
+                <div style="font-size:.82rem;color:#0b1f3a;margin-bottom:6px;">Precisa de mais? Junte blocos de +5 funcionários (5 €/mês cada), até 100 no total:</div>
                 <div style="display:flex;align-items:center;gap:12px;">
                   <button type="button" onclick="_suMudarBlocos(-1)" style="width:32px;height:32px;border-radius:6px;border:1px solid #cbd5e1;background:#fff;cursor:pointer;font-size:1.1rem;">−</button>
-                  <span><strong id="su_blocos_num">0</strong> bloco(s) → até <strong id="su_blocos_pessoas">50</strong> funcionários</span>
+                  <span><strong id="su_blocos_num">0</strong> bloco(s) → até <strong id="su_blocos_pessoas">5</strong> funcionários</span>
                   <button type="button" onclick="_suMudarBlocos(1)" style="width:32px;height:32px;border-radius:6px;border:1px solid #cbd5e1;background:#fff;cursor:pointer;font-size:1.1rem;">+</button>
                 </div>
               </div>

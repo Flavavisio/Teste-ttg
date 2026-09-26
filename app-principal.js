@@ -23507,8 +23507,8 @@ async function salvarAdmin(e) {
             const atual = packDoAdmin(admin);
             _renPack = {
                 pack: atual || 'expert',
-                escalao: admin.packEscalao || '5',
-                blocos: (admin.packEscalao === '50+' && admin.packBlocos) ? admin.packBlocos : 0,
+                escalao: (admin.packEscalao && admin.packEscalao !== '50+') ? admin.packEscalao : '5',
+                blocos: admin.packBlocos || 0,
                 periodo: 'mensal',
             };
             let overlay = document.getElementById('renPackOverlay');
@@ -23517,10 +23517,11 @@ async function salvarAdmin(e) {
             _renPackRender();
         }
         function _renPackFmt(v) { return v.toLocaleString('pt-PT', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €'; }
-        // Total = preço do pack no escalão + blocos de +5. No anual, tudo com -10% e ×12.
+        // Total = preço do pack no escalão-base + blocos de +5 (os blocos servem para qualquer
+        // escalão, não só acima de 50). No anual, tudo com -10% e ×12.
         function _renPackCalcular() {
             const precos = PACK_PRECOS[_renPack.pack];
-            let mensal = (_renPack.escalao === '50+') ? precos[50] + _renPack.blocos * PACK_PRECO_BLOCO_5 : precos[_renPack.escalao];
+            let mensal = (precos[_renPack.escalao] || precos[5]) + _renPack.blocos * PACK_PRECO_BLOCO_5;
             if (_renPack.periodo === 'anual') {
                 const anual = +(mensal * 12 * 0.9).toFixed(2);
                 return { base: mensal, total: anual, sufixo: '/ano', desconto: true };
@@ -23528,7 +23529,7 @@ async function salvarAdmin(e) {
             return { base: mensal, total: mensal, sufixo: '/mês', desconto: false };
         }
         function _renPackFuncMax() {
-            return _renPack.escalao === '50+' ? 50 + _renPack.blocos * 5 : parseInt(_renPack.escalao, 10);
+            return parseInt(_renPack.escalao, 10) + _renPack.blocos * 5;
         }
         function _renPackRender() {
             const admin = adminAtual();
@@ -23553,18 +23554,17 @@ async function salvarAdmin(e) {
                     <div class="form-group">
                         <label>Funcionários</label>
                         <div style="display:flex;gap:6px;flex-wrap:wrap;">
-                            ${['5','10','25','50','50+'].map(e => `<button type="button" class="ren-pack-btn ${_renPack.escalao === e ? 'active' : ''}" onclick="_renPackSet('escalao','${e}')">${e === '50+' ? '50+' : 'Até ' + e}</button>`).join('')}
+                            ${['5','10','25','50'].map(e => `<button type="button" class="ren-pack-btn ${_renPack.escalao === e ? 'active' : ''}" onclick="_renPackSet('escalao','${e}')">Até ${e}</button>`).join('')}
                         </div>
-                        ${_renPack.escalao === '50+' ? `
                         <div style="margin-top:10px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px 12px;">
-                            <div style="font-size:.82rem;margin-bottom:6px;">Blocos de +5 funcionários (5 €/mês cada), até 100 no total:</div>
+                            <div style="font-size:.82rem;margin-bottom:6px;">Precisa de mais? Junte blocos de +5 funcionários (5 €/mês cada), até 100 no total:</div>
                             <div style="display:flex;align-items:center;gap:12px;">
                                 <button type="button" onclick="_renPackBloco(-1)" style="width:32px;height:32px;border-radius:6px;border:1px solid #cbd5e1;background:#fff;cursor:pointer;font-size:1.1rem;">−</button>
                                 <span><strong>${_renPack.blocos}</strong> bloco(s) → <strong>${_renPackFuncMax()}</strong> funcionários</span>
                                 <button type="button" onclick="_renPackBloco(1)" style="width:32px;height:32px;border-radius:6px;border:1px solid #cbd5e1;background:#fff;cursor:pointer;font-size:1.1rem;">+</button>
                             </div>
                             ${_renPackFuncMax() >= 100 ? '<div style="font-size:.78rem;color:#b45309;margin-top:6px;">Máximo de 100 funcionários por licença. Para mais, fala connosco.</div>' : ''}
-                        </div>` : ''}
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Período</label>
@@ -23575,7 +23575,7 @@ async function salvarAdmin(e) {
                     </div>
                     <div style="background:#eff6ff;border-radius:10px;padding:14px 16px;margin:8px 0;">
                         <div style="display:flex;justify-content:space-between;align-items:baseline;">
-                            <span style="font-weight:600;">Pack ${PACKS[_renPack.pack].nome} · ${_renPack.escalao === '50+' ? _renPackFuncMax() + ' func.' : 'até ' + _renPack.escalao}</span>
+                            <span style="font-weight:600;">Pack ${PACKS[_renPack.pack].nome} · ${_renPackFuncMax()} func.</span>
                             <span style="font-size:1.3rem;font-weight:700;color:#0b1f3a;">${_renPackFmt(c.total)}<span style="font-size:.8rem;font-weight:400;color:#64748b;">${c.sufixo}${_IVA_INC}</span></span>
                         </div>
                         ${c.desconto ? `<div style="font-size:.78rem;color:#16a34a;margin-top:4px;">Já com 10% de desconto anual (equivale a ${_renPackFmt(+(c.total/12).toFixed(2))}/mês).</div>` : ''}
@@ -23593,13 +23593,15 @@ async function salvarAdmin(e) {
         }
         function _renPackSet(campo, valor) {
             _renPack[campo] = valor;
-            if (campo === 'escalao' && valor !== '50+') _renPack.blocos = 0;
+            if (campo === 'escalao') {
+                const maxBlocos = Math.floor((100 - Number(valor)) / 5);
+                if (_renPack.blocos > maxBlocos) _renPack.blocos = maxBlocos;
+            }
             _renPackRender();
         }
         function _renPackBloco(delta) {
-            const novo = _renPack.blocos + delta;
-            if (novo < 0) return;
-            if (50 + novo * 5 > 100) return; // teto de 100
+            const maxBlocos = Math.floor((100 - Number(_renPack.escalao)) / 5);
+            const novo = Math.max(0, Math.min(maxBlocos, _renPack.blocos + delta));
             _renPack.blocos = novo;
             _renPackRender();
         }

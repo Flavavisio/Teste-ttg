@@ -172,30 +172,37 @@ const SU_PACKS = {
     pro:     { nome: 'Pro' },
     supreme: { nome: 'Supreme' },
 };
-// Escalões de funcionários (o preço vem de PACK_PRECOS_SITE, por pack). Acima de 50, blocos de
-// +5 a 5€/mês — o checkout deixa escolher quantos blocos.
+// Escalões-base de funcionários (o preço vem de PACK_PRECOS_SITE, por pack). A partir daqui,
+// em qualquer um destes, dá para juntar blocos de +5 funcionários a 5€/mês cada — não é preciso
+// escolher "mais de 50" à parte, os blocos somam-se ao escalão escolhido, até um total de 100.
 const SU_ESCALOES = [
     { key: '5', label: 'Até 5 funcionários' },
     { key: '10', label: 'Até 10 funcionários' },
     { key: '25', label: 'Até 25 funcionários' },
     { key: '50', label: 'Até 50 funcionários' },
-    { key: '50+', label: 'Mais de 50 (blocos de +5)' },
 ];
 const SU_PRECO_BLOCO_5 = 5;
+const SU_MAX_FUNCIONARIOS = 100;
 function _suFormatarEuro(v) { return v.toLocaleString('pt-PT', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €'; }
 let _suPackSelecionado = null;
 let _suEscalaoSelecionado = '5';
 let _suBlocosExtra = 0;
 function abrirModalSignup(packChave) {
     _suPackSelecionado = packChave && SU_PACKS[packChave] ? packChave : null;
-    _suEscalaoSelecionado = (typeof _packEscalaoAtual !== 'undefined' && _packEscalaoAtual) ? _packEscalaoAtual : '5';
+    _suEscalaoSelecionado = (typeof _packEscalaoAtual !== 'undefined' && _packEscalaoAtual && _packEscalaoAtual !== '50+') ? _packEscalaoAtual : '5';
     _suBlocosExtra = 0;
     const resumo = document.getElementById('su_plano_resumo');
     const wrapColab = document.getElementById('su_colaboradores_wrap');
     const inputColab = document.getElementById('su_colaboradores');
     const blocoPack = document.getElementById('su_pack_bloco');
+    const titulo = document.getElementById('su_titulo');
+    const subtitulo = document.getElementById('su_subtitulo');
     if (_suPackSelecionado) {
-        // Escolheu um pack — mostra o resumo do pack + seletor de escalão, esconde o campo livre.
+        // Escolheu um pack de propósito, a partir da tabela de preços — isto já não é uma pessoa
+        // curiosa a "só experimentar", é alguém a decidir-se por um plano. O texto deixa de falar
+        // em "teste" para não parecer que está só a pedir uma demo.
+        if (titulo) titulo.textContent = 'Ativar o Pack ' + SU_PACKS[_suPackSelecionado].nome;
+        if (subtitulo) subtitulo.textContent = 'Preencha os dados abaixo para ativarmos a sua conta. Fica com 14 dias grátis já com este plano, antes de qualquer pagamento.';
         document.getElementById('su_plano_nome').textContent = 'Pack ' + SU_PACKS[_suPackSelecionado].nome;
         resumo.style.display = 'flex';
         wrapColab.style.display = 'none';
@@ -204,6 +211,8 @@ function abrirModalSignup(packChave) {
         _suRenderEscaloes();
     } else {
         // Veio do CTA genérico "14 dias grátis" — sem pack ainda, pede só o nº de colaboradores.
+        if (titulo) titulo.textContent = 'Comece agora o seu teste gratuito';
+        if (subtitulo) subtitulo.textContent = 'Preencha os dados abaixo — a conta fica pronta assim que confirmar o email.';
         resumo.style.display = 'none';
         wrapColab.style.display = '';
         inputColab.required = true;
@@ -220,32 +229,37 @@ function _suRenderEscaloes() {
     cont.innerHTML = SU_ESCALOES.map(e => `
         <button type="button" class="su-escalao-btn ${e.key === _suEscalaoSelecionado ? 'active' : ''}" onclick="_suMudarEscalao('${e.key}')">${e.label}</button>
     `).join('');
+    // Os blocos de +5 aparecem sempre, seja qual for o escalão-base escolhido — servem para
+    // qualquer pack e qualquer escalão, até ao máximo de 100 funcionários no total.
     const wrapBlocos = document.getElementById('su_blocos_wrap');
-    if (wrapBlocos) wrapBlocos.style.display = _suEscalaoSelecionado === '50+' ? '' : 'none';
+    if (wrapBlocos) wrapBlocos.style.display = '';
+    document.getElementById('su_blocos_num').textContent = _suBlocosExtra;
+    document.getElementById('su_blocos_pessoas').textContent = Number(_suEscalaoSelecionado) + _suBlocosExtra * 5;
     const inputColab = document.getElementById('su_colaboradores');
     if (inputColab) inputColab.value = SU_ESCALOES.find(e => e.key === _suEscalaoSelecionado)?.label || '';
 }
 function _suMudarEscalao(escalao) {
     _suEscalaoSelecionado = escalao;
-    if (escalao !== '50+') _suBlocosExtra = 0;
+    // Ao mudar de escalão-base, os blocos que já tinha ficam — só se ajustam para baixo se, com
+    // o novo escalão, ultrapassarem os 100 no total.
+    const maxBlocos = Math.floor((SU_MAX_FUNCIONARIOS - Number(escalao)) / 5);
+    if (_suBlocosExtra > maxBlocos) _suBlocosExtra = maxBlocos;
     _suRenderEscaloes();
     _suAtualizarTotal();
 }
 function _suMudarBlocos(delta) {
-    _suBlocosExtra = Math.max(0, _suBlocosExtra + delta);
+    const maxBlocos = Math.floor((SU_MAX_FUNCIONARIOS - Number(_suEscalaoSelecionado)) / 5);
+    _suBlocosExtra = Math.max(0, Math.min(maxBlocos, _suBlocosExtra + delta));
     document.getElementById('su_blocos_num').textContent = _suBlocosExtra;
-    document.getElementById('su_blocos_pessoas').textContent = 50 + _suBlocosExtra * 5;
+    document.getElementById('su_blocos_pessoas').textContent = Number(_suEscalaoSelecionado) + _suBlocosExtra * 5;
     _suAtualizarTotal();
 }
-// Recalcula e mostra o preço total (pack + escalão + blocos de +5). Só quando há um pack
+// Recalcula e mostra o preço total (pack do escalão-base + blocos de +5). Só quando há um pack
 // escolhido — no CTA genérico do trial não há total a mostrar, está tudo grátis no teste.
 function _suPrecoAtual() {
     if (!_suPackSelecionado) return null;
     const precos = PACK_PRECOS_SITE[_suPackSelecionado];
-    if (_suEscalaoSelecionado === '50+') {
-        return precos[50] + _suBlocosExtra * SU_PRECO_BLOCO_5;
-    }
-    return precos[_suEscalaoSelecionado] || precos[5];
+    return (precos[_suEscalaoSelecionado] || precos[5]) + _suBlocosExtra * SU_PRECO_BLOCO_5;
 }
 function _suAtualizarTotal() {
     const preco = document.getElementById('su_plano_preco');
@@ -255,11 +269,10 @@ function _suAtualizarTotal() {
     const total = _suPrecoAtual();
     preco.textContent = _suFormatarEuro(total) + '/mês';
     if (detalhe) {
-        if (_suEscalaoSelecionado === '50+') {
-            detalhe.textContent = `${50 + _suBlocosExtra * 5} funcionários (${_suBlocosExtra} bloco${_suBlocosExtra === 1 ? '' : 's'} de +5)`;
-        } else {
-            detalhe.textContent = SU_ESCALOES.find(e => e.key === _suEscalaoSelecionado)?.label || '';
-        }
+        const totalFunc = Number(_suEscalaoSelecionado) + _suBlocosExtra * 5;
+        detalhe.textContent = _suBlocosExtra
+            ? `${totalFunc} funcionários (${SU_ESCALOES.find(e => e.key === _suEscalaoSelecionado)?.label} + ${_suBlocosExtra} bloco${_suBlocosExtra === 1 ? '' : 's'} de +5)`
+            : SU_ESCALOES.find(e => e.key === _suEscalaoSelecionado)?.label || '';
     }
 }
 // "mudar" no resumo — deixa escolher outro pack sem fechar o modal.
@@ -314,7 +327,7 @@ async function submeterSignup(e) {
         // "plano" fica com o nome do pack, para a Edge Function/super admin saberem o que ativar.
         plano: _suPackSelecionado || null,
         escalao: _suPackSelecionado ? _suEscalaoSelecionado : null,
-        blocosExtra: _suPackSelecionado && _suEscalaoSelecionado === '50+' ? _suBlocosExtra : 0,
+        blocosExtra: _suPackSelecionado ? _suBlocosExtra : 0,
         addons: [],
     };
     const senha2 = document.getElementById('su_senha2').value;
@@ -525,20 +538,10 @@ function _packFmtEuro(v) { return v.toLocaleString('pt-PT', { minimumFractionDig
 function _packMudarEscalao(escalao) {
     _packEscalaoAtual = escalao;
     document.querySelectorAll('.pack-escalao-btn').forEach(b => b.classList.toggle('active', b.dataset.escalao === escalao));
-    const notaBlocos = document.getElementById('packNotaBlocos');
     document.querySelectorAll('#packGrid .plan').forEach(card => {
         const pack = card.dataset.pack;
         const amt = card.querySelector('.amt');
-        const btn = card.querySelector('.btn');
-        if (escalao === '50+') {
-            amt.textContent = 'desde ' + _packFmtEuro(PACK_PRECOS_SITE[pack][50]);
-            if (btn) btn.textContent = 'Falar connosco';
-            if (notaBlocos) notaBlocos.style.display = '';
-        } else {
-            amt.textContent = _packFmtEuro(PACK_PRECOS_SITE[pack][escalao]);
-            if (btn) btn.textContent = 'Começar';
-            if (notaBlocos) notaBlocos.style.display = 'none';
-        }
+        amt.textContent = _packFmtEuro(PACK_PRECOS_SITE[pack][escalao]);
     });
 }
 // Detalhe do pack: tabela comparativa completa (como no Excel), com a coluna do pack escolhido
