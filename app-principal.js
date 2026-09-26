@@ -5224,6 +5224,16 @@
             }, 350);
         }
         async function _wsClienteAba(clienteId, aba) {
+            const admin = adminAtual();
+            // Cada separador só aparece se o módulo correspondente estiver mesmo ativo nesta
+            // conta — Assistências precisa do Assist, Contratos e Equipamentos (que vivem dentro
+            // de um contrato) precisam dos Contratos de Manutenção. Os restantes são sempre base.
+            const abasVisiveis = WS_CLIENTE_ABAS.filter(a => {
+                if (a === 'assistencias') return moduloAssistAtivo(admin);
+                if (a === 'contratos' || a === 'equipamentos') return moduloContratosAtivo(admin);
+                return true;
+            });
+            if (!abasVisiveis.includes(aba)) aba = 'resumo'; // a aba pedida já não está disponível
             window._wsAbaAtual = aba;
             const cliente = dados.clientes?.find(c => c.id === clienteId);
             const overlay = document.getElementById('wsClienteOverlay');
@@ -5242,13 +5252,13 @@
                     </div>
                     <div style="padding:14px 22px 0;display:flex;gap:8px;flex-wrap:wrap;flex-shrink:0;">
                         <button class="btn btn-sm btn-primary" onclick="_wsMarcarOS('${clienteId}')"><i class="fas fa-clipboard-plus"></i> Marcar OS</button>
-                        <button class="btn btn-sm btn-outline" onclick="_wsMarcarAssistencia('${clienteId}')"><i class="fas fa-headset"></i> Marcar assistência</button>
+                        ${moduloAssistAtivo(admin) ? `<button class="btn btn-sm btn-outline" onclick="_wsMarcarAssistencia('${clienteId}')"><i class="fas fa-headset"></i> Marcar assistência</button>` : ''}
                         <button class="btn btn-sm btn-outline" onclick="_wsSairPara('${clienteId}');abrirModalNovoLocalCliente('${clienteId}')"><i class="fas fa-map-pin"></i> Novo local</button>
                         <button class="btn btn-sm btn-outline" onclick="_wsSairPara('${clienteId}');abrirModal('cliente','${clienteId}')"><i class="fas fa-edit"></i> Editar dados</button>
                         <button class="btn btn-sm btn-outline" onclick="_wsSairPara('${clienteId}');abrirHistoricoCliente('${clienteId}')"><i class="fas fa-clock-rotate-left"></i> Histórico completo</button>
                     </div>
                     <div style="padding:12px 22px 14px;display:flex;gap:8px;border-bottom:1px solid #e2e8f0;overflow-x:auto;flex-shrink:0;">
-                        ${WS_CLIENTE_ABAS.map(a => `<button class="ws-cliente-aba-btn ${a === aba ? 'active' : ''}" onclick="_wsClienteAba('${clienteId}','${a}')">${WS_CLIENTE_ABAS_LABEL[a]}</button>`).join('')}
+                        ${abasVisiveis.map(a => `<button class="ws-cliente-aba-btn ${a === aba ? 'active' : ''}" onclick="_wsClienteAba('${clienteId}','${a}')">${WS_CLIENTE_ABAS_LABEL[a]}</button>`).join('')}
                     </div>
                     <div style="flex:1;overflow-y:auto;padding:18px 22px;" id="wsClienteConteudo"><p class="help-text">A carregar…</p></div>
                 </div>
@@ -5313,7 +5323,7 @@
             }, 0);
             const linhasContratos = contratosComValor.map(c => {
                 const mensal = c.valorMensalVigilancia != null && c.valorMensalVigilancia > 0 ? c.valorMensalVigilancia : c.valor / (PERIODICIDADE_MESES[c.periodicidade] || 12);
-                return `<div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #f1f5f9;cursor:pointer;" onclick="_wsSairPara('${clienteId}');abrirModal('contrato','${c.id}')">
+                return `<div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #f1f5f9;cursor:pointer;" onclick="_wsSairPara('${clienteId}');abrirModalContrato('${c.id}')">
                     <i class="fas fa-rotate" style="color:#94a3b8;width:18px;"></i>
                     <div style="flex:1;min-width:0;">
                         <div style="font-size:.86rem;font-weight:600;">Contrato ${escapeHtmlSimples(c.numero || '—')} — ${escapeHtmlSimples(_equipStrContrato(c))}</div>
@@ -5512,7 +5522,7 @@
                         </div>`).join('')}${relatoriosDoContrato.length > 3 ? `<div style="font-size:.74rem;color:#94a3b8;padding:3px 0;">+ ${relatoriosDoContrato.length - 3} mais antigo(s)</div>` : ''}</div>`
                     : '';
                 return `<div style="padding:11px 0;border-bottom:1px solid #f1f5f9;">
-                    <div style="display:flex;align-items:center;gap:10px;cursor:pointer;" onclick="_wsSairPara('${clienteId}');abrirModal('contrato','${c.id}')">
+                    <div style="display:flex;align-items:center;gap:10px;cursor:pointer;" onclick="_wsSairPara('${clienteId}');abrirModalContrato('${c.id}')">
                         <i class="fas fa-file-signature" style="color:#94a3b8;width:18px;"></i>
                         <div style="flex:1;min-width:0;">
                             <div style="font-size:.86rem;font-weight:600;">Contrato ${escapeHtmlSimples(c.numero || '—')} — ${escapeHtmlSimples(_equipStrContrato(c))}</div>
@@ -5709,7 +5719,7 @@
             const cliente = dados.clientes?.find(c => c.id === clienteId);
             if (!cliente) return;
             _wsSairPara(clienteId);
-            abrirModal('contrato', null);
+            abrirModalContrato(null);
             setTimeout(() => {
                 const busca = document.getElementById('ct_cliente_busca');
                 const hidden = document.getElementById('ct_cliente');
@@ -10212,6 +10222,7 @@
         }
         function fecharModalContrato() {
             document.getElementById('modalContratoOverlay').classList.remove('open');
+            _wsTentarVoltar();
             // Repõe sempre os botões normais do rodapé — o Modo Wizard de Contrato esconde-os
             // enquanto está ativo; sem isto, ficariam escondidos na próxima vez que se abrisse.
             const _modalActionsReset = document.querySelector('#modalContratoOverlay .modal-actions');
@@ -20354,10 +20365,7 @@
 
                 if (cardName === 'obras-longa') {
                     if (isAdmin) {
-                        card.classList.remove('hidden-card');
-                        const ativo = moduloArmazemAtivo(adminAtual());
-                        card.classList.toggle('card-modulo-inativo', !ativo);
-                        card.title = ativo ? '' : 'Add-on Armazém / Stock / Gestão de Obras — 9,99€/mês. Clica para ativar em "Minha Licença".';
+                        card.classList.toggle('hidden-card', !moduloArmazemAtivo(adminAtual()));
                     }
                     else if ((isEncarregado || isFuncionario) && moduloArmazemAtivo(adminDoUtilizador())) { card.classList.remove('hidden-card'); }
                     else { card.classList.add('hidden-card'); }
@@ -20417,10 +20425,7 @@
                 }
                 if (cardName === 'frota') {
                     if (isAdmin) {
-                        card.classList.remove('hidden-card');
-                        const ativo = moduloFrotaAtivo(adminAtual());
-                        card.classList.toggle('card-modulo-inativo', !ativo);
-                        card.title = ativo ? '' : 'Add-on Frota — 9,99€/mês. Clica para ativar em "Minha Licença".';
+                        card.classList.toggle('hidden-card', !moduloFrotaAtivo(adminAtual()));
                     } else if ((isEncarregado || isFuncionario) && moduloFrotaAtivo(adminDoUtilizador()) && _utilizadorTemVeiculo()) {
                         card.classList.remove('hidden-card');
                     } else {
@@ -20430,14 +20435,7 @@
                 }
 
                 if (cardName === 'contratos') {
-                    if (isAdmin) {
-                        card.classList.remove('hidden-card');
-                        const ativo = moduloContratosAtivo(adminAtual());
-                        card.classList.toggle('card-modulo-inativo', !ativo);
-                        card.title = ativo ? '' : 'Add-on Contratos de Manutenção / SCIE — 14,99€/mês. Clica para ativar em "Minha Licença".';
-                    } else {
-                        card.classList.add('hidden-card');
-                    }
+                    card.classList.toggle('hidden-card', !(isAdmin && moduloContratosAtivo(adminAtual())));
                     return;
                 }
 
@@ -23562,7 +23560,23 @@ async function salvarAdmin(e) {
             }
             guardarDados(dados);
             document.getElementById('renPackOverlay').classList.remove('open');
-            alert(`Pedido enviado! 🎉\n\nPack ${PACKS[_renPack.pack].nome} · ${_renPackFmt(c.total)}${c.sufixo}\n\nA licença fica ativa e o Super Admin vai confirmar o pagamento.`);
+            // Os dois emails que qualquer pedido de add-on já manda: um ao cliente, com o valor
+            // e as instruções de pagamento; outro interno, a avisar-te de que chegou um pedido
+            // novo. Faltava aqui — os pedidos de pack ficavam silenciosos, sem avisar ninguém.
+            const descricaoPack = `Pack ${PACKS[_renPack.pack].nome} — ${c.sufixo === '/ano' ? 'Anual' : 'Mensal'} (${_renPackFuncMax()} funcionários)`;
+            const _refPack = pedido.id.slice(-8).toUpperCase();
+            enviarEmailPagamento(admin, descricaoPack, c.total, _refPack, 'renovacao').catch(err => console.warn('email pedido de pack (cliente):', err));
+            _enviarEmailServidor('pedido_renovacao_consolidado', {
+                to_email: 'totalgestpro@gmail.com',
+                adminId: admin.id,
+                adminNome: admin.nome || '',
+                empresa: admin.empresa || admin.nome || '',
+                periodo: _renPack.periodo,
+                itens: [descricaoPack + ' — ' + c.total.toFixed(2) + ' €'],
+                total: c.total.toFixed(2),
+                observacao: 'Pedido de pack' + (obs ? ' — ' + obs : '') + ' (via "O meu pack")'
+            }).catch(err => console.warn('email pedido de pack (interno):', err));
+            alert(`Pedido enviado! 🎉\n\nPack ${PACKS[_renPack.pack].nome} · ${_renPackFmt(c.total)}${c.sufixo}\n\nA licença fica ativa e o Super Admin vai confirmar o pagamento. Enviámos-te um email com os dados para pagamento.`);
         }
         function abrirModalRenovacao(tipo) {
             if (!usuarioLogado || usuarioLogado.role !== 'admin' && usuarioLogado.role !== 'subadmin') {
