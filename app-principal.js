@@ -5314,8 +5314,8 @@
                 return `<div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #f1f5f9;">
                     <i class="fas fa-file-invoice-dollar" style="color:#94a3b8;width:18px;"></i>
                     <div style="flex:1;min-width:0;">
-                        <div style="font-size:.86rem;font-weight:600;">${s.numeroRegisto ? '#' + escapeHtmlSimples(s.numeroRegisto) + ' — ' : ''}${escapeHtmlSimples(s.descricao || 'OS')}</div>
-                        <div style="font-size:.76rem;color:#64748b;">${(s.data || '').split('-').reverse().join('/')}${s.faturaMoloniUrl ? ` · <a href="${s.faturaMoloniUrl}" target="_blank" onclick="event.stopPropagation();" style="color:#2456d8;">Ver fatura</a>` : ''}</div>
+                        <div style="font-size:.86rem;font-weight:600;text-align:left;">${s.numeroRegisto ? '#' + escapeHtmlSimples(s.numeroRegisto) + ' — ' : ''}${escapeHtmlSimples(s.descricao || 'OS')}</div>
+                        <div style="font-size:.76rem;color:#64748b;text-align:left;">${(s.data || '').split('-').reverse().join('/')}${s.faturaMoloniUrl ? ` · <a href="${s.faturaMoloniUrl}" target="_blank" onclick="event.stopPropagation();" style="color:#2456d8;">Ver fatura</a>` : ''}</div>
                     </div>
                     <div style="text-align:right;">
                         <div style="font-size:.9rem;font-weight:700;">${fmt(s.valor)}</div>
@@ -5339,8 +5339,8 @@
                 return `<div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #f1f5f9;cursor:pointer;" onclick="_wsSairPara('${clienteId}');abrirModalContrato('${c.id}')">
                     <i class="fas fa-rotate" style="color:#94a3b8;width:18px;"></i>
                     <div style="flex:1;min-width:0;">
-                        <div style="font-size:.86rem;font-weight:600;">Contrato ${escapeHtmlSimples(c.numero || '—')} — ${escapeHtmlSimples(_equipStrContrato(c))}</div>
-                        <div style="font-size:.76rem;color:#64748b;">${c.valorMensalVigilancia != null && c.valorMensalVigilancia > 0 ? 'Vigilância mensal' : (PERIODICIDADE_LABEL[c.periodicidade] || '—') + ' · ' + fmt(c.valor)}</div>
+                        <div style="font-size:.86rem;font-weight:600;text-align:left;">Contrato ${escapeHtmlSimples(c.numero || '—')} — ${escapeHtmlSimples(_equipStrContrato(c))}</div>
+                        <div style="font-size:.76rem;color:#64748b;text-align:left;">${c.valorMensalVigilancia != null && c.valorMensalVigilancia > 0 ? 'Vigilância mensal' : (PERIODICIDADE_LABEL[c.periodicidade] || '—') + ' · ' + fmt(c.valor)}</div>
                     </div>
                     <div style="font-size:.86rem;font-weight:700;">${fmt(mensal)}<span style="font-size:.68rem;font-weight:400;color:#94a3b8;">/mês</span></div>
                 </div>`;
@@ -5355,7 +5355,7 @@
                 </div>` : '';
             return `
                 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px;">
-                    ${osComValor.length ? `<div style="background:#f8fafc;border-radius:10px;padding:14px;"><div style="font-size:.76rem;color:#64748b;">Faturado em OS (12 meses)</div><div style="font-size:1.3rem;font-weight:700;">${fmt(totalFaturado)}</div></div>
+                    ${osComValor.length ? `<div style="background:#f8fafc;border-radius:10px;padding:14px;"><div style="font-size:.76rem;color:#64748b;text-align:left;">Faturado em OS (12 meses)</div><div style="font-size:1.3rem;font-weight:700;">${fmt(totalFaturado)}</div></div>
                     <div style="background:${totalPorCobrar ? '#fef2f2' : '#f8fafc'};border-radius:10px;padding:14px;"><div style="font-size:.76rem;color:${totalPorCobrar ? '#991b1b' : '#64748b'};">Por cobrar</div><div style="font-size:1.3rem;font-weight:700;color:${totalPorCobrar ? '#991b1b' : 'inherit'};">${fmt(totalPorCobrar)}</div></div>` : ''}
                     ${contratosComValor.length ? `<div style="background:#eff6ff;border-radius:10px;padding:14px;"><div style="font-size:.76rem;color:#1e40af;">Recorrente (contratos)</div><div style="font-size:1.3rem;font-weight:700;color:#1e40af;">${fmt(totalMensalRecorrente)}<span style="font-size:.7rem;font-weight:400;">/mês</span></div></div>` : ''}
                 </div>
@@ -5391,8 +5391,8 @@
                 return `<div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #f1f5f9;cursor:pointer;" onclick="_wsSairPara('${clienteId}');abrirModalEquipamentosContrato('${contratoDono.id}')">
                     <i class="fas fa-microchip" style="color:#94a3b8;width:18px;"></i>
                     <div style="flex:1;min-width:0;">
-                        <div style="font-size:.86rem;font-weight:600;">${escapeHtmlSimples(EQUIP_TIPOS[e.tipo] || e.tipo || 'Equipamento')}${e.marca ? ' — ' + escapeHtmlSimples(e.marca) : ''}</div>
-                        <div style="font-size:.76rem;color:#64748b;">${escapeHtmlSimples(e.localId ? nomeLocal(e.localId) : (contratoDono ? nomeLocal(contratoDono.localId) : 'Sem local associado'))}${e.numeroSerie ? ' · nº série ' + escapeHtmlSimples(e.numeroSerie) : ''}${garantiaTxt}</div>
+                        <div style="font-size:.86rem;font-weight:600;text-align:left;">${escapeHtmlSimples(EQUIP_TIPOS[e.tipo] || e.tipo || 'Equipamento')}${e.marca ? ' — ' + escapeHtmlSimples(e.marca) : ''}</div>
+                        <div style="font-size:.76rem;color:#64748b;text-align:left;">${escapeHtmlSimples(e.localId ? nomeLocal(e.localId) : (contratoDono ? nomeLocal(contratoDono.localId) : 'Sem local associado'))}${e.numeroSerie ? ' · nº série ' + escapeHtmlSimples(e.numeroSerie) : ''}${garantiaTxt}</div>
                     </div>
                     ${corGarantia ? `<span style="font-size:.7rem;font-weight:600;padding:3px 9px;border-radius:6px;background:${corGarantia[1]};color:${corGarantia[0]};white-space:nowrap;">Garantia expirada</span>` : ''}
                     <i class="fas fa-chevron-right" style="color:#cbd5e1;"></i>
@@ -5428,8 +5428,8 @@
                 return `<div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #f1f5f9;cursor:pointer;" onclick="${onclick}">
                     <i class="fas fa-headset" style="color:#94a3b8;width:18px;"></i>
                     <div style="flex:1;min-width:0;">
-                        <div style="font-size:.86rem;font-weight:600;">${a.numero ? '#' + escapeHtmlSimples(a.numero) + ' — ' : ''}${escapeHtmlSimples(a.assunto || 'Pedido de assistência')}</div>
-                        <div style="font-size:.76rem;color:#64748b;">${a.dataCriacao ? new Date(a.dataCriacao).toLocaleDateString('pt-PT') : '—'} · <span style="color:${prio.cor};font-weight:600;">${prio.label}</span> · ${a.atribuidoId ? escapeHtmlSimples(obterNomeFuncionario(a.atribuidoId) || 'Atribuída') : 'Por atribuir'}${a.osGeradaId ? ' · OS já criada' : ''}</div>
+                        <div style="font-size:.86rem;font-weight:600;text-align:left;">${a.numero ? '#' + escapeHtmlSimples(a.numero) + ' — ' : ''}${escapeHtmlSimples(a.assunto || 'Pedido de assistência')}</div>
+                        <div style="font-size:.76rem;color:#64748b;text-align:left;">${a.dataCriacao ? new Date(a.dataCriacao).toLocaleDateString('pt-PT') : '—'} · <span style="color:${prio.cor};font-weight:600;">${prio.label}</span> · ${a.atribuidoId ? escapeHtmlSimples(obterNomeFuncionario(a.atribuidoId) || 'Atribuída') : 'Por atribuir'}${a.osGeradaId ? ' · OS já criada' : ''}</div>
                     </div>
                     <span style="font-size:.7rem;font-weight:600;padding:3px 9px;border-radius:6px;background:${corFundo};color:${corTexto};white-space:nowrap;">${estadoLabel[a.estado] || 'Aberta'}</span>
                 </div>`;
@@ -5524,8 +5524,8 @@
                 return `<div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #f1f5f9;cursor:pointer;" onclick="_wsSairPara('${clienteId}');abrirModalObraLonga('${o.id}')">
                     <i class="fas fa-hard-hat" style="color:#94a3b8;width:18px;"></i>
                     <div style="flex:1;min-width:0;">
-                        <div style="font-size:.86rem;font-weight:600;">${escapeHtmlSimples(o.nome || 'Obra')}</div>
-                        <div style="font-size:.76rem;color:#64748b;">${escapeHtmlSimples(nomeLocal(o.localId))}${o.dataInicioPrevista ? ' · início ' + o.dataInicioPrevista.split('-').reverse().join('/') : ''}${o.dataFimPrevista ? ' · fim ' + o.dataFimPrevista.split('-').reverse().join('/') : ''}</div>
+                        <div style="font-size:.86rem;font-weight:600;text-align:left;">${escapeHtmlSimples(o.nome || 'Obra')}</div>
+                        <div style="font-size:.76rem;color:#64748b;text-align:left;">${escapeHtmlSimples(nomeLocal(o.localId))}${o.dataInicioPrevista ? ' · início ' + o.dataInicioPrevista.split('-').reverse().join('/') : ''}${o.dataFimPrevista ? ' · fim ' + o.dataFimPrevista.split('-').reverse().join('/') : ''}</div>
                     </div>
                     <span style="font-size:.7rem;font-weight:600;padding:3px 9px;border-radius:6px;background:${corFundo};color:${corTexto};white-space:nowrap;">${labels[o.estado] || o.estado || 'Preparação'}</span>
                 </div>`;
@@ -5581,8 +5581,8 @@
                     <div style="display:flex;align-items:center;gap:10px;cursor:pointer;" onclick="_wsSairPara('${clienteId}');abrirModalContrato('${c.id}')">
                         <i class="fas fa-file-signature" style="color:#94a3b8;width:18px;"></i>
                         <div style="flex:1;min-width:0;">
-                            <div style="font-size:.86rem;font-weight:600;">Contrato ${escapeHtmlSimples(c.numero || '—')} — ${escapeHtmlSimples(_equipStrContrato(c))}</div>
-                            <div style="font-size:.76rem;color:#64748b;">${escapeHtmlSimples(nomeLocal(c.localId))} · ${PERIODICIDADE_LABEL[c.periodicidade] || '—'}${c.validadeContrato ? ' · válido até ' + c.validadeContrato.split('-').reverse().join('/') : ''}</div>
+                            <div style="font-size:.86rem;font-weight:600;text-align:left;">Contrato ${escapeHtmlSimples(c.numero || '—')} — ${escapeHtmlSimples(_equipStrContrato(c))}</div>
+                            <div style="font-size:.76rem;color:#64748b;text-align:left;">${escapeHtmlSimples(nomeLocal(c.localId))} · ${PERIODICIDADE_LABEL[c.periodicidade] || '—'}${c.validadeContrato ? ' · válido até ' + c.validadeContrato.split('-').reverse().join('/') : ''}</div>
                         </div>
                         <span style="font-size:.7rem;font-weight:600;padding:3px 9px;border-radius:6px;background:${cor[1]};color:${cor[0]};white-space:nowrap;">${estado}</span>
                     </div>
@@ -5611,15 +5611,15 @@
                 return `<div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #f1f5f9;cursor:pointer;" onclick="_wsSairPara('${clienteId}');abrirVerOS('${s.id}')">
                     <i class="fas fa-clipboard-list" style="color:#94a3b8;width:18px;"></i>
                     <div style="flex:1;min-width:0;">
-                        <div style="font-size:.86rem;font-weight:600;">${s.numeroRegisto ? '#' + escapeHtmlSimples(s.numeroRegisto) + ' — ' : ''}${escapeHtmlSimples(s.descricao || tipos)}</div>
-                        <div style="font-size:.76rem;color:#64748b;">${(s.data || '').split('-').reverse().join('/')} · ${escapeHtmlSimples(nomeLocal(s.localId))} · ${escapeHtmlSimples(obterNomeFuncionario(s.funcionarioId) || 'Sem técnico')}</div>
+                        <div style="font-size:.86rem;font-weight:600;text-align:left;">${s.numeroRegisto ? '#' + escapeHtmlSimples(s.numeroRegisto) + ' — ' : ''}${escapeHtmlSimples(s.descricao || tipos)}</div>
+                        <div style="font-size:.76rem;color:#64748b;text-align:left;">${(s.data || '').split('-').reverse().join('/')} · ${escapeHtmlSimples(nomeLocal(s.localId))} · ${escapeHtmlSimples(obterNomeFuncionario(s.funcionarioId) || 'Sem técnico')}</div>
                     </div>
                     <span style="font-size:.7rem;font-weight:600;padding:3px 9px;border-radius:6px;background:${corFundo};color:${corTexto};white-space:nowrap;text-transform:capitalize;">${escapeHtmlSimples(s.status || 'pendente')}</span>
                 </div>`;
             }).join('');
             return `
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-                    <div class="help-text" style="margin:0;">${osCliente.length} Ordem${osCliente.length === 1 ? '' : 'ns'} de Serviço desde ${desde.split('-').reverse().join('/')}.</div>
+                    <div class="help-text" style="margin:0;">${osCliente.length} ${osCliente.length === 1 ? 'Ordem' : 'Ordens'} de Serviço desde ${desde.split('-').reverse().join('/')}.</div>
                     <button class="btn btn-sm btn-primary" onclick="_wsMarcarOS('${clienteId}')"><i class="fas fa-plus"></i> Nova OS</button>
                 </div>
                 <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:6px 18px;">${linhas}</div>
@@ -5677,17 +5677,17 @@
                 return `<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #f1f5f9;">
                     <i class="fas fa-store" style="color:#94a3b8;width:18px;"></i>
                     <div style="flex:1;min-width:0;">
-                        <div style="font-size:.86rem;font-weight:600;">${escapeHtmlSimples(l.nome)}</div>
-                        <div style="font-size:.76rem;color:#64748b;">${estadoTxt}</div>
+                        <div style="font-size:.86rem;font-weight:600;text-align:left;">${escapeHtmlSimples(l.nome)}</div>
+                        <div style="font-size:.76rem;color:#64748b;text-align:left;">${estadoTxt}</div>
                     </div>
                     <span style="font-size:.7rem;font-weight:600;padding:3px 9px;border-radius:6px;background:${estadoCor};color:${estadoTexto};white-space:nowrap;">${contratoDoLocal && contratoDoLocal.validadeContrato <= em30 ? 'Contrato a vencer' : (ultima ? 'Em dia' : 'Novo')}</span>
                 </div>`;
             }).join('');
             return `
                 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:20px;">
-                    <div style="background:#f8fafc;border-radius:10px;padding:14px;"><div style="font-size:.76rem;color:#64748b;">Locais</div><div style="font-size:1.5rem;font-weight:700;">${locaisParaMostrar.length}</div></div>
-                    <div style="background:#f8fafc;border-radius:10px;padding:14px;"><div style="font-size:.76rem;color:#64748b;">OS abertas</div><div style="font-size:1.5rem;font-weight:700;">${osAbertas}</div></div>
-                    <div style="background:#f8fafc;border-radius:10px;padding:14px;"><div style="font-size:.76rem;color:#64748b;">Equipamentos</div><div style="font-size:1.5rem;font-weight:700;">${equipCliente}</div></div>
+                    <div style="background:#f8fafc;border-radius:10px;padding:14px;"><div style="font-size:.76rem;color:#64748b;text-align:left;">Locais</div><div style="font-size:1.5rem;font-weight:700;">${locaisParaMostrar.length}</div></div>
+                    <div style="background:#f8fafc;border-radius:10px;padding:14px;"><div style="font-size:.76rem;color:#64748b;text-align:left;">OS abertas</div><div style="font-size:1.5rem;font-weight:700;">${osAbertas}</div></div>
+                    <div style="background:#f8fafc;border-radius:10px;padding:14px;"><div style="font-size:.76rem;color:#64748b;text-align:left;">Equipamentos</div><div style="font-size:1.5rem;font-weight:700;">${equipCliente}</div></div>
                     <div style="background:${contratosAVencer ? '#fef3c7' : '#f8fafc'};border-radius:10px;padding:14px;"><div style="font-size:.76rem;color:${contratosAVencer ? '#92400e' : '#64748b'};">Contratos a vencer</div><div style="font-size:1.5rem;font-weight:700;color:${contratosAVencer ? '#92400e' : 'inherit'};">${contratosAVencer}</div></div>
                 </div>
                 <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 18px;">
@@ -5747,8 +5747,8 @@
                 ${osLocal.map(s => `<div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #f1f5f9;cursor:pointer;" onclick="_wsSairPara('${clienteId}');abrirVerOS('${s.id}')">
                     <i class="fas fa-clipboard-list" style="color:#94a3b8;width:18px;"></i>
                     <div style="flex:1;min-width:0;">
-                        <div style="font-size:.86rem;font-weight:600;">${escapeHtmlSimples(s.descricao || (s.tiposTrabalho || [])[0] || 'OS')}</div>
-                        <div style="font-size:.76rem;color:#64748b;">${(s.data || '').split('-').reverse().join('/')}</div>
+                        <div style="font-size:.86rem;font-weight:600;text-align:left;">${escapeHtmlSimples(s.descricao || (s.tiposTrabalho || [])[0] || 'OS')}</div>
+                        <div style="font-size:.76rem;color:#64748b;text-align:left;">${(s.data || '').split('-').reverse().join('/')}</div>
                     </div>
                 </div>`).join('')}
                 </div>` : '';
@@ -5758,8 +5758,8 @@
                 ${relLocal.map(r => `<div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #f1f5f9;cursor:pointer;" onclick="_verRelatorioEspecialidadeSnapshot('${r.id}', false)">
                     <i class="fas fa-file-lines" style="color:#94a3b8;width:18px;"></i>
                     <div style="flex:1;min-width:0;">
-                        <div style="font-size:.86rem;font-weight:600;">${escapeHtmlSimples(nomesRelatorio[r.tipo] || r.tipo)}${r.numeroDocumento ? ' (' + escapeHtmlSimples(r.numeroDocumento) + ')' : ''}</div>
-                        <div style="font-size:.76rem;color:#64748b;">${(r.data || '').split('-').reverse().join('/')}</div>
+                        <div style="font-size:.86rem;font-weight:600;text-align:left;">${escapeHtmlSimples(nomesRelatorio[r.tipo] || r.tipo)}${r.numeroDocumento ? ' (' + escapeHtmlSimples(r.numeroDocumento) + ')' : ''}</div>
+                        <div style="font-size:.76rem;color:#64748b;text-align:left;">${(r.data || '').split('-').reverse().join('/')}</div>
                     </div>
                 </div>`).join('')}
                 </div>` : '';
