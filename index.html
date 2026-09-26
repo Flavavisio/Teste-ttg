@@ -1042,6 +1042,31 @@
         <div id="notifPessoalBanner" style="display:none;margin-bottom:16px;"></div>
         <div id="omeudia" style="display:none;margin-bottom:20px;"></div>
         <div class="dashboard-grupos">
+            <div class="grupo-cards" data-grupo="comercial">
+                <div class="grupo-header"><h3><i class="fas fa-handshake-angle"></i> Comercial</h3><div class="linha"></div></div>
+                <div class="grupo-grid">
+                    <div class="card-principal" data-card="clientes" onclick="abrirSecao('clientes')">
+                        <div class="icon"><i class="fas fa-user-friends"></i></div>
+                        <div class="info"><h3>Clientes</h3><p><span class="count" id="countCli">0</span></p></div>
+                    </div>
+                    <div class="card-principal" data-card="contratos" onclick="abrirCardContratos()">
+                        <div class="icon"><i class="fas fa-file-signature"></i></div>
+                        <div class="info"><h3>Contratos de Manutenção</h3><p id="contratosResumo"><span class="count" id="countContratos">0</span></p></div>
+                    </div>
+                    <a class="card-principal" id="cardCRM" data-card="crm" href="TOTALGEST_CRM.html" target="_blank" rel="noopener" onclick="return _abrirCRM(event)">
+                        <div class="icon"><i class="fas fa-bullseye"></i></div>
+                        <div class="info"><h3>CRM Comercial</h3><p>Leads · Oportunidades · Propostas · Comissões</p></div>
+                    </a>
+                    <a class="card-principal" id="cardAssist" data-card="assistencias" href="TOTALGEST_ASSIST.html" target="_blank" rel="noopener" onclick="return _abrirAssist(event)">
+                        <div class="icon"><i class="fas fa-headset"></i></div>
+                        <div class="info"><h3>Assistências</h3><p>Pedidos de suporte e assistência técnica</p></div>
+                    </a>
+                    <div class="card-principal" id="cardDistribuicao" data-card="distribuicao" onclick="abrirSecao('distribuicao')">
+                        <div class="icon"><i class="fas fa-diagram-project"></i></div>
+                        <div class="info"><h3>Distribuição</h3><p>Cria e gere os teus próprios clientes</p></div>
+                    </div>
+                </div>
+            </div>
             <div class="grupo-cards" data-grupo="equipa">
                 <div class="grupo-header"><h3><i class="fas fa-users-gear"></i> Equipa</h3><div class="linha"></div></div>
                 <div class="grupo-grid">
@@ -1075,6 +1100,31 @@
                     </div>
                 </div>
             </div>
+            <div class="grupo-cards" data-grupo="gestao">
+                <div class="grupo-header"><h3><i class="fas fa-clipboard-list"></i> Gestão</h3><div class="linha"></div></div>
+                <div class="grupo-grid">
+                    <div class="card-principal" data-card="relatorios-personalizados" onclick="abrirGestaoRelatoriosPersonalizados()">
+                        <div class="icon"><i class="fas fa-clipboard-list"></i></div>
+                        <div class="info"><h3>Relatórios Personalizados</h3><p>Desenhar formulários por tipo de trabalho</p></div>
+                    </div>
+                    <div class="card-principal" data-card="folhas" onclick="abrirSecao('folhas')">
+                        <div class="icon"><i class="fas fa-clipboard-list"></i></div>
+                        <div class="info"><h3>Folhas Obra</h3><p><span class="count" id="countFolhas">0</span></p></div>
+                    </div>
+                    <div class="card-principal" data-card="agenda-obras" onclick="abrirSecao('agenda-obras')">
+                        <div class="icon"><i class="fas fa-calendar-week"></i></div>
+                        <div class="info"><h3>Agenda de Obras</h3><p>Planeamento de obras</p></div>
+                    </div>
+                    <div class="card-principal" data-card="agenda" onclick="abrirSecao('agenda')">
+                        <div class="icon"><i class="fas fa-calendar-alt"></i></div>
+                        <div class="info"><h3>Agenda</h3><p>Datas a aproximar</p></div>
+                    </div>
+                    <div class="card-principal" data-card="reports" onclick="abrirSecao('reports')">
+                        <div class="icon"><i class="fas fa-chart-bar"></i></div>
+                        <div class="info"><h3>Reports</h3><p>Dashboard de gestão</p></div>
+                    </div>
+                </div>
+            </div>
             <div class="grupo-cards" data-grupo="obras-servicos">
                 <div class="grupo-header"><h3><i class="fas fa-gears"></i> Obras e Serviços</h3><div class="linha"></div></div>
                 <div class="grupo-grid">
@@ -1085,10 +1135,6 @@
                             <p><span class="count" id="countServPend">0</span> pendentes</p>
                             <p><span class="count" id="countServAndamento">0</span> em andamento</p>
                         </div>
-                    </div>
-                    <div class="card-principal" data-card="relatorios-personalizados" onclick="abrirGestaoRelatoriosPersonalizados()">
-                        <div class="icon"><i class="fas fa-clipboard-list"></i></div>
-                        <div class="info"><h3>Relatórios Personalizados</h3><p>Desenhar formulários por tipo de trabalho</p></div>
                     </div>
                     <div class="card-principal" data-card="obras-longa" onclick="abrirCardObrasLonga()">
                         <div class="icon"><i class="fas fa-hard-hat"></i></div>
@@ -1102,10 +1148,6 @@
                         <div class="icon"><i class="fas fa-qrcode"></i></div>
                         <div class="info"><h3>Levantamento e Devolução de Ferramentas de Trabalho</h3><p><span class="count" id="countLevantamentosAtivos">0</span> comigo</p></div>
                     </div>
-                    <div class="card-principal" data-card="folhas" onclick="abrirSecao('folhas')">
-                        <div class="icon"><i class="fas fa-clipboard-list"></i></div>
-                        <div class="info"><h3>Folhas Obra</h3><p><span class="count" id="countFolhas">0</span></p></div>
-                    </div>
                     <div class="card-principal" data-card="requisicoes" onclick="abrirSecao('requisicoes')">
                         <div class="icon"><i class="fas fa-boxes"></i></div>
                         <div class="info"><h3>Requisições</h3><p><span class="count" id="countRequisicoes">0</span> pendentes</p></div>
@@ -1113,10 +1155,6 @@
                     <div class="card-principal" data-card="relatorio-os" onclick="abrirSecao('relatorio-os')">
                         <div class="icon"><i class="fas fa-file-contract"></i></div>
                         <div class="info"><h3>Relatório de OS</h3><p>PDF / Excel</p></div>
-                    </div>
-                    <div class="card-principal" data-card="agenda-obras" onclick="abrirSecao('agenda-obras')">
-                        <div class="icon"><i class="fas fa-calendar-week"></i></div>
-                        <div class="info"><h3>Agenda de Obras</h3><p>Planeamento de obras</p></div>
                     </div>
                 </div>
             </div>
@@ -1155,46 +1193,9 @@
                     </div>
                 </div>
             </div>
-            <div class="grupo-cards" data-grupo="comercial">
-                <div class="grupo-header"><h3><i class="fas fa-handshake-angle"></i> Comercial</h3><div class="linha"></div></div>
+            <div class="grupo-cards" data-grupo="financeiro">
+                <div class="grupo-header"><h3><i class="fas fa-landmark"></i> Financeiro</h3><div class="linha"></div></div>
                 <div class="grupo-grid">
-                    <div class="card-principal" data-card="clientes" onclick="abrirSecao('clientes')">
-                        <div class="icon"><i class="fas fa-user-friends"></i></div>
-                        <div class="info"><h3>Clientes</h3><p><span class="count" id="countCli">0</span></p></div>
-                    </div>
-                    <div class="card-principal" data-card="contratos" onclick="abrirCardContratos()">
-                        <div class="icon"><i class="fas fa-file-signature"></i></div>
-                        <div class="info"><h3>Contratos de Manutenção</h3><p id="contratosResumo"><span class="count" id="countContratos">0</span></p></div>
-                    </div>
-                    <a class="card-principal" id="cardCRM" data-card="crm" href="TOTALGEST_CRM.html" target="_blank" rel="noopener" onclick="return _abrirCRM(event)">
-                        <div class="icon"><i class="fas fa-bullseye"></i></div>
-                        <div class="info"><h3>CRM Comercial</h3><p>Leads · Oportunidades · Propostas · Comissões</p></div>
-                    </a>
-                    <a class="card-principal" id="cardAssist" data-card="assistencias" href="TOTALGEST_ASSIST.html" target="_blank" rel="noopener" onclick="return _abrirAssist(event)">
-                        <div class="icon"><i class="fas fa-headset"></i></div>
-                        <div class="info"><h3>Assistências</h3><p>Pedidos de suporte e assistência técnica</p></div>
-                    </a>
-                    <div class="card-principal" id="cardDistribuicao" data-card="distribuicao" onclick="abrirSecao('distribuicao')">
-                        <div class="icon"><i class="fas fa-diagram-project"></i></div>
-                        <div class="info"><h3>Distribuição</h3><p>Cria e gere os teus próprios clientes</p></div>
-                    </div>
-                </div>
-            </div>
-            <div class="grupo-cards" data-grupo="gestao">
-                <div class="grupo-header"><h3><i class="fas fa-landmark"></i> Gestão e Financeiro</h3><div class="linha"></div></div>
-                <div class="grupo-grid">
-                    <div class="card-principal" id="cardERP" data-card="erp" onclick="abrirSecao('financeiro'); setTimeout(abrirConfigFaturacao, 150);">
-                        <div class="icon"><i class="fas fa-plug"></i></div>
-                        <div class="info"><h3>Integração do Software de Faturação <span id="erpBadgeEmBreve" class="badge" style="background:#0891b2;color:#fff;font-size:.65rem;vertical-align:middle;">Em breve ADD-ON licença</span></h3><p>Moloni, TOConline, entre outros</p></div>
-                    </div>
-                    <div class="card-principal" data-card="agenda" onclick="abrirSecao('agenda')">
-                        <div class="icon"><i class="fas fa-calendar-alt"></i></div>
-                        <div class="info"><h3>Agenda</h3><p>Datas a aproximar</p></div>
-                    </div>
-                    <div class="card-principal" data-card="reports" onclick="abrirSecao('reports')">
-                        <div class="icon"><i class="fas fa-chart-bar"></i></div>
-                        <div class="info"><h3>Reports</h3><p>Dashboard de gestão</p></div>
-                    </div>
                     <div class="card-principal" data-card="financeiro" onclick="abrirCardArmazem('financeiro')">
                         <div class="icon"><i class="fas fa-euro-sign"></i></div>
                         <div class="info"><h3>Financeiro</h3><p>Faturação e resultados</p></div>
@@ -1211,6 +1212,7 @@
             </div>
             <div class="grupo-cards" data-grupo="suporte">
                 <div class="grupo-header"><h3><i class="fas fa-life-ring"></i> Sistema e Suporte</h3><div class="linha"></div></div>
+
                 <div class="grupo-grid">
                     <div class="card-principal" data-card="guia" onclick="abrirSecao('guia')">
                         <div class="icon"><i class="fas fa-circle-question"></i></div>
