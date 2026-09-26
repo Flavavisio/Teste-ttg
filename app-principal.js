@@ -5521,13 +5521,15 @@
             const labels = { preparacao: 'Preparação', ativa: 'Ativa', suspensa: 'Suspensa', concluida: 'Concluída' };
             const linhas = obrasCliente.map(o => {
                 const [corTexto, corFundo] = cores[o.estado] || cores.preparacao;
-                return `<div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #f1f5f9;cursor:pointer;" onclick="_wsSairPara('${clienteId}');abrirModalObraLonga('${o.id}')">
+                return `<div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #f1f5f9;">
                     <i class="fas fa-hard-hat" style="color:#94a3b8;width:18px;"></i>
                     <div style="flex:1;min-width:0;">
                         <div style="font-size:.86rem;font-weight:600;text-align:left;">${escapeHtmlSimples(o.nome || 'Obra')}</div>
                         <div style="font-size:.76rem;color:#64748b;text-align:left;">${escapeHtmlSimples(nomeLocal(o.localId))}${o.dataInicioPrevista ? ' · início ' + o.dataInicioPrevista.split('-').reverse().join('/') : ''}${o.dataFimPrevista ? ' · fim ' + o.dataFimPrevista.split('-').reverse().join('/') : ''}</div>
                     </div>
                     <span style="font-size:.7rem;font-weight:600;padding:3px 9px;border-radius:6px;background:${corFundo};color:${corTexto};white-space:nowrap;">${labels[o.estado] || o.estado || 'Preparação'}</span>
+                    <button class="btn btn-sm" style="background:#334155;color:#fff;" onclick="_wsSairPara('${clienteId}');abrirObraLongaDetalhe('${o.id}')" title="Ver Obra"><i class="fas fa-eye"></i> Ver Obra</button>
+                    <button class="btn btn-sm" style="background:#0f766e;color:#fff;" onclick="_wsSairPara('${clienteId}');_obraEscolherRelatorio('${o.id}')" title="Relatório da obra"><i class="fas fa-file-lines"></i></button>
                 </div>`;
             }).join('');
             return cabecalho + `<div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:6px 18px;">${linhas}</div>`;
