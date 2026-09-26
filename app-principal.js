@@ -5517,22 +5517,34 @@
                     <button class="btn btn-sm btn-primary" onclick="_wsNovaObra('${clienteId}')"><i class="fas fa-plus"></i> Nova obra</button>
                 </div>`;
             if (!obrasCliente.length) return cabecalho + `<p class="help-text">Este cliente ainda não tem nenhuma obra registada.</p>`;
-            const cores = { preparacao: ['#475569', '#f1f5f9'], ativa: ['#166534', '#dcfce7'], suspensa: ['#92400e', '#fef3c7'], concluida: ['#1e40af', '#dbeafe'] };
             const labels = { preparacao: 'Preparação', ativa: 'Ativa', suspensa: 'Suspensa', concluida: 'Concluída' };
             const linhas = obrasCliente.map(o => {
-                const [corTexto, corFundo] = cores[o.estado] || cores.preparacao;
+                const corMap = { preparacao: '#475569', ativa: '#166534', suspensa: '#92400e', concluida: '#1e40af' };
+                const corTexto = corMap[o.estado] || corMap.preparacao;
                 return `<div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #f1f5f9;">
                     <i class="fas fa-hard-hat" style="color:#94a3b8;width:18px;"></i>
                     <div style="flex:1;min-width:0;">
                         <div style="font-size:.86rem;font-weight:600;text-align:left;">${escapeHtmlSimples(o.nome || 'Obra')}</div>
                         <div style="font-size:.76rem;color:#64748b;text-align:left;">${escapeHtmlSimples(nomeLocal(o.localId))}${o.dataInicioPrevista ? ' · início ' + o.dataInicioPrevista.split('-').reverse().join('/') : ''}${o.dataFimPrevista ? ' · fim ' + o.dataFimPrevista.split('-').reverse().join('/') : ''}</div>
                     </div>
-                    <span style="font-size:.7rem;font-weight:600;padding:3px 9px;border-radius:6px;background:${corFundo};color:${corTexto};white-space:nowrap;">${labels[o.estado] || o.estado || 'Preparação'}</span>
+                    <select onchange="_wsObraEstadoAlterar('${clienteId}','${o.id}', this.value)" style="font-size:.75rem;font-weight:600;padding:4px 8px;border-radius:6px;border:1px solid #cbd5e1;background:#fff;color:${corTexto};" title="Mudar o estado desta obra">
+                        ${Object.entries(labels).map(([v, l]) => `<option value="${v}" ${o.estado === v || (!o.estado && v === 'preparacao') ? 'selected' : ''}>${l}</option>`).join('')}
+                    </select>
                     <button class="btn btn-sm" style="background:#334155;color:#fff;" onclick="_wsSairPara('${clienteId}');abrirObraLongaDetalhe('${o.id}')" title="Ver Obra"><i class="fas fa-eye"></i> Ver Obra</button>
                     <button class="btn btn-sm" style="background:#0f766e;color:#fff;" onclick="_wsSairPara('${clienteId}');_obraEscolherRelatorio('${o.id}')" title="Relatório da obra"><i class="fas fa-file-lines"></i></button>
                 </div>`;
             }).join('');
             return cabecalho + `<div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:6px 18px;">${linhas}</div>`;
+        }
+        // Mudar o estado da obra diretamente aqui, sem ter de abrir "Ver Obra" — grava logo e
+        // atualiza a lista, mantendo o workspace aberto na mesma aba.
+        async function _wsObraEstadoAlterar(clienteId, obraId, novoEstado) {
+            const obra = (dados.obras || []).find(o => o.id === obraId);
+            if (!obra) return;
+            obra.estado = novoEstado;
+            try { await guardarDados(dados, ['obras']); } catch (e) { alert('⚠️ Ficou no ecrã, mas ainda não foi possível confirmar no servidor.'); }
+            const conteudo = document.getElementById('wsClienteConteudo');
+            if (conteudo) conteudo.innerHTML = _wsObrasHtml(clienteId);
         }
         function _wsNovaObra(clienteId) {
             const cliente = dados.clientes?.find(c => c.id === clienteId);
@@ -5658,11 +5670,13 @@
             const locaisCliente = (dados.locais || []).filter(l => l.clienteId === clienteId);
             const osCliente = (dados.servicos || []).filter(s => s.clienteId === clienteId);
             const osAbertas = osCliente.filter(s => s.status !== 'concluído').length;
-            // Equipamentos ligam-se por localId, não têm clienteId próprio — junta a Sede
-            // (localId null) com os locais deste cliente para saber quais lhe pertencem.
-            const idsLocaisCliente = new Set([null, ...locaisCliente.map(l => l.id)]);
-            const equipCliente = (dados.equipamentos || []).filter(e => idsLocaisCliente.has(e.localId || null)).length;
+            // Equipamento liga-se por CONTRATO (contrato.equipamentosIds), não pelo localId do
+            // próprio equipamento — um equipamento "sem local associado" não diz de que cliente
+            // é; o contrato sim. Antes contava por local, e um equipamento sem local de QUALQUER
+            // cliente entrava na conta de todos (por isso aparecia sempre "20").
             const contratosCliente = (dados.contratos || []).filter(c => c.clienteId === clienteId);
+            const idsEquipContrato = new Set(contratosCliente.flatMap(c => c.equipamentosIds || []));
+            const equipCliente = (dados.equipamentos || []).filter(e => idsEquipContrato.has(e.id)).length;
             const hoje = getDataHoje();
             const em30 = new Date(Date.now() + 30 * 86400000).toISOString().slice(0, 10);
             const contratosAVencer = contratosCliente.filter(c => c.validadeContrato && c.validadeContrato >= hoje && c.validadeContrato <= em30).length;
