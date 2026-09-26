@@ -5186,8 +5186,8 @@
         //  Financeiro) mostram uma mensagem simples por agora — ficam para as
         //  próximas fases, sem quebrar nada do que já existe nesses menus.
         // =====================================================================
-        const WS_CLIENTE_ABAS = ['resumo', 'locais', 'os', 'assistencias', 'contratos', 'equipamentos', 'financeiro'];
-        const WS_CLIENTE_ABAS_LABEL = { resumo: 'Resumo', locais: 'Locais', os: 'Ordens de Serviço', assistencias: 'Assistências', contratos: 'Contratos', equipamentos: 'Equipamentos', financeiro: 'Financeiro' };
+        const WS_CLIENTE_ABAS = ['resumo', 'locais', 'os', 'obras', 'assistencias', 'contratos', 'equipamentos', 'financeiro'];
+        const WS_CLIENTE_ABAS_LABEL = { resumo: 'Resumo', locais: 'Locais', os: 'Ordens de Serviço', obras: 'Obras', assistencias: 'Assistências', contratos: 'Contratos', equipamentos: 'Equipamentos', financeiro: 'Financeiro' };
         function abrirWorkspaceCliente(clienteId) {
             const cliente = dados.clientes?.find(c => c.id === clienteId);
             if (!cliente) return;
@@ -5197,7 +5197,9 @@
             _wsClienteAba(clienteId, 'resumo');
         }
         function _wsClienteFechar() {
-            document.getElementById('wsClienteOverlay')?.classList.remove('open');
+            const overlay = document.getElementById('wsClienteOverlay');
+            overlay?.classList.remove('open');
+            if (overlay) overlay.dataset.clienteAtual = ''; // força a refazer a "casca" na próxima vez que abrir (dados podem ter mudado entretanto)
             window._wsVoltarCliente = null; // fechou de propósito (X) — não reabrir
         }
         // Sai do workspace para abrir outro modal (editar local, contrato, ver OS...) e fica a
@@ -5231,6 +5233,7 @@
             const abasVisiveis = WS_CLIENTE_ABAS.filter(a => {
                 if (a === 'assistencias') return moduloAssistAtivo(admin);
                 if (a === 'contratos' || a === 'equipamentos') return moduloContratosAtivo(admin);
+                if (a === 'obras') return moduloArmazemAtivo(admin);
                 return true;
             });
             if (!abasVisiveis.includes(aba)) aba = 'resumo'; // a aba pedida já não está disponível
@@ -5238,35 +5241,45 @@
             const cliente = dados.clientes?.find(c => c.id === clienteId);
             const overlay = document.getElementById('wsClienteOverlay');
             if (!cliente || !overlay) return;
-            const locaisCliente = (dados.locais || []).filter(l => l.clienteId === clienteId);
-            const iniciais = (cliente.nome || '?').trim().split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase();
-            overlay.innerHTML = `
-                <div class="modal" style="max-width:1400px;width:98vw;height:95vh;max-height:95vh;display:flex;flex-direction:column;padding:0;">
-                    <div style="display:flex;align-items:center;gap:14px;padding:18px 22px;border-bottom:1px solid #e2e8f0;flex-shrink:0;">
-                        <div style="width:48px;height:48px;border-radius:12px;background:#eef2f7;display:flex;align-items:center;justify-content:center;font-weight:700;color:#152a52;font-size:1.05rem;flex-shrink:0;">${iniciais}</div>
-                        <div style="flex:1;min-width:0;">
-                            <div style="font-weight:700;font-size:1.15rem;">${escapeHtmlSimples(cliente.nome)}</div>
-                            <div style="font-size:.8rem;color:#64748b;">${cliente.nif ? 'NIF ' + escapeHtmlSimples(cliente.nif) + ' · ' : ''}${escapeHtmlSimples(cliente.cidade || cliente.endereco || '—')} · ${locaisCliente.length + 1} local${locaisCliente.length ? 'is' : ''}</div>
+            // A "casca" do modal (cabeçalho, ações rápidas, barra de separadores) só se constrói
+            // de novo se for mesmo um cliente diferente do que já lá estava — trocar de separador
+            // no MESMO cliente só troca o conteúdo lá dentro. Antes reconstruía tudo sempre,
+            // dava a sensação de o modal fechar e abrir de novo a cada clique.
+            if (overlay.dataset.clienteAtual !== clienteId || !document.getElementById('wsClienteConteudo')) {
+                const locaisCliente = (dados.locais || []).filter(l => l.clienteId === clienteId);
+                const iniciais = (cliente.nome || '?').trim().split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase();
+                overlay.innerHTML = `
+                    <div class="modal" style="max-width:1400px;width:98vw;height:95vh;max-height:95vh;display:flex;flex-direction:column;padding:0;">
+                        <div style="display:flex;align-items:center;gap:14px;padding:18px 22px;border-bottom:1px solid #e2e8f0;flex-shrink:0;">
+                            <div style="width:48px;height:48px;border-radius:12px;background:#eef2f7;display:flex;align-items:center;justify-content:center;font-weight:700;color:#152a52;font-size:1.05rem;flex-shrink:0;">${iniciais}</div>
+                            <div style="flex:1;min-width:0;">
+                                <div style="font-weight:700;font-size:1.15rem;">${escapeHtmlSimples(cliente.nome)}</div>
+                                <div style="font-size:.8rem;color:#64748b;">${cliente.nif ? 'NIF ' + escapeHtmlSimples(cliente.nif) + ' · ' : ''}${escapeHtmlSimples(cliente.cidade || cliente.endereco || '—')} · ${locaisCliente.length + 1} local${locaisCliente.length ? 'is' : ''}</div>
+                            </div>
+                            <button class="close-modal" onclick="_wsClienteFechar()">&times;</button>
                         </div>
-                        <button class="close-modal" onclick="_wsClienteFechar()">&times;</button>
+                        <div style="padding:14px 22px 0;display:flex;gap:8px;flex-wrap:wrap;flex-shrink:0;">
+                            <button class="btn btn-sm btn-primary" onclick="_wsMarcarOS('${clienteId}')"><i class="fas fa-clipboard-plus"></i> Marcar OS</button>
+                            ${moduloAssistAtivo(admin) ? `<button class="btn btn-sm btn-outline" onclick="_wsMarcarAssistencia('${clienteId}')"><i class="fas fa-headset"></i> Marcar assistência</button>` : ''}
+                            <button class="btn btn-sm btn-outline" onclick="_wsSairPara('${clienteId}');abrirModalNovoLocalCliente('${clienteId}')"><i class="fas fa-map-pin"></i> Novo local</button>
+                            <button class="btn btn-sm btn-outline" onclick="_wsSairPara('${clienteId}');abrirModal('cliente','${clienteId}')"><i class="fas fa-edit"></i> Editar dados</button>
+                            <button class="btn btn-sm btn-outline" onclick="_wsSairPara('${clienteId}');abrirHistoricoCliente('${clienteId}')"><i class="fas fa-clock-rotate-left"></i> Histórico completo</button>
+                        </div>
+                        <div style="padding:12px 22px 14px;display:flex;gap:8px;border-bottom:1px solid #e2e8f0;overflow-x:auto;flex-shrink:0;" id="wsClienteAbas"></div>
+                        <div style="flex:1;overflow-y:auto;padding:18px 22px;" id="wsClienteConteudo"></div>
                     </div>
-                    <div style="padding:14px 22px 0;display:flex;gap:8px;flex-wrap:wrap;flex-shrink:0;">
-                        <button class="btn btn-sm btn-primary" onclick="_wsMarcarOS('${clienteId}')"><i class="fas fa-clipboard-plus"></i> Marcar OS</button>
-                        ${moduloAssistAtivo(admin) ? `<button class="btn btn-sm btn-outline" onclick="_wsMarcarAssistencia('${clienteId}')"><i class="fas fa-headset"></i> Marcar assistência</button>` : ''}
-                        <button class="btn btn-sm btn-outline" onclick="_wsSairPara('${clienteId}');abrirModalNovoLocalCliente('${clienteId}')"><i class="fas fa-map-pin"></i> Novo local</button>
-                        <button class="btn btn-sm btn-outline" onclick="_wsSairPara('${clienteId}');abrirModal('cliente','${clienteId}')"><i class="fas fa-edit"></i> Editar dados</button>
-                        <button class="btn btn-sm btn-outline" onclick="_wsSairPara('${clienteId}');abrirHistoricoCliente('${clienteId}')"><i class="fas fa-clock-rotate-left"></i> Histórico completo</button>
-                    </div>
-                    <div style="padding:12px 22px 14px;display:flex;gap:8px;border-bottom:1px solid #e2e8f0;overflow-x:auto;flex-shrink:0;">
-                        ${abasVisiveis.map(a => `<button class="ws-cliente-aba-btn ${a === aba ? 'active' : ''}" onclick="_wsClienteAba('${clienteId}','${a}')">${WS_CLIENTE_ABAS_LABEL[a]}</button>`).join('')}
-                    </div>
-                    <div style="flex:1;overflow-y:auto;padding:18px 22px;" id="wsClienteConteudo"><p class="help-text">A carregar…</p></div>
-                </div>
-            `;
+                `;
+                overlay.dataset.clienteAtual = clienteId;
+            }
+            // A barra de separadores em si é barata de refazer (é só texto/botões) — atualiza-se
+            // sempre, para o destaque do separador ativo mudar sem tocar no resto da "casca".
+            const barraAbas = document.getElementById('wsClienteAbas');
+            if (barraAbas) barraAbas.innerHTML = abasVisiveis.map(a => `<button class="ws-cliente-aba-btn ${a === aba ? 'active' : ''}" onclick="_wsClienteAba('${clienteId}','${a}')">${WS_CLIENTE_ABAS_LABEL[a]}</button>`).join('');
             const conteudo = document.getElementById('wsClienteConteudo');
             if (aba === 'resumo') conteudo.innerHTML = await _wsResumoHtml(clienteId);
             else if (aba === 'locais') conteudo.innerHTML = _wsLocaisHtml(clienteId);
             else if (aba === 'os') conteudo.innerHTML = await _wsOsHtml(clienteId);
+            else if (aba === 'obras') conteudo.innerHTML = _wsObrasHtml(clienteId);
             else if (aba === 'contratos') conteudo.innerHTML = _wsContratosHtml(clienteId);
             else if (aba === 'assistencias') conteudo.innerHTML = _wsAssistenciasHtml(clienteId);
             else if (aba === 'equipamentos') conteudo.innerHTML = _wsEquipamentosHtml(clienteId);
@@ -5379,7 +5392,7 @@
                     <i class="fas fa-microchip" style="color:#94a3b8;width:18px;"></i>
                     <div style="flex:1;min-width:0;">
                         <div style="font-size:.86rem;font-weight:600;">${escapeHtmlSimples(EQUIP_TIPOS[e.tipo] || e.tipo || 'Equipamento')}${e.marca ? ' — ' + escapeHtmlSimples(e.marca) : ''}</div>
-                        <div style="font-size:.76rem;color:#64748b;">${escapeHtmlSimples(e.localId ? nomeLocal(e.localId) : 'Sem local associado')}${e.numeroSerie ? ' · nº série ' + escapeHtmlSimples(e.numeroSerie) : ''}${garantiaTxt}</div>
+                        <div style="font-size:.76rem;color:#64748b;">${escapeHtmlSimples(e.localId ? nomeLocal(e.localId) : (contratoDono ? nomeLocal(contratoDono.localId) : 'Sem local associado'))}${e.numeroSerie ? ' · nº série ' + escapeHtmlSimples(e.numeroSerie) : ''}${garantiaTxt}</div>
                     </div>
                     ${corGarantia ? `<span style="font-size:.7rem;font-weight:600;padding:3px 9px;border-radius:6px;background:${corGarantia[1]};color:${corGarantia[0]};white-space:nowrap;">Garantia expirada</span>` : ''}
                     <i class="fas fa-chevron-right" style="color:#cbd5e1;"></i>
@@ -5491,6 +5504,49 @@
             return `<div style="text-align:center;margin-top:14px;">
                 <button class="btn btn-sm btn-outline" onclick="window.open('TOTALGEST_ASSIST.html', '_blank')"><i class="fas fa-external-link-alt"></i> Abrir Total Gest Assist</button>
             </div>`;
+        }
+        // Obras de Longa Duração — mesmo padrão dos outros separadores: lista, estado colorido,
+        // clicar abre a obra, botão para criar uma nova já com o cliente escolhido.
+        function _wsObrasHtml(clienteId) {
+            const obrasCliente = (dados.obras || []).filter(o => o.clienteId === clienteId).sort((a, b) => (b.dataCriacao || 0) - (a.dataCriacao || 0));
+            const locaisCliente = (dados.locais || []).filter(l => l.clienteId === clienteId);
+            const nomeLocal = localId => localId ? (locaisCliente.find(l => l.id === localId)?.nome || 'Local') : 'Sede';
+            const cabecalho = `
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                    <div class="help-text" style="margin:0;">${obrasCliente.length} obra${obrasCliente.length === 1 ? '' : 's'} registada${obrasCliente.length === 1 ? '' : 's'}.</div>
+                    <button class="btn btn-sm btn-primary" onclick="_wsNovaObra('${clienteId}')"><i class="fas fa-plus"></i> Nova obra</button>
+                </div>`;
+            if (!obrasCliente.length) return cabecalho + `<p class="help-text">Este cliente ainda não tem nenhuma obra registada.</p>`;
+            const cores = { preparacao: ['#475569', '#f1f5f9'], ativa: ['#166534', '#dcfce7'], suspensa: ['#92400e', '#fef3c7'], concluida: ['#1e40af', '#dbeafe'] };
+            const labels = { preparacao: 'Preparação', ativa: 'Ativa', suspensa: 'Suspensa', concluida: 'Concluída' };
+            const linhas = obrasCliente.map(o => {
+                const [corTexto, corFundo] = cores[o.estado] || cores.preparacao;
+                return `<div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #f1f5f9;cursor:pointer;" onclick="_wsSairPara('${clienteId}');abrirModalObraLonga('${o.id}')">
+                    <i class="fas fa-hard-hat" style="color:#94a3b8;width:18px;"></i>
+                    <div style="flex:1;min-width:0;">
+                        <div style="font-size:.86rem;font-weight:600;">${escapeHtmlSimples(o.nome || 'Obra')}</div>
+                        <div style="font-size:.76rem;color:#64748b;">${escapeHtmlSimples(nomeLocal(o.localId))}${o.dataInicioPrevista ? ' · início ' + o.dataInicioPrevista.split('-').reverse().join('/') : ''}${o.dataFimPrevista ? ' · fim ' + o.dataFimPrevista.split('-').reverse().join('/') : ''}</div>
+                    </div>
+                    <span style="font-size:.7rem;font-weight:600;padding:3px 9px;border-radius:6px;background:${corFundo};color:${corTexto};white-space:nowrap;">${labels[o.estado] || o.estado || 'Preparação'}</span>
+                </div>`;
+            }).join('');
+            return cabecalho + `<div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:6px 18px;">${linhas}</div>`;
+        }
+        function _wsNovaObra(clienteId) {
+            const cliente = dados.clientes?.find(c => c.id === clienteId);
+            if (!cliente) return;
+            _wsSairPara(clienteId);
+            abrirModalObraLonga(null);
+            setTimeout(() => {
+                const busca = document.getElementById('ob_cliente_busca');
+                const hidden = document.getElementById('ob_cliente');
+                if (!busca || !hidden) return;
+                hidden.value = clienteId;
+                const label = typeof _clienteLabel === 'function' ? _clienteLabel(cliente) : cliente.nome;
+                busca.value = label;
+                busca.dataset.selecionadoLabel = label;
+                if (typeof onClienteObraChange === 'function') onClienteObraChange();
+            }, 150);
         }
         function _wsContratosHtml(clienteId) {
             const contratosCliente = (dados.contratos || []).filter(c => c.clienteId === clienteId).sort((a, b) => (a.validadeContrato || '9999').localeCompare(b.validadeContrato || '9999'));
@@ -5683,16 +5739,30 @@
             const relLocal = (dados.relatoriosEspecialidade || []).filter(r => r.clienteId === clienteId && (r.localId || null) === localId && !r.rascunho).sort((a, b) => (b.data || '').localeCompare(a.data || ''));
             const nomesRelatorio = { REX: 'Extintores', RBI: 'Bocas de Incêndio', RSI: 'Central de Incêndio', RCM: 'Central de Monóxido', RIE: 'Iluminação de Emergência', RCP: 'Portas Corta-Fogo', RCCTV: 'Videovigilância', RIN: 'Deteção de Intrusão', RDI: 'Declaração de Instalação' };
             if (!osLocal.length && !relLocal.length) { painel.innerHTML = '<p class="help-text" style="margin:6px 0 0;">Sem intervenções nem relatórios registados aqui (últimos 12 meses).</p>'; painel.dataset.carregado = '1'; return; }
+            // Mesmo estilo de linha da aba "Ordens de Serviço" (título a negrito, data por baixo
+            // a cinza) — antes estava tudo numa única linha pequena, inconsistente com o resto.
             const osHtml = osLocal.length ? `
-                <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.4px;color:#94a3b8;font-weight:700;margin:8px 0 4px;">Intervenções (OS)</div>
-                ${osLocal.map(s => `<div style="display:flex;align-items:center;gap:8px;font-size:.8rem;padding:4px 0;cursor:pointer;color:#334155;" onclick="_wsSairPara('${clienteId}');abrirVerOS('${s.id}')">
-                    <i class="fas fa-clipboard-list" style="width:14px;color:#94a3b8;"></i>${(s.data || '').split('-').reverse().join('/')} — ${escapeHtmlSimples(s.descricao || (s.tiposTrabalho || [])[0] || 'OS')}
-                </div>`).join('')}` : '';
+                <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.4px;color:#94a3b8;font-weight:700;margin:10px 0 2px;">Intervenções (OS)</div>
+                <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:0 18px;margin-top:6px;">
+                ${osLocal.map(s => `<div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #f1f5f9;cursor:pointer;" onclick="_wsSairPara('${clienteId}');abrirVerOS('${s.id}')">
+                    <i class="fas fa-clipboard-list" style="color:#94a3b8;width:18px;"></i>
+                    <div style="flex:1;min-width:0;">
+                        <div style="font-size:.86rem;font-weight:600;">${escapeHtmlSimples(s.descricao || (s.tiposTrabalho || [])[0] || 'OS')}</div>
+                        <div style="font-size:.76rem;color:#64748b;">${(s.data || '').split('-').reverse().join('/')}</div>
+                    </div>
+                </div>`).join('')}
+                </div>` : '';
             const relHtml = relLocal.length ? `
-                <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.4px;color:#94a3b8;font-weight:700;margin:10px 0 4px;">Relatórios de especialidade</div>
-                ${relLocal.map(r => `<div style="display:flex;align-items:center;gap:8px;font-size:.8rem;padding:4px 0;cursor:pointer;color:#334155;" onclick="_verRelatorioEspecialidadeSnapshot('${r.id}', false)">
-                    <i class="fas fa-file-lines" style="width:14px;color:#94a3b8;"></i>${(r.data || '').split('-').reverse().join('/')} — ${escapeHtmlSimples(nomesRelatorio[r.tipo] || r.tipo)} (${escapeHtmlSimples(r.numeroDocumento || '')})
-                </div>`).join('')}` : '';
+                <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.4px;color:#94a3b8;font-weight:700;margin:14px 0 2px;">Relatórios de especialidade</div>
+                <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:0 18px;margin-top:6px;">
+                ${relLocal.map(r => `<div style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #f1f5f9;cursor:pointer;" onclick="_verRelatorioEspecialidadeSnapshot('${r.id}', false)">
+                    <i class="fas fa-file-lines" style="color:#94a3b8;width:18px;"></i>
+                    <div style="flex:1;min-width:0;">
+                        <div style="font-size:.86rem;font-weight:600;">${escapeHtmlSimples(nomesRelatorio[r.tipo] || r.tipo)}${r.numeroDocumento ? ' (' + escapeHtmlSimples(r.numeroDocumento) + ')' : ''}</div>
+                        <div style="font-size:.76rem;color:#64748b;">${(r.data || '').split('-').reverse().join('/')}</div>
+                    </div>
+                </div>`).join('')}
+                </div>` : '';
             painel.innerHTML = osHtml + relHtml;
             painel.dataset.carregado = '1';
         }
